@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 
 public class QuodGame extends JFrame {
 	
+	private static final long serialVersionUID = 1L;
+
 	/*
 	 * Construtor
 	 */
@@ -23,9 +25,12 @@ public class QuodGame extends JFrame {
 	public void mainScreen() {
 		setTitle("Quod - The Game");
 		setSize(640, 480);
+		add(new MainMenuScreen());
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
+		
+		
 	}
 	
 	/*
