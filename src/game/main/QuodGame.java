@@ -8,6 +8,8 @@ package game.main;
 
 import javax.swing.JFrame;
 
+import game.phase.Phase;
+
 public class QuodGame extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
@@ -26,7 +28,7 @@ public class QuodGame extends JFrame {
 		setTitle("Quod - The Game");
 		setSize(640, 480);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		add(new MainMenuScreen());
+		add(new Phase());
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
