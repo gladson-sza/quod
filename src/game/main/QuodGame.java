@@ -30,8 +30,6 @@ public class QuodGame extends JFrame {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
-		
-		
 	}
 	
 	/*
