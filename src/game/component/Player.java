@@ -1,5 +1,6 @@
 package game.component;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Player extends GameObject {
@@ -14,7 +15,8 @@ public class Player extends GameObject {
 	
 	@Override
 	public void draw(Graphics g) {
-		g.fillRect(getX(), getY(), getWidth(), getHeight());
+		g.setColor(Color.BLACK);
+		g.fillRect(20, 60, getWidth(), getHeight());
 	}
 
 }

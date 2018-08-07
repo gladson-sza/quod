@@ -25,10 +25,11 @@ public class QuodGame extends JFrame {
 	 * Configurações da Tela
 	 */
 	public void mainScreen() {
+
 		setTitle("Quod - The Game");
 		setSize(640, 480);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		add(new Phase());
+		add(new MainMenuScreen());
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);

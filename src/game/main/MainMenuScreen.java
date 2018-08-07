@@ -20,6 +20,9 @@ public class MainMenuScreen extends JPanel implements ActionListener {
 	protected JButton jbSave;
 	protected JButton jbConfig;
 	
+	/*
+	 * Construtor
+	 */
 	protected MainMenuScreen() {
 		
 		// imagem de fundo
@@ -51,6 +54,7 @@ public class MainMenuScreen extends JPanel implements ActionListener {
 		gbc.weightx = 0.0;
 		gbc.weighty = 0.5;
 		
+		// individual de botões
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		add(jbStartGame, gbc);
