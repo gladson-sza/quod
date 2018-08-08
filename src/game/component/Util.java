@@ -2,7 +2,7 @@
  * @author Gladson Souza de Araújo
  * 
  * Classe utilitária para mecânicas e constantes
- * utilizadas no jogo.
+ * de parâmetros utilizadas no jogo.
  */
 
 package game.component;
@@ -14,18 +14,24 @@ public final class Util {
 	/* Constante Geral Nula */
 	public static final int NONE = 0;
 	
+	/* Tamanho da Tela */
+	public static final int DEFAULT_SCREEN_WIDTH = 550;
+	public static final int DEFAULT_SCREEN_HEIGHT = 650;
+	
 	/* Constantes de Velocidade */
 	public static final int SPEED_HIGH = 15;
 	public static final int SPEED_MEDIUM = 10;
 	public static final int SPEED_SLOW = 5;
 	
 	/* Constantes de Lasers */
-	public static final int LASER_NORMAL = 1;
-	public static final int LASER_DOUBLE = 2;
-	public static final int LASER_TRIPLE = 3;
+	public static final int LASER_GREEN = 2;
+	public static final int LASER_BLUE = 5;
+	public static final int LASER_YELLOW = 10;
 	
-	/* Constantes de Dano */
-	public static final int DAMAGE_LOW = 2;
-	public static final int DAMAGE_MEDIUM = 5;
-	public static final int DAMAGE_HIGH = 10;
+	/* Constantes do Tamanho da Nave do Player */
+	public static final int PLAYER_POSITION_X = 240;
+	public static final int PLAYER_POSITION_Y = 500;
+	public static final int PLAYER_WIDTH = 100;
+	public static final int PLAYER_HEIGHT = 100;
+	
 }

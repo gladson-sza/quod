@@ -1,22 +1,39 @@
 package game.component;
 
-import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
+import game.component.Util;
 
 public class Player extends GameObject {
 
+	public Gun gun;
+	protected ImageIcon ship;
+	
 	/*
 	 * Construtor
 	 */
-	public Player(int x, int y, int width, int height, int speedX, int speedY,
-			boolean active, int hp, int damage, int typeAmmo) {
-		super(x, y, width, height, speedX, speedY, active, hp, damage, typeAmmo);
+	public Player(int hp, int typeLaser) {
+		
+		super(Util.PLAYER_POSITION_X, Util.PLAYER_POSITION_Y, 
+				Util.PLAYER_WIDTH, Util.PLAYER_HEIGHT, 
+				Util.SPEED_MEDIUM, Util.SPEED_MEDIUM, true, hp, typeLaser);
+		
+		gun = new Gun(this.getX() + 34, this.getY(), 
+				30, 30,
+				Util.SPEED_HIGH, Util.SPEED_HIGH,
+				true, hp, typeLaser);
+		
+		ship = new ImageIcon("res\\hud\\playerShip.png");
 	}
 	
 	@Override
 	public void draw(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.fillRect(20, 60, getWidth(), getHeight());
+		
+		Image imageShip = ship.getImage();
+		g.drawImage(imageShip, getX(), getY(), getWidth(), getHeight(), null);
 	}
 
 }

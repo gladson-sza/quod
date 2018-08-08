@@ -6,8 +6,7 @@ public abstract class GameObject {
 	
 	/* Vida e Dano do objeto */
 	private int hp;
-	private int damage;
-	private int typeAmmo;
+	private int typeLaser;
 	
 	/* Posições do Objeto */
 	private int x, y;
@@ -19,7 +18,7 @@ public abstract class GameObject {
 	 * Construtor
 	 */
 	public GameObject(int x, int y, int width, int height, int speedX, int speedY,
-			boolean active, int hp, int damage, int typeAmmo) {
+			boolean active, int hp, int typeLaser) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -29,8 +28,7 @@ public abstract class GameObject {
 		this.speedY = speedY;
 		this.active = active;
 		this.hp = hp;
-		this.damage = damage;
-		this.typeAmmo = typeAmmo;
+		this.typeLaser = typeLaser;
 	}
 
 	/* Getters e Setters */
@@ -91,19 +89,23 @@ public abstract class GameObject {
 		this.active = active;
 	}
 	
-	/* Movimentos */
-	
 	public int getHp() {
 		return hp;
 	}
-
-	public int getDamage() {
-		return damage;
+	
+	public void setHp(int damage) {
+		hp -= damage;
 	}
 
-	public int getTypeAmmo() {
-		return typeAmmo;
+	public int getTypeLaser() {
+		return typeLaser;
 	}
+	
+	public void setTypeLaser(int typeLaser) {
+		this.typeLaser = typeLaser;
+	}
+	
+	/* Movimentos */
 
 	public void moveUp() {
 		y -= speedY;
