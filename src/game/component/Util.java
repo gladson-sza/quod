@@ -29,4 +29,23 @@ public final class Util {
 	public static final int PLAYER_WIDTH = 100;
 	public static final int PLAYER_HEIGHT = 100;
 	
+	/* Constantes do Tamanho das Naves Inimigas */
+	public static final int ENEMY_POSITION = -100;
+	public static final int ENEMY_WIDTH = 70;
+	public static final int ENEMY_HEIGHT = 70;
+	
+	/*
+	 * Essa classe verifica se o objeto a colide com o objeto b
+	 */
+	public static boolean colision(GameObject a, GameObject b) {
+
+		// verifica se houve colisão
+		if (a.getX() + a.getWidth() > b.getX() - b.getWidth()
+				&& b.getX() + b.getWidth() > a.getX()
+				&& a.getY() <= b.getY() + b.getHeight())
+			return true;
+				
+		return false;
+	}
+
 }

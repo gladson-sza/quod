@@ -22,6 +22,8 @@ public class QuodGame extends JFrame implements KeyListener {
 	private static final long serialVersionUID = 1L;
 
 	public Phase phase;
+	public boolean[] keyPress;
+	
 
 	/*
 	 * Construtor
@@ -38,7 +40,8 @@ public class QuodGame extends JFrame implements KeyListener {
 		setTitle("Quod - The Game");
 		setSize(Util.DEFAULT_SCREEN_WIDTH, Util.DEFAULT_SCREEN_HEIGHT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+		
+		keyPress = new boolean[5];
 		phase = new Stage01("res\\background\\galaxy_background01.jpg", new Player(20), 0);
 		
 		add(phase);
@@ -66,6 +69,10 @@ public class QuodGame extends JFrame implements KeyListener {
 	}
 
 	/* Teclado */
+	public void setKey(int keyCode, boolean status) {
+		
+	}
+	
 	@Override
 	public void keyPressed(KeyEvent key) {
 
@@ -76,6 +83,7 @@ public class QuodGame extends JFrame implements KeyListener {
 			break;
 		case KeyEvent.VK_A:
 			if (phase.player.getX() > 0)
+				
 				phase.player.moveLeft();
 			break;
 		case KeyEvent.VK_RIGHT:
@@ -98,15 +106,13 @@ public class QuodGame extends JFrame implements KeyListener {
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
+	public void keyReleased(KeyEvent key) {
+		setKey(key.getKeyCode(), false);
 	}
 
 	@Override
 	public void keyTyped(KeyEvent key) {
-		// TODO Auto-generated method stub
-		
+		setKey(key.getKeyCode(), true);
 	}
 
 }

@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import game.component.Enemy;
 import game.component.Laser;
 import game.component.Player;
+import game.component.Util;
 
 public class Phase extends JPanel {
 
@@ -20,12 +22,15 @@ public class Phase extends JPanel {
 	protected ImageIcon background;
 	
 	public ArrayList<Laser> alLaser;
+	public Enemy enemy;
 	public Player player;
 
 	public Phase(String backgroundPath, Player player, int lastScore) {
 
 		background = new ImageIcon(backgroundPath);
 		this.player = player;
+		
+		enemy = new Enemy();
 		
 		alLaser = new ArrayList<Laser>();
 		
@@ -38,9 +43,13 @@ public class Phase extends JPanel {
 		Image imageBackground = background.getImage();
 		g.drawImage(imageBackground, 0, 0, getWidth(), getHeight(), this);
 		
-		for (Laser l : alLaser)
-			l.draw(g);
+		for (Laser l : alLaser) {
+			if (!Util.colision(l, enemy))	
+				l.draw(g);
+		}
+			
 		
+		enemy.draw(g);
 		player.draw(g);
 		
 		g.setColor(Color.WHITE);

@@ -9,7 +9,6 @@ import game.component.Util;
 
 public class Player extends GameObject {
 
-	Thread t;
 	protected ImageIcon ship;
 	
 	/*
@@ -19,9 +18,9 @@ public class Player extends GameObject {
 		
 		super(Util.PLAYER_POSITION_X, Util.PLAYER_POSITION_Y, 
 				Util.PLAYER_WIDTH, Util.PLAYER_HEIGHT, 
-				Util.SPEED_MEDIUM, Util.SPEED_MEDIUM, true, hp);
+				Util.SPEED_MEDIUM, Util.SPEED_MEDIUM, true);
 		
-		ship = new ImageIcon("res\\hud\\playerShip.png");
+		ship = new ImageIcon("res\\ship\\playerShip.png");
 		
 	}
 	

@@ -3,10 +3,7 @@ package game.component;
 import java.awt.Graphics;
 
 public abstract class GameObject {
-	
-	/* Vida do Objeto*/
-	private int hp;
-	
+
 	/* Posições do Objeto */
 	private int x, y;
 	private int width, height;
@@ -17,7 +14,7 @@ public abstract class GameObject {
 	 * Construtor
 	 */
 	public GameObject(int x, int y, int width, int height, int speedX, int speedY,
-			boolean active, int hp) {
+			boolean active) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -26,7 +23,6 @@ public abstract class GameObject {
 		this.speedX = speedX;
 		this.speedY = speedY;
 		this.active = active;
-		this.hp = hp;
 	}
 
 	/* Getters e Setters */
@@ -85,14 +81,6 @@ public abstract class GameObject {
 
 	public void setActive(boolean active) {
 		this.active = active;
-	}
-	
-	public int getHp() {
-		return hp;
-	}
-	
-	public void setHp(int damage) {
-		hp -= damage;
 	}
 	
 	/* Movimentos */

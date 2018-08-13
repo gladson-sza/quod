@@ -14,9 +14,9 @@ public class Laser extends GameObject implements Runnable {
 	 * Construtor
 	 */
 	public Laser(int x, int y, int speedX, int speedY, boolean active) {
-		super(x, y, Util.NONE, Util.NONE, speedX, speedY, active, Util.NONE);
+		super(x, y, Util.NONE, Util.NONE, speedX, speedY, active);
 		
-		laser = new ImageIcon("res\\hud\\laser.png");
+		laser = new ImageIcon("res\\ship\\laser.png");
 		
 		t = new Thread(this);
 		t.start();
@@ -26,7 +26,7 @@ public class Laser extends GameObject implements Runnable {
 	@Override
 	public void draw(Graphics g) {
 		Image imageLaser = laser.getImage();
-		g.drawImage(imageLaser, getX(), getY() + 5, 47, 35, null);
+		g.drawImage(imageLaser, getX(), getY() + 5, 47, 30, null);
 	}
 
 	@Override
