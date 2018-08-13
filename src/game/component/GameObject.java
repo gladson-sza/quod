@@ -4,9 +4,8 @@ import java.awt.Graphics;
 
 public abstract class GameObject {
 	
-	/* Vida e Dano do objeto */
+	/* Vida do Objeto*/
 	private int hp;
-	private int typeLaser;
 	
 	/* Posições do Objeto */
 	private int x, y;
@@ -18,7 +17,7 @@ public abstract class GameObject {
 	 * Construtor
 	 */
 	public GameObject(int x, int y, int width, int height, int speedX, int speedY,
-			boolean active, int hp, int typeLaser) {
+			boolean active, int hp) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -28,7 +27,6 @@ public abstract class GameObject {
 		this.speedY = speedY;
 		this.active = active;
 		this.hp = hp;
-		this.typeLaser = typeLaser;
 	}
 
 	/* Getters e Setters */
@@ -95,14 +93,6 @@ public abstract class GameObject {
 	
 	public void setHp(int damage) {
 		hp -= damage;
-	}
-
-	public int getTypeLaser() {
-		return typeLaser;
-	}
-	
-	public void setTypeLaser(int typeLaser) {
-		this.typeLaser = typeLaser;
 	}
 	
 	/* Movimentos */

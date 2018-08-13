@@ -6,6 +6,7 @@
 
 package game.main;
 
+import game.component.Laser;
 import game.component.Player;
 import game.component.Util;
 import game.phase.Phase;
@@ -38,8 +39,8 @@ public class QuodGame extends JFrame implements KeyListener {
 		setSize(Util.DEFAULT_SCREEN_WIDTH, Util.DEFAULT_SCREEN_HEIGHT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		phase = new Stage01("res\\background\\galaxy_background01.jpg", new Player(20, Util.LASER_GREEN), 0);
-
+		phase = new Stage01("res\\background\\galaxy_background01.jpg", new Player(20), 0);
+		
 		add(phase);
 		addKeyListener(this);
 
@@ -70,26 +71,29 @@ public class QuodGame extends JFrame implements KeyListener {
 
 		switch (key.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
-			phase.player.moveLeft();
+			if (phase.player.getX() > 0)
+				phase.player.moveLeft();
 			break;
 		case KeyEvent.VK_A:
-			phase.player.moveLeft();
+			if (phase.player.getX() > 0)
+				phase.player.moveLeft();
 			break;
 		case KeyEvent.VK_RIGHT:
-			phase.player.moveRight();
+			if (phase.player.getX() + phase.player.getWidth() < Util.DEFAULT_SCREEN_WIDTH)
+				phase.player.moveRight();
 			break;
 		case KeyEvent.VK_D:
-			phase.player.moveRight();
+			if (phase.player.getX() + phase.player.getWidth() < Util.DEFAULT_SCREEN_WIDTH)
+				phase.player.moveRight();
 			break;
 		case KeyEvent.VK_SPACE:
-			phase.player.laser.setX(phase.player.getX() + 34);
-			phase.player.laser.shoot();
+			// Cria um laser cada vez que a tecla de espaço é acionada
+			phase.alLaser.add(new Laser(phase.player.getX() + 25, phase.player.getY() + 5, 
+					Util.SPEED_HIGH, Util.SPEED_HIGH, true));
 			break;
 		default:
 			break;
 		}
-
-		phase.repaint();
 
 	}
 
@@ -100,9 +104,9 @@ public class QuodGame extends JFrame implements KeyListener {
 	}
 
 	@Override
-	public void keyTyped(KeyEvent arg0) {
+	public void keyTyped(KeyEvent key) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

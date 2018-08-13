@@ -1,11 +1,14 @@
 package game.phase;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import game.component.Laser;
 import game.component.Player;
 
 public class Phase extends JPanel {
@@ -15,27 +18,32 @@ public class Phase extends JPanel {
 	protected static int score;
 
 	protected ImageIcon background;
+	
+	public ArrayList<Laser> alLaser;
 	public Player player;
 
 	public Phase(String backgroundPath, Player player, int lastScore) {
 
 		background = new ImageIcon(backgroundPath);
 		this.player = player;
-
+		
+		alLaser = new ArrayList<Laser>();
+		
 		score = lastScore;
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
-
+		
 		Image imageBackground = background.getImage();
 		g.drawImage(imageBackground, 0, 0, getWidth(), getHeight(), this);
-
-		if (player.laser.isActive())
-			player.laser.draw(g);
-			
+		
+		for (Laser l : alLaser)
+			l.draw(g);
+		
 		player.draw(g);
-
+		
+		g.setColor(Color.WHITE);
 		g.drawString("Pontos: " + score, 20, 20);
 
 	}

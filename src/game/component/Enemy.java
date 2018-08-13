@@ -7,7 +7,7 @@ public class Enemy extends GameObject {
 	 */
 	public Enemy(int x, int y, int width, int height, int speedX, int speedY,
 			boolean active, int hp, int typeLaser) {
-		super(x, y, width, height, speedX, speedY, active, hp, typeLaser);
+		super(x, y, width, height, speedX, speedY, active, hp);
 	}
 
 }
