@@ -9,7 +9,7 @@ import game.component.Util;
 
 public class Player extends GameObject {
 
-	public Gun gun;
+	public Laser laser;
 	protected ImageIcon ship;
 	
 	/*
@@ -21,17 +21,17 @@ public class Player extends GameObject {
 				Util.PLAYER_WIDTH, Util.PLAYER_HEIGHT, 
 				Util.SPEED_MEDIUM, Util.SPEED_MEDIUM, true, hp, typeLaser);
 		
-		gun = new Gun(this.getX() + 34, this.getY(), 
+		laser = new Laser(this.getX() , this.getY(), 
 				30, 30,
 				Util.SPEED_HIGH, Util.SPEED_HIGH,
-				true, hp, typeLaser);
+				false, hp, typeLaser);
 		
 		ship = new ImageIcon("res\\hud\\playerShip.png");
 	}
 	
 	@Override
 	public void draw(Graphics g) {
-		
+
 		Image imageShip = ship.getImage();
 		g.drawImage(imageShip, getX(), getY(), getWidth(), getHeight(), null);
 	}
