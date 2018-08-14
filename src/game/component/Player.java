@@ -14,7 +14,7 @@ public class Player extends GameObject {
 	/*
 	 * Construtor
 	 */
-	public Player(int hp) {
+	public Player() {
 		
 		super(Util.PLAYER_POSITION_X, Util.PLAYER_POSITION_Y, 
 				Util.PLAYER_WIDTH, Util.PLAYER_HEIGHT, 

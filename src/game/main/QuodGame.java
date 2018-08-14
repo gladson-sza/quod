@@ -42,7 +42,7 @@ public class QuodGame extends JFrame implements KeyListener {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		keyPress = new boolean[5];
-		phase = new Stage01("res\\background\\galaxy_background01.jpg", new Player(20), 0);
+		phase = new Stage01("res\\background\\galaxy_background01.jpg", new Player(), 0);
 		
 		add(phase);
 		addKeyListener(this);

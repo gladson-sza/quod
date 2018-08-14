@@ -22,17 +22,22 @@ public class Phase extends JPanel {
 	protected ImageIcon background;
 	
 	public ArrayList<Laser> alLaser;
+	public Image explosion;
 	public Enemy enemy;
 	public Player player;
+	public int life;
 
 	public Phase(String backgroundPath, Player player, int lastScore) {
 
 		background = new ImageIcon(backgroundPath);
+		
+		life = 1;
+		
 		this.player = player;
-		
 		enemy = new Enemy();
-		
 		alLaser = new ArrayList<Laser>();
+		
+		explosion = new ImageIcon("res\\effects\\explosion.gif").getImage();
 		
 		score = lastScore;
 	}
@@ -43,15 +48,51 @@ public class Phase extends JPanel {
 		Image imageBackground = background.getImage();
 		g.drawImage(imageBackground, 0, 0, getWidth(), getHeight(), this);
 		
+		
+		
 		for (Laser l : alLaser) {
-			if (!Util.colision(l, enemy))	
+			// Pinta o laser enquanto não colidir
+			if (!Util.colision(l, enemy)) {
 				l.draw(g);
-		}
+			}
 			
+			// Cria o efeito de explosão quando o laser atingir o inimigo
+			if (Util.colision(l, enemy)) {
+				g.drawImage(explosion, enemy.getX(), enemy.getY(),
+						enemy.getWidth(), enemy.getHeight(), this);
+				
+				enemy.setActive(false);
+			}
+			
+				
+		}
 		
-		enemy.draw(g);
-		player.draw(g);
+		// Cria o efeito de explosão se o inimigo atingir o player
+		if (Util.colision(player, enemy)) {
+			g.drawImage(explosion, enemy.getX(), enemy.getY(),
+				enemy.getWidth(), enemy.getHeight(), this);
+			
+			enemy.setActive(false);
+			
+			life--;
+			
+			if (life <= 0) {
+				g.drawImage(explosion, player.getX(), player.getY(),
+					player.getWidth(), player.getHeight(), this);
+			
+				player.setActive(false);
+			}
+		}
 		
+		// Desenha a nave inimiga enquanto ela estiver ativa
+		if (enemy.isActive())
+			enemy.draw(g);
+		
+		// Desenha a nave do player enquanto ela estiver ativa
+		if (player.isActive())
+			player.draw(g);
+		
+		// Pontuação
 		g.setColor(Color.WHITE);
 		g.drawString("Pontos: " + score, 20, 20);
 

@@ -16,7 +16,7 @@ public class Laser extends GameObject implements Runnable {
 	public Laser(int x, int y, int speedX, int speedY, boolean active) {
 		super(x, y, Util.NONE, Util.NONE, speedX, speedY, active);
 		
-		laser = new ImageIcon("res\\ship\\laser.png");
+		laser = new ImageIcon("res\\effects\\laser.png");
 		
 		t = new Thread(this);
 		t.start();

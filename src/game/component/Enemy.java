@@ -6,10 +6,13 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-public class Enemy extends GameObject {
-
+public class Enemy extends GameObject implements Runnable {
+	
+	protected Thread t;
 	protected ImageIcon ship;
-	protected static int ENEMY_POSITION = new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH);;
+	protected static int ENEMY_POSITION = new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH);
+	
+	private boolean alive;
 	
 	/*
 	 * Construtor
@@ -20,6 +23,10 @@ public class Enemy extends GameObject {
 		
 		ship = new ImageIcon("res\\ship\\enemyShip.png");
 		
+		alive = true;
+		
+		t = new Thread(this);
+		t.start();
 	}
 
 	@Override
@@ -27,5 +34,20 @@ public class Enemy extends GameObject {
 
 		Image imageShip = ship.getImage();
 		g.drawImage(imageShip, getX(), getY(), getWidth(), getHeight(), null);
+	}
+
+	@Override
+	public void run() {
+		while (true) {
+			try {
+				if (getY() < Util.DEFAULT_SCREEN_HEIGHT) {
+					Thread.sleep(60);
+					this.moveDown();
+				}
+				
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
