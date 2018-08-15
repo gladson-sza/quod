@@ -10,7 +10,7 @@ import game.component.Util;
 public class Player extends GameObject {
 
 	protected ImageIcon ship;
-	
+	protected int position = 0;
 	/*
 	 * Construtor
 	 */
@@ -19,14 +19,17 @@ public class Player extends GameObject {
 		super(Util.PLAYER_POSITION_X, Util.PLAYER_POSITION_Y, 
 				Util.PLAYER_WIDTH, Util.PLAYER_HEIGHT, 
 				Util.SPEED_MEDIUM, Util.SPEED_MEDIUM, true);
-		
-		ship = new ImageIcon("res\\ship\\playerShip.png");
-		
 	}
 	
 	@Override
 	public void draw(Graphics g) {
-
+		/*Aletra a imagem no Array*/
+		if (position == 0)
+			ship = new ImageIcon(Util.PLAYER_IMAGES[position++]);
+		
+		else if(position == 1)
+				ship = new ImageIcon(Util.PLAYER_IMAGES[position--]);
+		
 		Image imageShip = ship.getImage();
 		g.drawImage(imageShip, getX(), getY(), getWidth(), getHeight(), null);
 	}

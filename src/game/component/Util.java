@@ -29,10 +29,18 @@ public final class Util {
 	public static final int PLAYER_WIDTH = 100;
 	public static final int PLAYER_HEIGHT = 100;
 	
+	/* Constantes das imagens da Nave do Player*/
+	public static final String PLAYER_IMAGES[] = {"res\\\\ship\\\\PlayerShip\\\\PlayerShipSprite1.png","res\\\\ship\\\\PlayerShip\\\\PlayerShipSprite2.png"};
+	
+	
 	/* Constantes do Tamanho das Naves Inimigas */
 	public static final int ENEMY_POSITION = -100;
 	public static final int ENEMY_WIDTH = 70;
 	public static final int ENEMY_HEIGHT = 70;
+	
+	/* Constantes das imagens das Naves Inimigas*/
+	
+	public static final String ENEMY_IMAGES[] = {"res\\ship\\EnemyShip\\EnemyShipSprite1.png","res\\ship\\EnemyShip\\EnemyShipSprite2.png"};
 	
 	/*
 	 * Essa classe verifica se o objeto a colide com o objeto b
