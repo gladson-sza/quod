@@ -26,6 +26,7 @@ public class Phase extends JPanel {
 	public Enemy enemy;
 	public Player player;
 	public int life;
+	public boolean side = true;
 
 	public Phase(String backgroundPath, Player player, int lastScore) {
 
@@ -60,7 +61,6 @@ public class Phase extends JPanel {
 			if (Util.colision(l, enemy)) {
 				g.drawImage(explosion, enemy.getX(), enemy.getY(),
 						enemy.getWidth(), enemy.getHeight(), this);
-				
 				enemy.setActive(false);
 			}
 			
@@ -84,13 +84,23 @@ public class Phase extends JPanel {
 			}
 		}
 		
+		// cast
+		if (this.getX() + Util.ENEMY_WIDTH  == Util.DEFAULT_SCREEN_WIDTH) 
+			side = true;
+		
+		if(this.getX() == 0)
+			side = false;
+		
 		// Desenha a nave inimiga enquanto ela estiver ativa
-		if (enemy.isActive())
+		if (enemy.isActive() == true)
 			enemy.draw(g);
+		else
+			new Enemy();
 		
 		// Desenha a nave do player enquanto ela estiver ativa
 		if (player.isActive())
 			player.draw(g);
+		
 		
 		// Pontuação
 		g.setColor(Color.WHITE);
