@@ -75,7 +75,7 @@ public class QuodGame extends JFrame implements KeyListener {
 	
 	@Override
 	public void keyPressed(KeyEvent key) {
-
+		
 		switch (key.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
 			if (phase.player.getX() > 0)
