@@ -22,8 +22,8 @@ public class QuodGame extends JFrame implements KeyListener {
 	private static final long serialVersionUID = 1L;
 
 	public Phase phase;
-	public boolean[] keyPress;
-	
+	public boolean[] keyControl;
+	private int shootCount = 0;
 
 	/*
 	 * Construtor
@@ -40,17 +40,17 @@ public class QuodGame extends JFrame implements KeyListener {
 		setTitle("Quod - The Game");
 		setSize(Util.DEFAULT_SCREEN_WIDTH, Util.DEFAULT_SCREEN_HEIGHT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
-		keyPress = new boolean[5];
+
+		keyControl = new boolean[3];
 		phase = new Stage01("res\\background\\galaxy_background01.jpg", new Player(), 0);
-		
+	
 		add(phase);
 		addKeyListener(this);
 
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
-		
+
 	}
 
 	/*
@@ -60,59 +60,89 @@ public class QuodGame extends JFrame implements KeyListener {
 		new QuodGame().gameStart();
 	}
 
+	
+	/*
+	 * GameLopp
+	 */
 	private void gameStart() {
-		
+
 		while (true) {
+			gameUpdate();
 			repaint();
+			
+			// Executa o laço a cada 45ms e
+			// incremeta o contador de disparos
+			try {
+				Thread.sleep(45);
+				shootCount++;
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
 		}
-		
+
 	}
 
 	/* Teclado */
-	public void setKey(int keyCode, boolean status) {
-		
-	}
-	
-	@Override
-	public void keyPressed(KeyEvent key) {
+	public void setKey(int key, boolean status) {
 
-		switch (key.getKeyCode()) {
+		switch (key) {
 		case KeyEvent.VK_LEFT:
-			if (phase.player.getX() > 0)
-				phase.player.moveLeft();
-			break;
 		case KeyEvent.VK_A:
-			if (phase.player.getX() > 0)
-				
-				phase.player.moveLeft();
+			keyControl[0] = status;
 			break;
+
 		case KeyEvent.VK_RIGHT:
-			if (phase.player.getX() + phase.player.getWidth() < Util.DEFAULT_SCREEN_WIDTH)
-				phase.player.moveRight();
-			break;
 		case KeyEvent.VK_D:
-			if (phase.player.getX() + phase.player.getWidth() < Util.DEFAULT_SCREEN_WIDTH)
-				phase.player.moveRight();
+			keyControl[1] = status;
 			break;
 		case KeyEvent.VK_SPACE:
-			// Cria um laser cada vez que a tecla de espaço é acionada
-			phase.alLaser.add(new Laser(phase.player.getX() + 25, phase.player.getY() + 5, 
-					Util.SPEED_HIGH, Util.SPEED_HIGH, true));
-			break;
-		default:
+			keyControl[2] = status;
 			break;
 		}
 
 	}
 
-	@Override
-	public void keyReleased(KeyEvent key) {
-		setKey(key.getKeyCode(), false);
+	/*
+	 * Faz a verificação do teclado
+	 */
+	private void gameUpdate() {
+
+		// Esqurda
+		if (keyControl[0] && phase.player.getX() > 0) {
+			phase.player.moveLeft();
+		}
+
+		// Direita
+		if (keyControl[1] && (phase.player.getX() + phase.player.getWidth() < phase.getWidth())) {
+			phase.player.moveRight();
+		}
+
+		// Disparos
+		if (keyControl[2] && shootCount  > 5) {
+			phase.alLaser.add(new Laser(phase.player.getX() + 25, phase.player.getY() + 5, Util.SPEED_HIGH,
+					Util.SPEED_HIGH, true));
+			
+			shootCount = 0;
+		}
+
 	}
 
 	@Override
-	public void keyTyped(KeyEvent key) {
-		setKey(key.getKeyCode(), true);
+	public void keyPressed(KeyEvent e) {
+		int key = e.getKeyCode();
+		setKey(key, true);
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		int key = e.getKeyCode();
+		setKey(key, false);
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+
 	}
 
 }
