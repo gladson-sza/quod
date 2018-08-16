@@ -11,21 +11,23 @@ public class Enemy extends GameObject implements Runnable {
 	protected Thread t;
 	protected ImageIcon ship;
 	protected static int ENEMY_POSITION = new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH);
-
-	private int position = 0;
+	protected int position;
 
 	/*
 	 * Construtor
 	 */
 	public Enemy() {
+
 		super(ENEMY_POSITION, 0, Util.ENEMY_WIDTH, Util.ENEMY_HEIGHT, Util.SPEED_SLOW, Util.SPEED_SLOW, true);
 
+		position = 0;
 		t = new Thread(this);
 		t.start();
 	}
 
 	@Override
 	public void draw(Graphics g) {
+
 		// Altera a imagem no array
 		if (position == 0)
 			ship = new ImageIcon(Util.ENEMY_IMAGES[position++]);
@@ -42,10 +44,12 @@ public class Enemy extends GameObject implements Runnable {
 		while (true) {
 			// Movimenta o inimigo até ele ser abatido
 			try {
+
 				if (this.isActive()) {
 					Thread.sleep(60);
 					this.moveDown();
 				}
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

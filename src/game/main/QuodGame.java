@@ -84,7 +84,6 @@ public class QuodGame extends JFrame implements KeyListener {
 
 	/* Teclado */
 	public void setKey(int key, boolean status) {
-
 		switch (key) {
 		case KeyEvent.VK_LEFT:
 		case KeyEvent.VK_A:
@@ -99,7 +98,6 @@ public class QuodGame extends JFrame implements KeyListener {
 			keyControl[2] = status;
 			break;
 		}
-
 	}
 
 	/*
