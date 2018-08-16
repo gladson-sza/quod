@@ -6,21 +6,21 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class Laser extends GameObject implements Runnable {
-	
+
 	private Thread t;
 	private ImageIcon laser;
-	
+
 	/*
 	 * Construtor
 	 */
 	public Laser(int x, int y, int speedX, int speedY, boolean active) {
 		super(x, y, Util.NONE, Util.NONE, speedX, speedY, active);
-		
+
 		laser = new ImageIcon("res\\effects\\laser.png");
-		
+
 		t = new Thread(this);
 		t.start();
-		
+
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class Laser extends GameObject implements Runnable {
 
 	@Override
 	public void run() {
-		
+
 		while (this.getY() < Util.DEFAULT_SCREEN_HEIGHT) {
 			try {
 				Thread.sleep(60);
@@ -39,9 +39,9 @@ public class Laser extends GameObject implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
-		
+
 	}
 
 }

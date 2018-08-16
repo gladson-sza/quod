@@ -9,12 +9,11 @@ public abstract class GameObject {
 	private int width, height;
 	private int speedX, speedY;
 	private boolean active;
-	
+
 	/*
 	 * Construtor
 	 */
-	public GameObject(int x, int y, int width, int height, int speedX, int speedY,
-			boolean active) {
+	public GameObject(int x, int y, int width, int height, int speedX, int speedY, boolean active) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -26,7 +25,7 @@ public abstract class GameObject {
 	}
 
 	/* Getters e Setters */
-	
+
 	public int getX() {
 		return x;
 	}
@@ -82,28 +81,28 @@ public abstract class GameObject {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
+
 	/* Movimentos */
 
 	public void moveUp() {
 		y -= speedY;
 	}
-	
+
 	public void moveDown() {
 		y += speedY;
 	}
-	
+
 	public void moveLeft() {
 		x -= speedX;
 	}
-	
+
 	public void moveRight() {
 		x += speedX;
 	}
-	
+
 	/* Desenha o Componente */
 	public void draw(Graphics g) {
-		
+
 	}
-	
+
 }

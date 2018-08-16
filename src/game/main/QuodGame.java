@@ -43,7 +43,7 @@ public class QuodGame extends JFrame implements KeyListener {
 
 		keyControl = new boolean[3];
 		phase = new Stage01("res\\background\\galaxy_background01.jpg", new Player(), 0);
-	
+
 		add(phase);
 		addKeyListener(this);
 
@@ -60,7 +60,6 @@ public class QuodGame extends JFrame implements KeyListener {
 		new QuodGame().gameStart();
 	}
 
-	
 	/*
 	 * GameLopp
 	 */
@@ -69,7 +68,7 @@ public class QuodGame extends JFrame implements KeyListener {
 		while (true) {
 			gameUpdate();
 			repaint();
-			
+
 			// Executa o laço a cada 45ms e
 			// incremeta o contador de disparos
 			try {
@@ -119,10 +118,10 @@ public class QuodGame extends JFrame implements KeyListener {
 		}
 
 		// Disparos
-		if (keyControl[2] && shootCount  > 5) {
+		if (keyControl[2] && shootCount > 5) {
 			phase.alLaser.add(new Laser(phase.player.getX() + 25, phase.player.getY() + 5, Util.SPEED_HIGH,
 					Util.SPEED_HIGH, true));
-			
+
 			shootCount = 0;
 		}
 
