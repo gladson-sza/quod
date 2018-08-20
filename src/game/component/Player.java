@@ -11,6 +11,7 @@ public class Player extends GameObject {
 
 	protected ImageIcon ship;
 	protected int position = 0;
+	protected int countExplosion;
 
 	/*
 	 * Construtor
@@ -20,6 +21,15 @@ public class Player extends GameObject {
 		super(Util.PLAYER_POSITION_X, Util.PLAYER_POSITION_Y, Util.PLAYER_WIDTH, Util.PLAYER_HEIGHT, Util.SPEED_MEDIUM,
 				Util.SPEED_MEDIUM, true);
 
+		countExplosion = 0;
+	}
+
+	public void countExplosionUp() {
+		countExplosion++;
+	}
+
+	public int getCountExplosion() {
+		return countExplosion;
 	}
 
 	@Override

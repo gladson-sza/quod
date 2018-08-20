@@ -36,6 +36,9 @@ public final class Util {
 	public static final int ENEMY_WIDTH = 70;
 	public static final int ENEMY_HEIGHT = 70;
 
+	/* Tempo de Explosão */
+	public static final int EXPLOSION_TIME = 57;
+
 	/* Constantes das imagens das Naves Inimigas */
 
 	public static final String ENEMY_IMAGES[] = { "res\\ship\\EnemyShip\\EnemyShipSprite1.png",

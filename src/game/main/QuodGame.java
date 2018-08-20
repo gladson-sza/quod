@@ -6,6 +6,7 @@
 
 package game.main;
 
+import game.component.Enemy;
 import game.component.Laser;
 import game.component.Player;
 import game.component.Util;
@@ -24,6 +25,7 @@ public class QuodGame extends JFrame implements KeyListener {
 	public Phase phase;
 	public boolean[] keyControl;
 	private int shootCount = 0;
+	private int enemyCount = 0;
 
 	/*
 	 * Construtor
@@ -66,7 +68,14 @@ public class QuodGame extends JFrame implements KeyListener {
 	private void gameStart() {
 
 		while (true) {
-			gameUpdate();
+			if (enemyCount > 10) {
+				enemyCount = 0;
+				phase.alEnemy.add(new Enemy());
+			}
+
+			enemyCount++;
+
+			gameControl();
 			repaint();
 
 			// Executa o laço a cada 45ms e
@@ -89,7 +98,6 @@ public class QuodGame extends JFrame implements KeyListener {
 		case KeyEvent.VK_A:
 			keyControl[0] = status;
 			break;
-
 		case KeyEvent.VK_RIGHT:
 		case KeyEvent.VK_D:
 			keyControl[1] = status;
@@ -103,7 +111,7 @@ public class QuodGame extends JFrame implements KeyListener {
 	/*
 	 * Faz a verificação do teclado
 	 */
-	private void gameUpdate() {
+	private void gameControl() {
 
 		// Esqurda
 		if (keyControl[0] && phase.player.getX() > 0) {

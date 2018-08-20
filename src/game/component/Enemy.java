@@ -12,6 +12,7 @@ public class Enemy extends GameObject implements Runnable {
 	protected ImageIcon ship;
 	protected static int ENEMY_POSITION = new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH);
 	protected int position;
+	protected int countExplosion;
 
 	/*
 	 * Construtor
@@ -20,9 +21,17 @@ public class Enemy extends GameObject implements Runnable {
 
 		super(ENEMY_POSITION, 0, Util.ENEMY_WIDTH, Util.ENEMY_HEIGHT, Util.SPEED_SLOW, Util.SPEED_SLOW, true);
 
-		position = 0;
+		countExplosion = 0;
 		t = new Thread(this);
 		t.start();
+	}
+
+	public void countExplosionUp() {
+		countExplosion++;
+	}
+
+	public int getCountExplosion() {
+		return countExplosion;
 	}
 
 	@Override
