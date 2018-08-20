@@ -15,6 +15,7 @@ import game.phase.Stage01;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
@@ -24,8 +25,8 @@ public class QuodGame extends JFrame implements KeyListener {
 
 	public Phase phase;
 	public boolean[] keyControl;
-	private int shootCount = 0;
-	private int enemyCount = 0;
+	private int shootCount = 5;
+	private int enemyCount = 75;
 
 	/*
 	 * Construtor
@@ -67,21 +68,21 @@ public class QuodGame extends JFrame implements KeyListener {
 	 */
 	private void gameStart() {
 
-		while (true) {
-			if (enemyCount > 10) {
+		while (Util.PLAYING) {
+			
+			if (enemyCount > 75) {
+				phase.alEnemy.add(new Enemy(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
 				enemyCount = 0;
-				phase.alEnemy.add(new Enemy());
 			}
-
-			enemyCount++;
-
+			
 			gameControl();
 			repaint();
 
-			// Executa o laço a cada 45ms e
+			// Executa o laço a cada 60ms e
 			// incremeta o contador de disparos
 			try {
 				Thread.sleep(45);
+				enemyCount++;
 				shootCount++;
 			} catch (InterruptedException e) {
 				e.printStackTrace();

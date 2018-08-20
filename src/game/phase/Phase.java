@@ -24,7 +24,6 @@ public class Phase extends JPanel {
 	public ArrayList<Laser> alLaser;
 	public ArrayList<Enemy> alEnemy;
 	public Image explosion;
-	public Enemy enemy;
 	public Player player;
 	public int life;
 	public boolean side = true;
@@ -36,7 +35,6 @@ public class Phase extends JPanel {
 		life = 1;
 
 		this.player = player;
-		enemy = new Enemy();
 		alEnemy = new ArrayList<Enemy>();
 		alLaser = new ArrayList<Laser>();
 
@@ -46,26 +44,81 @@ public class Phase extends JPanel {
 	}
 
 	/*
+	 * Essa classe zera todos os atributos
+	 */
+	public void phaseClear() {
+		for (int i = 0; i < alLaser.size(); i++)
+			alLaser.remove(i);
+
+		for (int i = 0; i < alEnemy.size(); i++)
+			alEnemy.remove(i);
+	}
+
+	/*
 	 * Essa classe faz as verificações necessárias de colisão e remoção de objetos
 	 */
-	public void phaseControl() {
-		// Verifica se uma nave inimiga atingiu
-		// a nave do jogador
-		if (Util.colision(player, enemy)) {
+	public void phaseControl(Graphics g) {
+		/* Verificação do Laser */
+		for (int i = 0; i < alLaser.size(); i++) {
 
-			enemy.setActive(false);
-			life--;
+			// Verifica se saiu da tela
+			if (alLaser.get(i).getY() <= -alLaser.get(i).getHeight())
+				alLaser.get(i).setActive(false);
 
-			if (life <= 0)
-				player.setActive(false);
+			// Verifica se atingiu algum inimigo
+			for (int j = 0; j < alEnemy.size(); j++) {
+				if (Util.colision(alLaser.get(i), alEnemy.get(j))) {
+					alLaser.get(i).setActive(false);
+					alEnemy.get(j).setActive(false);
+				}
+			}
+
+			// Desenha se estiver ativo
+			if (alLaser.get(i).isActive())
+				alLaser.get(i).draw(g);
 
 		}
 
 		// Remove o laser
 		for (int i = 0; i < alLaser.size(); i++) {
-			if (Util.colision(alLaser.get(i), enemy) || alLaser.get(i).getY() <= -alLaser.get(i).getHeight())
+			if (!alLaser.get(i).isActive())
 				alLaser.remove(i);
 		}
+
+		/* Verificação de Inimigos na Tela */
+		for (int i = 0; i < alEnemy.size(); i++) {
+
+			// Verifica se colidiu com o player
+			if (Util.colision(player, alEnemy.get(i))) {
+				alEnemy.get(i).setActive(false);
+				life--;
+			}
+
+			// Desenha se estiver ativo
+			if (alEnemy.get(i).isActive())
+				alEnemy.get(i).draw(g);
+			else if (alEnemy.get(i).getCountExplosion() < Util.EXPLOSION_TIME) {
+				g.drawImage(explosion, alEnemy.get(i).getX(), alEnemy.get(i).getY(), alEnemy.get(i).getWidth(),
+						alEnemy.get(i).getHeight(), this);
+				alEnemy.get(i).countExplosionUp();
+			} else {
+				alEnemy.remove(i);
+			}
+		}
+
+		/* Verificação do estado do Player */
+		if (life > 0)
+			player.draw(g);
+		else if (player.getCountExplosion() < Util.EXPLOSION_TIME) {
+			g.drawImage(explosion, player.getX(), player.getY(), player.getWidth(), player.getHeight(), this);
+			player.countExplosionUp();
+			life = 0;
+		} else {
+			Util.PLAYING = false;
+			phaseClear();
+			life = 0;
+		}
+
 	}
 
 	@Override
@@ -76,33 +129,7 @@ public class Phase extends JPanel {
 		g.drawImage(imageBackground, 0, 0, getWidth(), getHeight(), this);
 		g.setColor(Color.WHITE);
 
-		// Verifica a trajetória do laser
-		for (Laser l : alLaser) {
-			for (Enemy e : alEnemy) {
-				if (!Util.colision(l, e))
-					l.draw(g);
-				else
-					e.setActive(false);
-			}
-		}
-
-		phaseControl();
-		
-		// Desenha a nave inimiga enquanto ela estiver ativa
-		if (enemy.isActive() == true)
-			enemy.draw(g);
-		else if (enemy.getCountExplosion() < Util.EXPLOSION_TIME) {
-			g.drawImage(explosion, enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
-			enemy.countExplosionUp();
-		}
-
-		// Desenha a nave do jogador enquanto ela estiver ativa
-		if (player.isActive())
-			player.draw(g);
-		else if (player.getCountExplosion() < Util.EXPLOSION_TIME) {
-			g.drawImage(explosion, player.getX(), player.getY(), player.getWidth(), player.getHeight(), this);
-			player.countExplosionUp();
-		}
+		phaseControl(g);
 
 		// Pontuação
 		g.drawString("Pontos: " + score, 20, 20);

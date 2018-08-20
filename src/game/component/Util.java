@@ -9,9 +9,12 @@ package game.component;
 
 public final class Util {
 
+	/* Variável de Controle de Jogo */
+	public static boolean PLAYING = true;
+	
 	/* Constante Geral Nula */
 	public static final int NONE = 0;
-
+	
 	/* Tamanho da Tela */
 	public static final int DEFAULT_SCREEN_WIDTH = 550;
 	public static final int DEFAULT_SCREEN_HEIGHT = 650;
