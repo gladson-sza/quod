@@ -5,7 +5,7 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
-public class Enemy extends GameObject  {
+public class Enemy extends GameObject {
 
 	protected ImageIcon ship;
 	protected int position;
@@ -32,9 +32,9 @@ public class Enemy extends GameObject  {
 
 	@Override
 	public void draw(Graphics g) {
-		
+
 		moveDown();
-		
+
 		// Altera a imagem no array
 		if (position == 0)
 			ship = new ImageIcon(Util.ENEMY_IMAGES[position++]);

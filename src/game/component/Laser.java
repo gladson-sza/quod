@@ -21,9 +21,9 @@ public class Laser extends GameObject {
 
 	@Override
 	public void draw(Graphics g) {
-		
+
 		moveUp();
-		
+
 		Image imageLaser = laser.getImage();
 		g.drawImage(imageLaser, getX(), getY() + 5, 47, 30, null);
 	}

@@ -11,18 +11,18 @@ public final class Util {
 
 	/* Variável de Controle de Jogo */
 	public static boolean PLAYING = true;
-	
+
 	/* Constante Geral Nula */
 	public static final int NONE = 0;
-	
+
 	/* Tamanho da Tela */
 	public static final int DEFAULT_SCREEN_WIDTH = 550;
 	public static final int DEFAULT_SCREEN_HEIGHT = 650;
 
 	/* Constantes de Velocidade */
-	public static final int SPEED_HIGH = 20;
-	public static final int SPEED_MEDIUM = 10;
-	public static final int SPEED_SLOW = 5;
+	public static int SPEED_HIGH = 20;
+	public static int SPEED_MEDIUM = 10;
+	public static int SPEED_SLOW = 5;
 
 	/* Constantes do Tamanho da Nave do Player */
 	public static final int PLAYER_POSITION_X = 240;

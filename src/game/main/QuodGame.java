@@ -26,7 +26,7 @@ public class QuodGame extends JFrame implements KeyListener {
 	public Phase phase;
 	public boolean[] keyControl;
 	private int shootCount = 5;
-	private int enemyCount = 75;
+	private int enemyCount = 45;
 
 	/*
 	 * Construtor
@@ -60,7 +60,12 @@ public class QuodGame extends JFrame implements KeyListener {
 	 * Método Principal
 	 */
 	public static void main(String[] args) {
-		new QuodGame().gameStart();
+		QuodGame qg = new QuodGame();
+		while (Util.PLAYING) {
+			qg.gameStart();
+		}
+
+		System.exit(0);
 	}
 
 	/*
@@ -68,26 +73,21 @@ public class QuodGame extends JFrame implements KeyListener {
 	 */
 	private void gameStart() {
 
-		while (Util.PLAYING) {
-			
-			if (enemyCount > 75) {
-				phase.alEnemy.add(new Enemy(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
-				enemyCount = 0;
-			}
-			
-			gameControl();
-			repaint();
+		if (enemyCount > new Random().nextInt(15) + 20) {
+			phase.alEnemy.add(new Enemy(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
+			enemyCount = 0;
+		}
 
-			// Executa o laço a cada 60ms e
-			// incremeta o contador de disparos
-			try {
-				Thread.sleep(45);
-				enemyCount++;
-				shootCount++;
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		gameControl();
+		repaint();
 
+		// Executa o laço a cada 45ms e incremeta o contador de disparos
+		try {
+			Thread.sleep(45);
+			enemyCount++;
+			shootCount++;
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -125,7 +125,7 @@ public class QuodGame extends JFrame implements KeyListener {
 		}
 
 		// Disparos
-		if (keyControl[2] && shootCount > 5) {
+		if (keyControl[2] && shootCount > 7) {
 			phase.alLaser.add(new Laser(phase.player.getX() + 25, phase.player.getY() + 5, Util.SPEED_HIGH,
 					Util.SPEED_HIGH, true));
 
