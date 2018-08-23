@@ -9,6 +9,7 @@ public abstract class GameObject {
 	private int width, height;
 	private int speedX, speedY;
 	private boolean active;
+	private boolean explode;
 
 	/*
 	 * Construtor
@@ -83,6 +84,14 @@ public abstract class GameObject {
 	}
 
 	/* Movimentos */
+
+	public boolean isExplode() {
+		return explode;
+	}
+
+	public void setExplode(boolean explode) {
+		this.explode = explode;
+	}
 
 	public void moveUp() {
 		y -= speedY;

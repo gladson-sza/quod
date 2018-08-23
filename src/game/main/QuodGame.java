@@ -15,8 +15,12 @@ import game.phase.Stage01;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.Random;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
 
 public class QuodGame extends JFrame implements KeyListener {
@@ -60,6 +64,8 @@ public class QuodGame extends JFrame implements KeyListener {
 	 * Método Principal
 	 */
 	public static void main(String[] args) {
+
+		// Inicia o Jogo
 		QuodGame qg = new QuodGame();
 		while (Util.PLAYING) {
 			qg.gameStart();
@@ -125,9 +131,18 @@ public class QuodGame extends JFrame implements KeyListener {
 		}
 
 		// Disparos
-		if (keyControl[2] && shootCount > 7) {
+		if (keyControl[2] && shootCount > 9) {
 			phase.alLaser.add(new Laser(phase.player.getX() + 25, phase.player.getY() + 5, Util.SPEED_HIGH,
 					Util.SPEED_HIGH, true));
+
+			try {
+				AudioInputStream as = AudioSystem.getAudioInputStream(new File("res\\sound\\shoot.wav"));
+				Clip clip = AudioSystem.getClip();
+				clip.open(as);
+				clip.start();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 			shootCount = 0;
 		}

@@ -18,6 +18,7 @@ public class Enemy extends GameObject {
 
 		super(enemyPosition, 0, Util.ENEMY_WIDTH, Util.ENEMY_HEIGHT, Util.SPEED_SLOW, Util.SPEED_SLOW, true);
 
+		setExplode(false);
 		countExplosion = 0;
 
 	}

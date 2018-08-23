@@ -21,6 +21,7 @@ public class Player extends GameObject {
 		super(Util.PLAYER_POSITION_X, Util.PLAYER_POSITION_Y, Util.PLAYER_WIDTH, Util.PLAYER_HEIGHT, Util.SPEED_MEDIUM,
 				Util.SPEED_MEDIUM, true);
 
+		setExplode(false);
 		countExplosion = 0;
 	}
 

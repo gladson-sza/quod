@@ -3,8 +3,12 @@ package game.phase;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.File;
 import java.util.ArrayList;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -41,7 +45,7 @@ public class Phase extends JPanel {
 
 		explosion = new ImageIcon("res\\effects\\explosion.gif").getImage();
 
-		moveBackground = -(Util.DEFAULT_SCREEN_HEIGHT * 5);
+		moveBackground = -(Util.DEFAULT_SCREEN_HEIGHT * 9);
 		score = lastScore;
 	}
 
@@ -65,7 +69,7 @@ public class Phase extends JPanel {
 		if (moveBackground <= -Util.DEFAULT_SCREEN_HEIGHT)
 			moveBackground += 3;
 		else
-			moveBackground = -(Util.DEFAULT_SCREEN_HEIGHT * 5);
+			moveBackground = -(Util.DEFAULT_SCREEN_HEIGHT * 9);
 
 		/* Verificação colisão do Inimigo e do Laser */
 		for (int i = 0; i < alLaser.size(); i++) {
@@ -79,11 +83,11 @@ public class Phase extends JPanel {
 				if (Util.colision(alLaser.get(i), alEnemy.get(j)) && alEnemy.get(j).isActive()) {
 					alLaser.get(i).setActive(false);
 					alEnemy.get(j).setActive(false);
-					
+
 					Util.SPEED_SLOW = 3;
 					Util.SPEED_MEDIUM = 5;
 					Util.SPEED_HIGH = 10;
-					
+
 					score += 100;
 				}
 
@@ -110,7 +114,19 @@ public class Phase extends JPanel {
 		/* Verificação do estado do Player */
 		if (life > 0)
 			player.draw(g);
-		else if (player.getCountExplosion() < Util.EXPLOSION_TIME) {
+		else if (!player.isExplode()) {
+			try {
+				AudioInputStream as = AudioSystem.getAudioInputStream(new File("res\\sound\\playerExplosion.wav"));
+				Clip clip = AudioSystem.getClip();
+				clip.open(as);
+				clip.start();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			player.setExplode(true);
+
+		} else if (player.getCountExplosion() < Util.EXPLOSION_TIME) {
 			g.drawImage(explosion, player.getX(), player.getY(), player.getWidth(), player.getHeight(), this);
 			player.countExplosionUp();
 			player.setActive(false);
@@ -130,8 +146,20 @@ public class Phase extends JPanel {
 			}
 
 			// Desenha se estiver ativo
-			if (alEnemy.get(i).isActive()) {
+			if (alEnemy.get(i).isActive())
 				alEnemy.get(i).draw(g);
+			else if (!alEnemy.get(i).isExplode()) {
+				try {
+					AudioInputStream as = AudioSystem.getAudioInputStream(new File("res\\sound\\enemyExplosion.wav"));
+					Clip clip = AudioSystem.getClip();
+					clip.open(as);
+					clip.start();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				alEnemy.get(i).setExplode(true);
+
 			} else if (alEnemy.get(i).getCountExplosion() < Util.EXPLOSION_TIME) {
 				g.drawImage(explosion, alEnemy.get(i).getX(), alEnemy.get(i).getY(), alEnemy.get(i).getWidth(),
 						alEnemy.get(i).getHeight(), this);
@@ -150,7 +178,7 @@ public class Phase extends JPanel {
 
 		// Desenha o background e define as cores da fonte
 		Image imageBackground = background.getImage();
-		g.drawImage(imageBackground, 0, moveBackground, getWidth(), Util.DEFAULT_SCREEN_HEIGHT * 6, this);
+		g.drawImage(imageBackground, 0, moveBackground, getWidth(), Util.DEFAULT_SCREEN_HEIGHT * 10, this);
 		g.setColor(Color.WHITE);
 
 		phaseControl(g);
