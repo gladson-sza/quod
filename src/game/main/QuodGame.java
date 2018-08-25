@@ -29,7 +29,6 @@ public class QuodGame extends JFrame implements KeyListener {
 
 	public Phase phase;
 	public boolean[] keyControl;
-	private int shootCount = 5;
 	private int enemyCount = 45;
 
 	/*
@@ -64,9 +63,25 @@ public class QuodGame extends JFrame implements KeyListener {
 	 * Método Principal
 	 */
 	public static void main(String[] args) {
-
+		
+		// Inicia o som
+		try {
+			AudioInputStream as = AudioSystem.getAudioInputStream(new File("res\\sound\\shoot.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(as);
+			clip.start();
+			clip.stop();	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		// Inicia o Jogo
 		QuodGame qg = new QuodGame();
+		
+		qg.phase.alEnemy.add(new Enemy(0));
+		qg.phase.alEnemy.get(0).setActive(false);
+		qg.phase.alEnemy.remove(0);
+		
 		while (Util.PLAYING) {
 			qg.gameStart();
 		}
@@ -91,7 +106,9 @@ public class QuodGame extends JFrame implements KeyListener {
 		try {
 			Thread.sleep(45);
 			enemyCount++;
-			shootCount++;
+
+			if (Util.SHOOT_COUNT < 10)
+				Util.SHOOT_COUNT++;
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -131,7 +148,7 @@ public class QuodGame extends JFrame implements KeyListener {
 		}
 
 		// Disparos
-		if (keyControl[2] && shootCount > 9) {
+		if (keyControl[2] && Util.SHOOT_COUNT > 9) {
 			phase.alLaser.add(new Laser(phase.player.getX() + 25, phase.player.getY() + 5, Util.SPEED_HIGH,
 					Util.SPEED_HIGH, true));
 
@@ -144,7 +161,7 @@ public class QuodGame extends JFrame implements KeyListener {
 				e.printStackTrace();
 			}
 
-			shootCount = 0;
+			Util.SHOOT_COUNT = 0;
 		}
 
 	}

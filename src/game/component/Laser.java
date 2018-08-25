@@ -13,7 +13,7 @@ public class Laser extends GameObject {
 	 * Construtor
 	 */
 	public Laser(int x, int y, int speedX, int speedY, boolean active) {
-		super(x, y, Util.NONE, Util.NONE, speedX, speedY, active);
+		super(x, y, 47, 30, speedX, speedY, active);
 
 		laser = new ImageIcon("res\\effects\\laser.png");
 

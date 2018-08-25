@@ -32,6 +32,7 @@ public class Phase extends JPanel {
 	public int life;
 	public boolean side = true;
 	public int moveBackground;
+	public int shootCount;
 
 	public Phase(String backgroundPath, Player player, int lastScore) {
 
@@ -145,6 +146,12 @@ public class Phase extends JPanel {
 				life--;
 			}
 
+			// Verifica se saiu da tela
+			if (alEnemy.get(i).getY() >= Util.DEFAULT_SCREEN_HEIGHT) {
+				alEnemy.get(i).setActive(false);
+				alEnemy.get(i).setExplode(true);
+			}
+
 			// Desenha se estiver ativo
 			if (alEnemy.get(i).isActive())
 				alEnemy.get(i).draw(g);
@@ -176,12 +183,18 @@ public class Phase extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 
+		// Cor padrão da fonte
+		g.setColor(Color.WHITE);
+
 		// Desenha o background e define as cores da fonte
 		Image imageBackground = background.getImage();
 		g.drawImage(imageBackground, 0, moveBackground, getWidth(), Util.DEFAULT_SCREEN_HEIGHT * 10, this);
-		g.setColor(Color.WHITE);
 
 		phaseControl(g);
+
+		// Desenha o status do Laser
+		Image laserStatus = new ImageIcon(Util.LASER_CHARGE[Util.SHOOT_COUNT]).getImage();
+		g.drawImage(laserStatus, 20, 60, 50, 80, null);
 
 		// Pontuação
 		g.drawString("Pontos: " + score, 20, 20);
