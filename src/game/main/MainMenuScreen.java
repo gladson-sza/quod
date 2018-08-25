@@ -35,14 +35,14 @@ public class MainMenuScreen extends JPanel {
 		// Tipo de conf. da tela 
 		setLayout(null);
 		
-		// configuraÁ„o dos botıes
+		// configura√ß√£o dos bot√µes
 		jbPlay = new JButton();
 		jbPlay.setBounds(Util.DEFAULT_SCREEN_WIDTH/2 - 100, Util.DEFAULT_SCREEN_HEIGHT/2 - 50, 200, 60);
 		add(jbPlay);
 		
 		// Texto
 		jbPlay.setText(null);
-		jbPlay.setIcon(imgText); // texto do bot„o
+		jbPlay.setIcon(imgText); // texto do bot√£o
 		jbPlay.setPressedIcon(imgBack); // Imagem ao clicar
 		
 		// borda
@@ -59,5 +59,5 @@ public class MainMenuScreen extends JPanel {
 		
 		img = logo.getImage();
 		g.drawImage(img, 130, 5, 300, 250, this);
-	}
+
 }

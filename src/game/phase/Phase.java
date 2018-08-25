@@ -28,7 +28,6 @@ public class Phase extends JPanel {
 	protected ImageIcon imgLife;
 	
 	protected int posLife;
-	
 	public ArrayList<Laser> alLaser;
 	public ArrayList<Enemy> alEnemy;
 	public Image explosion;
@@ -36,12 +35,11 @@ public class Phase extends JPanel {
 	public int life;
 	public boolean side = true;
 	public int moveBackground;
-	
 	public JButton jbStop;
 	
 	protected ImageIcon imgText;
 	protected ImageIcon imgBack;
-	
+  
 	public Phase(String backgroundPath, Player player, int lastScore) {
 
 		background = new ImageIcon(backgroundPath);
@@ -58,7 +56,7 @@ public class Phase extends JPanel {
 		moveBackground = -(Util.DEFAULT_SCREEN_HEIGHT * 9);
 		score = lastScore;
 		
-		// bot„o pausar
+		// bot√£o pausar
 		imgBack = new ImageIcon(" ");
 		imgText = new ImageIcon("res\\menu\\stop.jpg");
 		
@@ -70,7 +68,7 @@ public class Phase extends JPanel {
 		add(jbStop);
 		
 		jbStop.setText(null);
-		jbStop.setIcon(imgText); // texto do bot„o
+		jbStop.setIcon(imgText); // texto do bot√£o
 		jbStop.setPressedIcon(imgBack); // Imagem ao clicar
 		
 		// borda
@@ -90,7 +88,7 @@ public class Phase extends JPanel {
 	}
 
 	/*
-	 * Essa classe faz as verificaÁıes necess·rias de colis„o e remoÁ„o de objetos
+	 * Essa classe faz as verifica√ß√µes necess√°rias de colis√£o e remo√ß√£o de objetos
 	 */
 	public void phaseControl(Graphics g) {
 
@@ -100,7 +98,7 @@ public class Phase extends JPanel {
 		else
 			moveBackground = -(Util.DEFAULT_SCREEN_HEIGHT * 9);
 
-		/* VerificaÁ„o colis„o do Inimigo e do Laser */
+		/* Verifica√ß√£o colis√£o do Inimigo e do Laser */
 		for (int i = 0; i < alLaser.size(); i++) {
 
 			// Verifica se o laser saiu da tela
@@ -140,7 +138,7 @@ public class Phase extends JPanel {
 
 		}
 
-		/* VerificaÁ„o do estado do Player */
+		/* Verifica√ß√£o do estado do Player */
 		if (life > 0)
 			player.draw(g);
 		else if (!player.isExplode()) {
@@ -166,12 +164,18 @@ public class Phase extends JPanel {
 			life = 0;
 		}
 
-		/* VerificaÁ„o de Inimigos na Tela */
+		/* Verifica√ß√£o de Inimigos na Tela */
 		for (int i = 0; i < alEnemy.size(); i++) {
 			// Verifica se atingiu o player
 			if (Util.colision(player, alEnemy.get(i)) && alEnemy.get(i).isActive()) {
 				alEnemy.get(i).setActive(false);
 				life--;
+			}
+
+			// Verifica se saiu da tela
+			if (alEnemy.get(i).getY() >= Util.DEFAULT_SCREEN_HEIGHT) {
+				alEnemy.get(i).setActive(false);
+				alEnemy.get(i).setExplode(true);
 			}
 
 			// Desenha se estiver ativo
@@ -205,14 +209,20 @@ public class Phase extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 
+		// Cor padr√£o da fonte
+		g.setColor(Color.WHITE);
+
 		// Desenha o background e define as cores da fonte
 		Image imageBackground = background.getImage();
 		g.drawImage(imageBackground, 0, moveBackground, getWidth(), Util.DEFAULT_SCREEN_HEIGHT * 10, this);
-		g.setColor(Color.WHITE);
 
 		phaseControl(g);
 
-		// PontuaÁ„o
+		// Desenha o status do Laser
+		Image laserStatus = new ImageIcon(Util.LASER_CHARGE[Util.SHOOT_COUNT]).getImage();
+		g.drawImage(laserStatus, 20, 60, 50, 80, null);
+
+		// Pontua√ß√£o
 		g.drawString("Pontos: " + score, 20, 20);
 
 		// Vida do Player

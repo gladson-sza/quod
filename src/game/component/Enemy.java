@@ -34,10 +34,12 @@ public class Enemy extends GameObject {
 
 	@Override
 	public void draw(Graphics g) {
-		
 		if(stop == false) {
 			moveDown();
 		}
+
+		moveDown();
+
 		// Altera a imagem no array
 		if (position == 0)
 			ship = new ImageIcon(Util.ENEMY_IMAGES[position++]);

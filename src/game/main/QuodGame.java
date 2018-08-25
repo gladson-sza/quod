@@ -1,5 +1,5 @@
 /**
- * @author Gladson Souza de Ara˙jo
+ * @author Gladson Souza de Ara√∫jo
  * @author Paulo Victor Ribeiro da Silva
  * 
  */
@@ -37,7 +37,6 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	public GameOver over;
 	
 	public boolean[] keyControl;
-	private int shootCount = 5;
 	private int enemyCount = 45;
 
 	/*
@@ -78,21 +77,39 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		menu.jbPlay.addActionListener(this);
 		keyControl = new boolean[3];
 		
+
 	}
 
 	
 	
 	/*
-	 * MÈtodo Principal
+	 * M√©todo Principal
 	 */
 	public static void main(String[] args) {
-
+		
+		// Inicia o som
+		try {
+			AudioInputStream as = AudioSystem.getAudioInputStream(new File("res\\sound\\shoot.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(as);
+			clip.start();
+			clip.stop();	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		// Inicia o Jogo
 		QuodGame qg = new QuodGame();
 		
+		qg.phase.alEnemy.add(new Enemy(0));
+		qg.phase.alEnemy.get(0).setActive(false);
+		qg.phase.alEnemy.remove(0);
 		
-		qg.gameStart();
-		
+		while (Util.PLAYING) {
+			qg.gameStart();
+		}
+
+		System.exit(0);
 	}
 
 	/*
@@ -106,21 +123,20 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 					phase.alEnemy.add(new Enemy(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
 					enemyCount = 0;
 				}
-			} 
-
+			}
+      
 			gameControl();
 			repaint();
 			
-			
-			
-			// Leitura do bot„o pause
+			// Leitura do bot√£o pause
 			phase.jbStop.addActionListener(this);
 			
-			// Executa o laÁo a cada 45ms e incremeta o contador de disparos
+			// Executa o la√ßo a cada 45ms e incremeta o contador de disparos
 			try {
 				Thread.sleep(45);
 				enemyCount++;
-				shootCount++;
+				if (Util.SHOOT_COUNT < 10)
+				  Util.SHOOT_COUNT++;
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -129,12 +145,10 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		phase.setVisible(false);
 		this.add(this.over);
 		over.requestFocus();
-
 	}
 
 	/* Teclado */
 	public void setKey(int key, boolean status) {
-		this.status = true;
 		switch (key) {
 		case KeyEvent.VK_LEFT:
 		case KeyEvent.VK_A:
@@ -151,9 +165,35 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	}
 
 	/*
-	 * Faz a verificaÁ„o do teclado
+	 * Faz a verifica√ß√£o do teclado
 	 */
 	private void gameControl() {
+		// Esqurda
+		if (keyControl[0] && phase.player.getX() > 0) {
+			phase.player.moveLeft();
+		}
+
+		// Direita
+		if (keyControl[1] && (phase.player.getX() + phase.player.getWidth() < phase.getWidth())) {
+			phase.player.moveRight();
+		}
+
+		// Disparos
+		if (keyControl[2] && Util.SHOOT_COUNT > 9) {
+			phase.alLaser.add(new Laser(phase.player.getX() + 25, phase.player.getY() + 5, Util.SPEED_HIGH,
+					Util.SPEED_HIGH, true));
+
+			try {
+				AudioInputStream as = AudioSystem.getAudioInputStream(new File("res\\sound\\shoot.wav"));
+				Clip clip = AudioSystem.getClip();
+				clip.open(as);
+				clip.start();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			Util.SHOOT_COUNT = 0;
+		}
 
 		// Esqurda
 		if (keyControl[0] && phase.player.getX() > 0) {
@@ -194,7 +234,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 			
 		} 
 		
-		// Fazer o bot„o de pause
+		// Fazer o bot√£o de pause
 		if(e.getSource() == phase.jbStop) {
 			enemy.stop = true;
 		}

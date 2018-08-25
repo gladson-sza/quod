@@ -1,16 +1,17 @@
 /**
- * @author Gladson Souza de Araújo
+ * @author Gladson Souza de AraÃºjo
  * 
- * Classe utilitária para mecânicas e constantes
- * de parâmetros utilizadas no jogo.
+ * Classe utilitÃ¡ria para mecÃ¢nicas e constantes
+ * de parÃ¢metros utilizadas no jogo.
  */
 
 package game.component;
 
 public final class Util {
 
-	/* Variável de Controle de Jogo */
+	/* VariÃ¡vel de Controle de Jogo */
 	public static boolean PLAYING = true;
+	public static int SHOOT_COUNT = 0;
 
 	/* Constante Geral Nula */
 	public static final int NONE = 0;
@@ -34,27 +35,42 @@ public final class Util {
 	public static final String PLAYER_IMAGES[] = { "res\\\\ship\\\\PlayerShip\\\\PlayerShipSprite1.png",
 			"res\\\\ship\\\\PlayerShip\\\\PlayerShipSprite2.png" };
 
-	/* Constantes do Tamanho das Naves Inimigas */
+	/* Constantes das imagens das Naves Inimigas */
+	public static final String ENEMY_IMAGES[] = { "res\\ship\\EnemyShip\\EnemyShipSprite1.png",
+			"res\\ship\\EnemyShip\\EnemyShipSprite2.png" };
+
+	/* Imagem do status do Laser */
+	public static final String LASER_CHARGE[] = { "res\\hud\\laserEmptyCharge.png", "res\\hud\\laser10Charge.png",
+			"res\\hud\\laser20Charge.png", "res\\hud\\laser30Charge.png", "res\\hud\\laser40Charge.png",
+			"res\\hud\\laser50Charge.png", "res\\hud\\laser60Charge.png", "res\\hud\\laser70Charge.png",
+			"res\\hud\\laser80Charge.png", "res\\hud\\laser90Charge.png", "res\\hud\\laserFullCharge.png" };
+
+  /* Constantes do Tamanho das Naves Inimigas */
 	public static final int ENEMY_POSITION = -100;
 	public static final int ENEMY_WIDTH = 70;
 	public static final int ENEMY_HEIGHT = 70;
 
-	/* Tempo de Explosão */
+	/* Tempo de ExplosÃ£o */
 	public static final int EXPLOSION_TIME = 57;
-
-	/* Constantes das imagens das Naves Inimigas */
-
-	public static final String ENEMY_IMAGES[] = { "res\\ship\\EnemyShip\\EnemyShipSprite1.png",
-			"res\\ship\\EnemyShip\\EnemyShipSprite2.png" };
 
 	/*
 	 * Essa classe verifica se o objeto a colide com o objeto b
 	 */
 	public static boolean colision(GameObject a, GameObject b) {
 
-		// verifica se houve colisão
-		if (a.getX() + a.getWidth() > b.getX() - b.getWidth() && b.getX() + b.getWidth() > a.getX()
-				&& a.getY() <= b.getY() + b.getHeight())
+		// Plano de colisÃ£o X
+		int aColisionPanelWidth = a.getX() + a.getWidth();
+		int bColisionPanelWidth = b.getX() + b.getWidth();
+
+		// Plano de colisÃ£o Y
+		int aColisionPanelHeight = a.getY() + a.getHeight();
+		int bColisionPanelHeight = b.getY() + b.getHeight();
+
+		// verifica se houve colisÃ£o
+		if ((a.getX() >= b.getX() && a.getX() <= bColisionPanelWidth
+				|| b.getX() >= a.getX() && b.getX() <= aColisionPanelWidth)
+				&& (a.getY() >= b.getY() && a.getY() <= bColisionPanelHeight
+						|| b.getY() >= a.getY() && b.getY() <= aColisionPanelHeight))
 			return true;
 
 		return false;
