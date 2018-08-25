@@ -10,7 +10,8 @@ public class Enemy extends GameObject {
 	protected ImageIcon ship;
 	protected int position;
 	protected int countExplosion;
-
+	
+	public boolean stop = false;
 	/*
 	 * Construtor
 	 */
@@ -33,6 +34,9 @@ public class Enemy extends GameObject {
 
 	@Override
 	public void draw(Graphics g) {
+		if(stop == false) {
+			moveDown();
+		}
 
 		moveDown();
 

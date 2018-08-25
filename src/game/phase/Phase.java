@@ -10,6 +10,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import game.component.Enemy;
@@ -24,7 +25,9 @@ public class Phase extends JPanel {
 	protected static int score;
 
 	protected ImageIcon background;
-
+	protected ImageIcon imgLife;
+	
+	protected int posLife;
 	public ArrayList<Laser> alLaser;
 	public ArrayList<Enemy> alEnemy;
 	public Image explosion;
@@ -32,8 +35,11 @@ public class Phase extends JPanel {
 	public int life;
 	public boolean side = true;
 	public int moveBackground;
-	public int shootCount;
-
+	public JButton jbStop;
+	
+	protected ImageIcon imgText;
+	protected ImageIcon imgBack;
+  
 	public Phase(String backgroundPath, Player player, int lastScore) {
 
 		background = new ImageIcon(backgroundPath);
@@ -45,9 +51,29 @@ public class Phase extends JPanel {
 		alLaser = new ArrayList<Laser>();
 
 		explosion = new ImageIcon("res\\effects\\explosion.gif").getImage();
-
+		imgLife = new ImageIcon("res\\ship\\life.png");
+		
 		moveBackground = -(Util.DEFAULT_SCREEN_HEIGHT * 9);
 		score = lastScore;
+		
+		// bot√£o pausar
+		imgBack = new ImageIcon(" ");
+		imgText = new ImageIcon("res\\menu\\stop.jpg");
+		
+		jbStop = new JButton();
+		
+		setLayout(null);
+		
+		jbStop.setBounds(Util.DEFAULT_SCREEN_WIDTH - 50, 5, 35, 35);
+		add(jbStop);
+		
+		jbStop.setText(null);
+		jbStop.setIcon(imgText); // texto do bot√£o
+		jbStop.setPressedIcon(imgBack); // Imagem ao clicar
+		
+		// borda
+		jbStop.setBorderPainted(false);
+		jbStop.setContentAreaFilled(false);
 	}
 
 	/*
@@ -62,7 +88,7 @@ public class Phase extends JPanel {
 	}
 
 	/*
-	 * Essa classe faz as verificaÁıes necess·rias de colis„o e remoÁ„o de objetos
+	 * Essa classe faz as verifica√ß√µes necess√°rias de colis√£o e remo√ß√£o de objetos
 	 */
 	public void phaseControl(Graphics g) {
 
@@ -72,7 +98,7 @@ public class Phase extends JPanel {
 		else
 			moveBackground = -(Util.DEFAULT_SCREEN_HEIGHT * 9);
 
-		/* VerificaÁ„o colis„o do Inimigo e do Laser */
+		/* Verifica√ß√£o colis√£o do Inimigo e do Laser */
 		for (int i = 0; i < alLaser.size(); i++) {
 
 			// Verifica se o laser saiu da tela
@@ -112,7 +138,7 @@ public class Phase extends JPanel {
 
 		}
 
-		/* VerificaÁ„o do estado do Player */
+		/* Verifica√ß√£o do estado do Player */
 		if (life > 0)
 			player.draw(g);
 		else if (!player.isExplode()) {
@@ -138,7 +164,7 @@ public class Phase extends JPanel {
 			life = 0;
 		}
 
-		/* VerificaÁ„o de Inimigos na Tela */
+		/* Verifica√ß√£o de Inimigos na Tela */
 		for (int i = 0; i < alEnemy.size(); i++) {
 			// Verifica se atingiu o player
 			if (Util.colision(player, alEnemy.get(i)) && alEnemy.get(i).isActive()) {
@@ -183,7 +209,7 @@ public class Phase extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 
-		// Cor padr„o da fonte
+		// Cor padr√£o da fonte
 		g.setColor(Color.WHITE);
 
 		// Desenha o background e define as cores da fonte
@@ -196,12 +222,24 @@ public class Phase extends JPanel {
 		Image laserStatus = new ImageIcon(Util.LASER_CHARGE[Util.SHOOT_COUNT]).getImage();
 		g.drawImage(laserStatus, 20, 60, 50, 80, null);
 
-		// PontuaÁ„o
+		// Pontua√ß√£o
 		g.drawString("Pontos: " + score, 20, 20);
 
 		// Vida do Player
-		g.drawString("Vida: " + life, 20, 40);
+		Image img = imgLife.getImage();
+		
+		posLife = 15;
+		
+		for(int i = 0; i < life; i++) {
+			g.drawImage(img, posLife, 34, 20, 20, this);
+			posLife += 25;
+		}
 
+	}
+
+	public void addKeyListiner() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

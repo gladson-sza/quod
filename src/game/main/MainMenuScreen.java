@@ -1,24 +1,25 @@
 package game.main;
 
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class MainMenuScreen extends JPanel implements ActionListener {
+import game.component.Util;
+
+public class MainMenuScreen extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	protected ImageIcon imgText;
+	protected ImageIcon imgBack;
 	protected ImageIcon imageIcon;
-	protected JButton jbStartGame;
-	protected JButton jbSave;
-	protected JButton jbConfig;
+	protected ImageIcon logo;
+	
+	protected JButton jbPlay;
 
 	/*
 	 * Construtor
@@ -26,65 +27,37 @@ public class MainMenuScreen extends JPanel implements ActionListener {
 	protected MainMenuScreen() {
 
 		// imagem de fundo
-		imageIcon = new ImageIcon("res\\background\\galaxy_background01.jpg");
-
-		// configuração do layout
-		setLayout(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
-
-		// configuração dos botões
-		jbStartGame = new JButton();
-		jbSave = new JButton();
-		jbConfig = new JButton();
-
-		jbStartGame.setText("Novo Jogo");
-		jbSave.setText("Continuar");
-		jbConfig.setText("Configurações");
-
-		jbStartGame.addActionListener(this);
-		jbSave.addActionListener(this);
-		jbConfig.addActionListener(this);
-
-		// posiciona os botões na tela
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.anchor = GridBagConstraints.CENTER;
-
-		gbc.gridwidth = 3;
-
-		gbc.weightx = 0.0;
-		gbc.weighty = 0.5;
-
-		// individual de botões
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		add(jbStartGame, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		add(jbSave, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		add(jbConfig, gbc);
-
+		imageIcon = new ImageIcon("res\\menu\\backGroundLoading.gif");
+		imgBack = new ImageIcon(" ");
+		imgText = new ImageIcon("res\\menu\\Play.png");
+		logo = new ImageIcon("res\\menu\\Quod.png");
+		
+		// Tipo de conf. da tela 
+		setLayout(null);
+		
+		// configuraÃ§Ã£o dos botÃµes
+		jbPlay = new JButton();
+		jbPlay.setBounds(Util.DEFAULT_SCREEN_WIDTH/2 - 100, Util.DEFAULT_SCREEN_HEIGHT/2 - 50, 200, 60);
+		add(jbPlay);
+		
+		// Texto
+		jbPlay.setText(null);
+		jbPlay.setIcon(imgText); // texto do botÃ£o
+		jbPlay.setPressedIcon(imgBack); // Imagem ao clicar
+		
+		// borda
+		jbPlay.setBorderPainted(false);
+		jbPlay.setContentAreaFilled(false);
+		
+		
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		Image img = imageIcon.getImage();
 		g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
-	}
+		
+		img = logo.getImage();
+		g.drawImage(img, 130, 5, 300, 250, this);
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-
-		if (e.getSource() == jbStartGame) {
-
-		} else if (e.getSource() == jbSave) {
-
-		} else {
-
-		}
-
-	}
 }
