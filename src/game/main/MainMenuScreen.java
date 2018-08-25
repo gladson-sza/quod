@@ -59,5 +59,5 @@ public class MainMenuScreen extends JPanel {
 		
 		img = logo.getImage();
 		g.drawImage(img, 130, 5, 300, 250, this);
-
+	}
 }

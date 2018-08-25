@@ -220,7 +220,7 @@ public class Phase extends JPanel {
 
 		// Desenha o status do Laser
 		Image laserStatus = new ImageIcon(Util.LASER_CHARGE[Util.SHOOT_COUNT]).getImage();
-		g.drawImage(laserStatus, 20, 60, 50, 80, null);
+		g.drawImage(laserStatus, 0, 60, 50, 80, null);
 
 		// Pontuação
 		g.drawString("Pontos: " + score, 20, 20);
