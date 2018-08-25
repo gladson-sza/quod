@@ -17,12 +17,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
 import java.util.Random;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
 
 public class QuodGame extends JFrame implements KeyListener, ActionListener {
@@ -160,15 +156,6 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		if (keyControl[2] && Util.SHOOT_COUNT > 9) {
 			phase.alLaser.add(new Laser(phase.player.getX() + 25, phase.player.getY() + 5, Util.SPEED_HIGH,
 					Util.SPEED_HIGH, true));
-
-			try {
-				AudioInputStream as = AudioSystem.getAudioInputStream(new File("res\\sound\\shoot.wav"));
-				Clip clip = AudioSystem.getClip();
-				clip.open(as);
-				clip.start();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 
 			Util.SHOOT_COUNT = 0;
 		}
