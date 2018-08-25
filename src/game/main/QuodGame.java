@@ -6,113 +6,217 @@
 
 package game.main;
 
+import game.component.Enemy;
 import game.component.Laser;
 import game.component.Player;
 import game.component.Util;
 import game.phase.Phase;
 import game.phase.Stage01;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.util.Random;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
 
-public class QuodGame extends JFrame implements KeyListener {
+public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 	private static final long serialVersionUID = 1L;
-
-	public Phase phase;
-	public boolean[] keyPress;
+	public boolean status = false;
 	
+	public Phase phase;
+	public MainMenuScreen menu;
+	public Loading loading;
+	public Enemy enemy;
+	public GameOver over;
+	
+	public boolean[] keyControl;
+	private int shootCount = 5;
+	private int enemyCount = 45;
 
 	/*
 	 * Construtor
 	 */
 	public QuodGame() {
-		mainScreen();
-	}
-
-	/*
-	 * Configurações da Tela
-	 */
-	public void mainScreen() {
-
+		
+		over = new GameOver();
+		phase = new Stage01("res\\background\\galaxy_background01.jpg", new Player(), 0);
+		menu = new MainMenuScreen();
+		loading = new Loading();
+		
 		setTitle("Quod - The Game");
 		setSize(Util.DEFAULT_SCREEN_WIDTH, Util.DEFAULT_SCREEN_HEIGHT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
-		keyPress = new boolean[5];
-		phase = new Stage01("res\\background\\galaxy_background01.jpg", new Player(), 0);
-		
-		add(phase);
-		addKeyListener(this);
-
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
 		
+		
+		
+		// adiciona a tela de carregando
+		add(loading); 
+		
+		try {
+			Thread.sleep (2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// fecha o JPanel da Tela de carregando e abre o menu
+		loading.setVisible(false);
+		this.add(this.menu);
+		menu.requestFocus();
+		
+		phase.addKeyListener(this);
+		phase.setFocusable(true);
+		menu.jbPlay.addActionListener(this);
+		keyControl = new boolean[3];
+		
 	}
 
+	
+	
 	/*
 	 * Método Principal
 	 */
 	public static void main(String[] args) {
-		new QuodGame().gameStart();
+
+		// Inicia o Jogo
+		QuodGame qg = new QuodGame();
+		
+		
+		qg.gameStart();
+		
 	}
 
+	/*
+	 * GameLopp
+	 */
 	private void gameStart() {
-		
-		while (true) {
+		while(Util.PLAYING) {
+			
+			if(status == true) {
+				if (enemyCount > new Random().nextInt(15) + 20) {
+					phase.alEnemy.add(new Enemy(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
+					enemyCount = 0;
+				}
+			} 
+
+			gameControl();
 			repaint();
+			
+			
+			
+			// Leitura do botão pause
+			phase.jbStop.addActionListener(this);
+			
+			// Executa o laço a cada 45ms e incremeta o contador de disparos
+			try {
+				Thread.sleep(45);
+				enemyCount++;
+				shootCount++;
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		
+		phase.setVisible(false);
+		this.add(this.over);
+		over.requestFocus();
+
 	}
 
 	/* Teclado */
-	public void setKey(int keyCode, boolean status) {
-		
-	}
-	
-	@Override
-	public void keyPressed(KeyEvent key) {
-		
-		switch (key.getKeyCode()) {
+	public void setKey(int key, boolean status) {
+		this.status = true;
+		switch (key) {
 		case KeyEvent.VK_LEFT:
-			if (phase.player.getX() > 0)
-				phase.player.moveLeft();
-			break;
 		case KeyEvent.VK_A:
-			if (phase.player.getX() > 0)
-				
-				phase.player.moveLeft();
+			keyControl[0] = status;
 			break;
 		case KeyEvent.VK_RIGHT:
-			if (phase.player.getX() + phase.player.getWidth() < Util.DEFAULT_SCREEN_WIDTH)
-				phase.player.moveRight();
-			break;
 		case KeyEvent.VK_D:
-			if (phase.player.getX() + phase.player.getWidth() < Util.DEFAULT_SCREEN_WIDTH)
-				phase.player.moveRight();
+			keyControl[1] = status;
 			break;
 		case KeyEvent.VK_SPACE:
-			// Cria um laser cada vez que a tecla de espaço é acionada
-			phase.alLaser.add(new Laser(phase.player.getX() + 25, phase.player.getY() + 5, 
-					Util.SPEED_HIGH, Util.SPEED_HIGH, true));
+			keyControl[2] = status;
 			break;
-		default:
-			break;
+		}
+	}
+
+	/*
+	 * Faz a verificação do teclado
+	 */
+	private void gameControl() {
+
+		// Esqurda
+		if (keyControl[0] && phase.player.getX() > 0) {
+			phase.player.moveLeft();
+		}
+
+		// Direita
+		if (keyControl[1] && (phase.player.getX() + phase.player.getWidth() < phase.getWidth())) {
+			phase.player.moveRight();
+		}
+
+		// Disparos
+		if (keyControl[2] && shootCount > 9) {
+			phase.alLaser.add(new Laser(phase.player.getX() + 25, phase.player.getY() + 5, Util.SPEED_HIGH,
+					Util.SPEED_HIGH, true));
+
+			try {
+				AudioInputStream as = AudioSystem.getAudioInputStream(new File("res\\sound\\shoot.wav"));
+				Clip clip = AudioSystem.getClip();
+				clip.open(as);
+				clip.start();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			shootCount = 0;
 		}
 
 	}
-
+	
 	@Override
-	public void keyReleased(KeyEvent key) {
-		setKey(key.getKeyCode(), false);
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == menu.jbPlay) {
+			menu.setVisible(false);
+			this.add(this.phase);
+			phase.requestFocus();
+			
+		} 
+		
+		// Fazer o botão de pause
+		if(e.getSource() == phase.jbStop) {
+			enemy.stop = true;
+		}
+		
 	}
 
 	@Override
-	public void keyTyped(KeyEvent key) {
-		setKey(key.getKeyCode(), true);
+	public void keyPressed(KeyEvent e) {
+		int key = e.getKeyCode();
+		setKey(key, true);
 	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		int key = e.getKeyCode();
+		setKey(key, false);
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+
+	}
+
 
 }
