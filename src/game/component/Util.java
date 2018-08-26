@@ -7,6 +7,8 @@
 
 package game.component;
 
+import javax.swing.ImageIcon;
+
 public final class Util {
 
 	/* Variável de Controle de Jogo */
@@ -52,6 +54,10 @@ public final class Util {
 
 	/* Tempo de Explosão */
 	public static final int EXPLOSION_TIME = 57;
+	
+	// fundo gamestart
+	
+	public static final ImageIcon background = new ImageIcon ("res\\background\\galaxy_background01.jpg");
 
 	/*
 	 * Essa classe verifica se o objeto a colide com o objeto b
