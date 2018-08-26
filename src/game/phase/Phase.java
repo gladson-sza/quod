@@ -116,7 +116,6 @@ public class Phase extends JPanel {
 
 				if (alEnemy.get(j).getY() >= +Util.DEFAULT_SCREEN_HEIGHT) {
 					alEnemy.get(j).setActive(false);
-					alEnemy.get(j).explosionSound = true;
 				}
 					
 			}
@@ -180,8 +179,9 @@ public class Phase extends JPanel {
 			// Desenha se estiver ativo
 			if (alEnemy.get(i).isActive())
 				alEnemy.get(i).draw(g);
-			else if (!alEnemy.get(i).isExplode() && alEnemy.get(i).explosionSound) {
+			else if (!alEnemy.get(i).isExplode()) {
 				alEnemy.get(i).setExplode(true);
+				alEnemy.get(i).explode();
 			} else if (alEnemy.get(i).getCountExplosion() < Util.EXPLOSION_TIME) {
 				g.drawImage(explosion, alEnemy.get(i).getX(), alEnemy.get(i).getY(), alEnemy.get(i).getWidth(),
 						alEnemy.get(i).getHeight(), this);

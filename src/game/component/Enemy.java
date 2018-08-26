@@ -15,7 +15,6 @@ public class Enemy extends GameObject implements Runnable {
 	protected int position;
 	protected int countExplosion;
 	
-	public boolean explosionSound = true;
 	public boolean stop = false;
 
 	/*
@@ -38,6 +37,18 @@ public class Enemy extends GameObject implements Runnable {
 	public int getCountExplosion() {
 		return countExplosion;
 	}
+	
+	public void explode() {
+		try {
+			AudioInputStream as = AudioSystem
+					.getAudioInputStream(new File("res\\sound\\enemyExplosion.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(as);
+			clip.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public void draw(Graphics g) {
@@ -54,27 +65,12 @@ public class Enemy extends GameObject implements Runnable {
 
 	@Override
 	public void run() {
-
+		
+		// Desce até ser atingido
 		while (getY() <= Util.DEFAULT_SCREEN_HEIGHT) {
 			try {
 				Thread.sleep(30);
-				moveDown();
-
-				if (isExplode() && explosionSound) {
-					try {
-						AudioInputStream as = AudioSystem
-								.getAudioInputStream(new File("res\\sound\\enemyExplosion.wav"));
-						Clip clip = AudioSystem.getClip();
-						clip.open(as);
-						clip.start();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					
-					explosionSound = false;
-				}
-				
-				
+				moveDown();	
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

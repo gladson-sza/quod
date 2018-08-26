@@ -174,7 +174,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		// Fazer o botão de pause
 		if (e.getSource() == phase.jbStop) {
-			enemy.stop = true;
+
 		}
 
 	}

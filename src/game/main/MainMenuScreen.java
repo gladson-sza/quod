@@ -2,8 +2,11 @@ package game.main;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.File;
 
-
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -48,7 +51,6 @@ public class MainMenuScreen extends JPanel {
 		// borda
 		jbPlay.setBorderPainted(false);
 		jbPlay.setContentAreaFilled(false);
-		
 		
 	}
 
