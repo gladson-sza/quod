@@ -12,7 +12,6 @@ import javax.swing.ImageIcon;
 public class Laser extends GameObject implements Runnable {
 
 	private ImageIcon laser;
-	Thread t;
 
 	/*
 	 * Construtor
@@ -21,8 +20,7 @@ public class Laser extends GameObject implements Runnable {
 		super(x, y, 47, 30, speedX, speedY, active);
 
 		laser = new ImageIcon("res\\effects\\laser.png");
-		t = new Thread(this);
-		t.start();
+		new Thread(this).start();
 
 	}
 

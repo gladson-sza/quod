@@ -111,15 +111,14 @@ public class Phase extends JPanel {
 					alLaser.get(i).setActive(false);
 					alEnemy.get(j).setActive(false);
 
-					Util.SPEED_SLOW = 3;
-					Util.SPEED_MEDIUM = 5;
-					Util.SPEED_HIGH = 10;
-
 					score += 100;
 				}
 
-				if (alEnemy.get(j).getY() >= +Util.DEFAULT_SCREEN_HEIGHT)
+				if (alEnemy.get(j).getY() >= +Util.DEFAULT_SCREEN_HEIGHT) {
 					alEnemy.get(j).setActive(false);
+					alEnemy.get(j).explosionSound = true;
+				}
+					
 			}
 		}
 
@@ -181,23 +180,12 @@ public class Phase extends JPanel {
 			// Desenha se estiver ativo
 			if (alEnemy.get(i).isActive())
 				alEnemy.get(i).draw(g);
-			else if (!alEnemy.get(i).isExplode()) {
-				try {
-					AudioInputStream as = AudioSystem.getAudioInputStream(new File("res\\sound\\enemyExplosion.wav"));
-					Clip clip = AudioSystem.getClip();
-					clip.open(as);
-					clip.start();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
+			else if (!alEnemy.get(i).isExplode() && alEnemy.get(i).explosionSound) {
 				alEnemy.get(i).setExplode(true);
-
 			} else if (alEnemy.get(i).getCountExplosion() < Util.EXPLOSION_TIME) {
 				g.drawImage(explosion, alEnemy.get(i).getX(), alEnemy.get(i).getY(), alEnemy.get(i).getWidth(),
 						alEnemy.get(i).getHeight(), this);
 
-				alEnemy.get(i).moveDown();
 				alEnemy.get(i).countExplosionUp();
 			} else {
 				alEnemy.remove(i);
