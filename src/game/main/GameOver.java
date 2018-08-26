@@ -41,7 +41,7 @@ public class GameOver extends JPanel {
 		//add(jbTrayAgain);
 		add(jbFinish);
 		
-		// Botão tentar novamente
+		// Botï¿½o tentar novamente
 		
 		jbTrayAgain.setIcon(jbText); // texto do botÃ£o
 		jbTrayAgain.setPressedIcon(imgBack); // Imagem ao clicar
@@ -53,7 +53,7 @@ public class GameOver extends JPanel {
 		jbTrayAgain.setBorderPainted(false);
 		jbTrayAgain.setContentAreaFilled(false);
 		
-		// botão finalizar
+		// botï¿½o finalizar
 		
 		jbFinish.setIcon(imgFinish); // texto do botÃ£o
 		jbFinish.setPressedIcon(imgBack); // Imagem ao clicar

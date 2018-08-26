@@ -5,7 +5,6 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-
 import game.component.Util;
 
 public class Loading extends JPanel {
@@ -17,6 +16,7 @@ public class Loading extends JPanel {
 	protected ImageIcon loadingText;
 	protected ImageIcon back;
 
+
 	public Loading() {
 
 		backGround = new ImageIcon("res\\menu\\backGroundLoading.gif");
@@ -24,6 +24,7 @@ public class Loading extends JPanel {
 		logo = new ImageIcon("res\\menu\\Quod.png");
 		loadingText = new ImageIcon("res\\menu\\loadingText.png");
 		back = new ImageIcon("res\\menu\\back.png");
+
 	}
 
 	@Override
@@ -31,8 +32,8 @@ public class Loading extends JPanel {
 
 		// Tela de Fundo
 		Image img = backGround.getImage();
+    
 		//g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
-		
 		Image imageBackground = Util.background.getImage();
 		g.drawImage(imageBackground, 0, 0, getWidth(), Util.DEFAULT_SCREEN_HEIGHT * 10, this);
 
@@ -49,5 +50,6 @@ public class Loading extends JPanel {
 		
 		img = loadingText.getImage();
 		g.drawImage(img, 60, 420, 450, 20, this);
+
 	}
 }

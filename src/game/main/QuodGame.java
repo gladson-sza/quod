@@ -69,14 +69,15 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		phase.addKeyListener(this);
 		phase.setFocusable(true);
-		
-		//Leitura dos botões Jogar e Sair
+	
+		//Leitura dos botï¿½es Jogar e Sair
 		menu.jbPlay.addActionListener(this);
 		menu.jbBack.addActionListener(this);
 		
 		keyControl = new boolean[3];
 		
 		gameStart();
+
 
 	}
 
@@ -87,10 +88,6 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		// Inicia o Jogo
 		QuodGame qg = new QuodGame();
-		
-		
-
-		//System.exit(0);
 	}
 
 	/*
@@ -129,7 +126,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		this.add(this.over);
 		over.requestFocus();
 		
-		// botão de finalizar
+		// botï¿½o de finalizar
 		over.jbFinish.addActionListener(this);
 	}
 
@@ -176,9 +173,8 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
-		//botão menu jogar
+		//botï¿½o menu jogar
 		if (e.getSource() == menu.jbPlay) {
 			menu.setVisible(false);
 			this.add(this.phase);
@@ -186,12 +182,12 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 			status = true;
 		}
 		
-		// menu botão sair
+		// menu botï¿½o sair
 		if(e.getSource() == menu.jbBack) {
 			System.exit(0);
 		}
 		
-		// Fase botão sair
+		// Fase botï¿½o sair
 		if (e.getSource() == phase.jbStop) {
 			status = false;
 		}
