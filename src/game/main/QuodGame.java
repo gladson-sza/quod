@@ -29,9 +29,10 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	public Phase phase;
 	public MainMenuScreen menu;
 	public Loading loading;
-	public Enemy enemy;
 	public GameOver over;
-
+	public QuodGame qg;
+	public Phase phaseAgain;
+	
 	public boolean[] keyControl;
 	private int enemyCount = 45;
 
@@ -56,7 +57,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		add(loading);
 
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -68,8 +69,15 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		phase.addKeyListener(this);
 		phase.setFocusable(true);
+	
+		//Leitura dos bot�es Jogar e Sair
 		menu.jbPlay.addActionListener(this);
+		menu.jbBack.addActionListener(this);
+		
 		keyControl = new boolean[3];
+		
+		gameStart();
+
 
 	}
 
@@ -80,9 +88,6 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		// Inicia o Jogo
 		QuodGame qg = new QuodGame();
-		qg.gameStart();
-
-		System.exit(0);
 	}
 
 	/*
@@ -115,10 +120,14 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 				e.printStackTrace();
 			}
 		}
-
+		
+		// abrindo tela de fim de jogo
 		phase.setVisible(false);
 		this.add(this.over);
 		over.requestFocus();
+		
+		// bot�o de finalizar
+		over.jbFinish.addActionListener(this);
 	}
 
 	/* Teclado */
@@ -164,17 +173,28 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		
+		//bot�o menu jogar
 		if (e.getSource() == menu.jbPlay) {
 			menu.setVisible(false);
 			this.add(this.phase);
 			phase.requestFocus();
 			status = true;
 		}
-
-		// Fazer o botão de pause
+		
+		// menu bot�o sair
+		if(e.getSource() == menu.jbBack) {
+			System.exit(0);
+		}
+		
+		// Fase bot�o sair
 		if (e.getSource() == phase.jbStop) {
-
+			status = false;
+		}
+		
+		// Finalizar
+		if(e.getSource() == over.jbFinish) {
+			System.exit(0);
 		}
 
 	}
