@@ -17,8 +17,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.Random;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
 
 public class QuodGame extends JFrame implements KeyListener, ActionListener {
@@ -30,9 +34,9 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	public MainMenuScreen menu;
 	public Loading loading;
 	public GameOver over;
-	public QuodGame qg;
+	public static QuodGame qg;
 	public Phase phaseAgain;
-	
+
 	public boolean[] keyControl;
 	private int enemyCount = 45;
 
@@ -69,65 +73,68 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		phase.addKeyListener(this);
 		phase.setFocusable(true);
-	
-		//Leitura dos botÔøΩes Jogar e Sair
+
+		// Leitura dos botÔøΩes Jogar e Sair
 		menu.jbPlay.addActionListener(this);
 		menu.jbBack.addActionListener(this);
-		
-		keyControl = new boolean[3];
-		
-		gameStart();
 
+		keyControl = new boolean[4];
 
 	}
 
 	/*
 	 * M√©todo Principal
 	 */
-	public static void main(String[] args) {		
-
-		// Inicia o Jogo
-		QuodGame qg = new QuodGame();
+	public static void main(String[] args) {
+		qg = new QuodGame();
+		qg.gameStart();
 	}
 
 	/*
 	 * GameLopp
 	 */
 	private void gameStart() {
-		
+
 		while (Util.PLAYING) {
 
-			if (status == true) {
-				if (enemyCount > new Random().nextInt(15) + 20) {
-					phase.alEnemy.add(new Enemy(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
-					enemyCount = 0;
+			if (!Util.STOP) {
+				if (status == true) {
+					if (enemyCount > new Random().nextInt(15) + 20) {
+						phase.alEnemy
+								.add(new Enemy(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
+						enemyCount = 0;
+					}
 				}
-			}
 
-			gameControl();
-			repaint();
+				gameControl();
+				repaint();
 
-			// Leitura do bot√£o pause
-			phase.jbStop.addActionListener(this);
+				// Leitura do bot√£o pause
+				phase.jbStop.addActionListener(this);
 
-			// Executa o la√ßo a cada 45ms e incremeta o contador de disparos
-			try {
-				Thread.sleep(45);
+				// contador de inimigos e disparos
 				enemyCount++;
 				if (Util.SHOOT_COUNT < 10)
 					Util.SHOOT_COUNT++;
+
+			}
+
+			// Tempo de atualizaÁ„o da tela
+			try {
+				Thread.sleep(45);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		// abrindo tela de fim de jogo
 		phase.setVisible(false);
 		this.add(this.over);
 		over.requestFocus();
-		
+
 		// botÔøΩo de finalizar
 		over.jbFinish.addActionListener(this);
+		over.jbTrayAgain.addActionListener(this);
 	}
 
 	/* Teclado */
@@ -143,6 +150,9 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 			break;
 		case KeyEvent.VK_SPACE:
 			keyControl[2] = status;
+			break;
+		case KeyEvent.VK_ESCAPE:
+			keyControl[3] = status;
 			break;
 		}
 	}
@@ -173,27 +183,49 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		//botÔøΩo menu jogar
+
+		// botÔøΩo menu jogar
 		if (e.getSource() == menu.jbPlay) {
+			
+			try {
+				AudioInputStream as = AudioSystem.getAudioInputStream(new File("res\\sound\\phaseTheme.wav"));
+				Clip clip = AudioSystem.getClip();
+				clip.open(as);
+				clip.start();
+				clip.loop(Clip.LOOP_CONTINUOUSLY);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			
 			menu.setVisible(false);
 			this.add(this.phase);
 			phase.requestFocus();
 			status = true;
 		}
-		
+
 		// menu botÔøΩo sair
-		if(e.getSource() == menu.jbBack) {
+		if (e.getSource() == menu.jbBack) {
 			System.exit(0);
 		}
-		
+
 		// Fase botÔøΩo sair
 		if (e.getSource() == phase.jbStop) {
-			status = false;
+			if (Util.STOP == true) {
+				Util.STOP = false;
+				phase.addKeyListener(this);
+				phase.requestFocus();
+			} else {
+				Util.STOP = true;
+			}
 		}
-		
+
+		// RecomeÁar
+		if (e.getSource() == over.jbTrayAgain) {
+
+		}
+
 		// Finalizar
-		if(e.getSource() == over.jbFinish) {
+		if (e.getSource() == over.jbFinish) {
 			System.exit(0);
 		}
 

@@ -71,6 +71,7 @@ public class MainMenuScreen extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
+		
 		Image img = imageIcon.getImage();
 		//g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
 		

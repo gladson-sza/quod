@@ -46,7 +46,9 @@ public class Laser extends GameObject implements Runnable {
 		while (getY() >= -47) {
 			try {
 				Thread.sleep(45);
-				moveUp();
+				
+				if (!Util.STOP)
+					moveUp();
 			} catch (InterruptedException e) {
 
 				e.printStackTrace();
