@@ -25,6 +25,8 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	private static final long serialVersionUID = 1L;
 	public boolean status = false;
 
+	public Settings settings;
+	public Control control;
 	public Phase phase;
 	public MainMenuScreen menu;
 	public Loading loading;
@@ -41,10 +43,12 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	 */
 	public QuodGame() {
 
+		settings = new Settings();
+		loading = new Loading();
 		over = new GameOver();
 		phase = new Stage01("res\\background\\galaxy_background01.jpg", new Player(), 0);
 		menu = new MainMenuScreen();
-		loading = new Loading();
+		control = new Control();
 
 		setTitle("Quod - The Game");
 		setSize(Util.DEFAULT_SCREEN_WIDTH, Util.DEFAULT_SCREEN_HEIGHT);
@@ -57,24 +61,52 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		add(loading);
 
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		// fecha o JPanel da Tela de carregando e abre o menu
 		loading.setVisible(false);
-		this.add(this.menu);
-		menu.requestFocus();
+
+		mainMenu(false);
+	}
+
+	/*
+	 * Método de chamada do menu, cria todos os botoes.
+	 */
+	public void mainMenu(boolean aNew) {
+
+		/*
+		 * Para voltar para o menu, deve-se instanciar todos os botoes (ture)
+		 */
+		if (aNew == true) {
+			settings = new Settings();
+			loading = new Loading();
+			over = new GameOver();
+			phase = new Stage01("res\\background\\galaxy_background01.jpg", new Player(), 0);
+			menu = new MainMenuScreen();
+			control = new Control();
+		}
 
 		phase.addKeyListener(this);
 		phase.setFocusable(true);
 
-		// Leitura dos botï¿½es Jogar e Sair
+		// Leitura dos botoes do menu
 		menu.jbPlay.addActionListener(this);
 		menu.jbBack.addActionListener(this);
+		menu.jbControl.addActionListener(this);
+		menu.jbControl.addActionListener(this);
+		menu.jbSettings.addActionListener(this);
+		control.jbComeBack.addActionListener(this);
+		settings.jbComeBack.addActionListener(this);
+		settings.jbVolume.addActionListener(this);
 
 		keyControl = new boolean[4];
+
+		this.add(this.menu);
+		menu.requestFocus();
 
 	}
 
@@ -96,11 +128,13 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 			if (!Util.STOP) {
 				if (status == true) {
+
 					if (enemyCount > enemyCountLimit) {
 						phase.alEnemy
 								.add(new Enemy(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
 						enemyCount = 0;
 						enemyCountLimit = new Random().nextInt(15) + 20;
+
 					}
 				}
 
@@ -193,12 +227,28 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 			status = true;
 		}
 
-		// menu botao sair
+		// menu botaoo sair
 		if (e.getSource() == menu.jbBack) {
 			System.exit(0);
 		}
+		
+		// menu botão controle
+		if(e.getSource() == menu.jbControl) {
+			
+			menu.setVisible(false);
+			this.add(this.control);
+			control.requestFocus();	
+		}
+		
+		// controles botao voltar
+		if(e.getSource() == control.jbComeBack) {
+	
+			control.setVisible(false);
+			mainMenu(true);		
+			
+		}
 
-		// Fase botao pause
+		// Fase botao pausar
 		if (e.getSource() == phase.jbStop) {
 			if (Util.STOP == true) {
 				Util.STOP = false;
@@ -208,7 +258,31 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 				Util.STOP = true;
 			}
 		}
-
+		
+		// botao ajustes
+		if(e.getSource() == menu.jbSettings) {
+			menu.setVisible(false);
+			this.add(this.settings);
+			settings.requestFocus();		
+			
+		}
+		
+		// botao ajustes voltar
+		if(e.getSource() == settings.jbComeBack) {
+			settings.setVisible(false);
+			this.add(this.menu);
+			menu.requestFocus();
+			
+			mainMenu(true);
+		}
+		// botao volume em ajustes
+		if(e.getSource() == settings.jbVolume) {
+			if(settings.status == true) 
+		
+				settings.status = false;// para mudo
+			else
+				settings.status = true;// para som
+		}
 		// Recomeçar
 		if (e.getSource() == over.jbTrayAgain) {
 

@@ -89,8 +89,7 @@ public class Phase extends JPanel {
 	}
 
 	/*
-	 * Essa classe faz as verificações necessárias de colisão e remoção de
-	 * objetos e movimenta��o
+	 * Essa classe faz a verificacao necessaria de colisao e de remocao de objetos
 	 */
 	public void phaseControl(Graphics g) {
 
@@ -121,23 +120,22 @@ public class Phase extends JPanel {
 				if (alEnemy.get(j).getY() >= +Util.DEFAULT_SCREEN_HEIGHT) {
 					alEnemy.get(j).setActive(false);
 				}
-
 			}
 		}
 
 		/* Verificação colisão do Player e do Laser */
 		for (int i = 0; i < alEnemy.size(); i++) {
 			Enemy enemy = alEnemy.get(i);
-			
+
 			for (int j = 0; j < enemy.alLaser.size(); j++) {
 				Laser enemyLaser = enemy.alLaser.get(j);
-				
+
 				if (Util.colision(enemyLaser, player) && enemyLaser.isActive()) {
 					enemyLaser.setActive(false);
 					life--;
 				}
 			}
-			
+
 		}
 
 		// Remove o laser do player
@@ -157,10 +155,10 @@ public class Phase extends JPanel {
 		// Remove o laser inimigo
 		for (int i = 0; i < alEnemy.size(); i++) {
 			Enemy enemy = alEnemy.get(i);
-			
+
 			for (int j = 0; j < enemy.alLaser.size(); j++) {
 				Laser enemyLaser = enemy.alLaser.get(j);
-				
+
 				if (!enemyLaser.isActive()) {
 					enemy.alLaser.remove(j);
 				}
@@ -235,8 +233,7 @@ public class Phase extends JPanel {
 			} else {
 				alEnemy.remove(i);
 			}
-			
-			
+
 		}
 
 	}
@@ -244,34 +241,34 @@ public class Phase extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 
-		// Cor padrão da fonte
-		g.setColor(Color.WHITE);
+		if (!Util.STOP) {
+			// Cor padrão da fonte
+			g.setColor(Color.WHITE);
 
-		// Desenha o background e define as cores da fonte
-		Image imageBackground = background.getImage();
-		g.drawImage(imageBackground, 0, moveBackground, getWidth(), Util.DEFAULT_SCREEN_HEIGHT * 10, this);
+			// Desenha o background e define as cores da fonte
+			Image imageBackground = background.getImage();
+			g.drawImage(imageBackground, 0, moveBackground, getWidth(), Util.DEFAULT_SCREEN_HEIGHT * 10, this);
 
-		// Executa o controlador da fase at� pausar
+			// Executa o controlador da fase at� pausar
+			phaseControl(g);
 
-		phaseControl(g);
+			// Desenha o status do Laser
+			Image laserStatus = new ImageIcon(Util.LASER_CHARGE[Util.SHOOT_COUNT]).getImage();
+			g.drawImage(laserStatus, 0, 60, 50, 80, null);
 
-		// Desenha o status do Laser
-		Image laserStatus = new ImageIcon(Util.LASER_CHARGE[Util.SHOOT_COUNT]).getImage();
-		g.drawImage(laserStatus, 0, 60, 50, 80, null);
+			// Pontuação
+			g.drawString("Pontos: " + score, 20, 20);
 
-		// Pontuação
-		g.drawString("Pontos: " + score, 20, 20);
+			// Vida do Player
+			Image img = imgLife.getImage();
 
-		// Vida do Player
-		Image img = imgLife.getImage();
+			posLife = 15;
 
-		posLife = 15;
-
-		for (int i = 0; i < life; i++) {
-			g.drawImage(img, posLife, 34, 20, 20, this);
-			posLife += 25;
+			for (int i = 0; i < life; i++) {
+				g.drawImage(img, posLife, 34, 20, 20, this);
+				posLife += 25;
+			}
 		}
-
 	}
 
 	public void addKeyListiner() {
