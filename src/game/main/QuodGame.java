@@ -7,7 +7,6 @@
 package game.main;
 
 import game.component.Enemy;
-import game.component.Laser;
 import game.component.Player;
 import game.component.Util;
 import game.phase.Phase;
@@ -173,8 +172,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		// Disparos
 		if (keyControl[2] && Util.SHOOT_COUNT > 9) {
-			phase.alLaser.add(new Laser(phase.player.getX() + 25, phase.player.getY() + 5, Util.SPEED_HIGH,
-					Util.SPEED_HIGH, true));
+			phase.player.setShoot(true);
 
 			Util.SHOOT_COUNT = 0;
 		}
@@ -186,8 +184,8 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		// bot�o menu jogar
 		if (e.getSource() == menu.jbPlay) {
-			
-			try {
+
+			/*try {
 				AudioInputStream as = AudioSystem.getAudioInputStream(new File("res\\sound\\phaseTheme.wav"));
 				Clip clip = AudioSystem.getClip();
 				clip.open(as);
@@ -195,20 +193,20 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 				clip.loop(Clip.LOOP_CONTINUOUSLY);
 			} catch (Exception ex) {
 				ex.printStackTrace();
-			}
-			
+			}*/
+
 			menu.setVisible(false);
-			this.add(this.phase);
+			add(phase);
 			phase.requestFocus();
 			status = true;
 		}
 
-		// menu bot�o sair
+		// menu botao sair
 		if (e.getSource() == menu.jbBack) {
 			System.exit(0);
 		}
 
-		// Fase bot�o sair
+		// Fase botao pause
 		if (e.getSource() == phase.jbStop) {
 			if (Util.STOP == true) {
 				Util.STOP = false;

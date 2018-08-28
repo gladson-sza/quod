@@ -12,13 +12,15 @@ import javax.swing.ImageIcon;
 public class Laser extends GameObject implements Runnable {
 
 	private ImageIcon laser;
+	private int direction;
 
 	/*
 	 * Construtor
 	 */
-	public Laser(int x, int y, int speedX, int speedY, boolean active) {
+	public Laser(int x, int y, int speedX, int speedY, boolean active, int direction) {
 		super(x, y, 47, 30, speedX, speedY, active);
 
+		this.direction = direction;
 		laser = new ImageIcon("res\\effects\\laser.png");
 		new Thread(this).start();
 
@@ -33,7 +35,7 @@ public class Laser extends GameObject implements Runnable {
 
 	@Override
 	public void run() {
-		
+
 		try {
 			AudioInputStream as = AudioSystem.getAudioInputStream(new File("res\\sound\\shoot.wav"));
 			Clip clip = AudioSystem.getClip();
@@ -43,17 +45,32 @@ public class Laser extends GameObject implements Runnable {
 			e.printStackTrace();
 		}
 
-		while (getY() >= -47) {
-			try {
-				Thread.sleep(45);
-				
-				if (!Util.STOP)
-					moveUp();
-			} catch (InterruptedException e) {
+		if (direction == 0) {
+			while (getY() >= -47) {
+				try {
+					Thread.sleep(45);
+					if (!Util.STOP)
+						moveUp();
+				} catch (InterruptedException e) {
 
-				e.printStackTrace();
+					e.printStackTrace();
+				}
 			}
 
+		}
+
+		if (direction == 1) {
+			while (getY() <= Util.DEFAULT_SCREEN_HEIGHT + 47) {
+				try {
+					Thread.sleep(45);
+					if (!Util.STOP)
+						moveDown();
+				} catch (InterruptedException e) {
+
+					e.printStackTrace();
+				}
+
+			}
 		}
 
 	}

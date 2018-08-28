@@ -7,30 +7,17 @@ import javax.swing.ImageIcon;
 
 import game.component.Util;
 
-public class Player extends GameObject {
+public class Player extends Ship {
 
 	protected ImageIcon ship;
-	protected int position = 0;
-	protected int countExplosion;
 
 	/*
 	 * Construtor
 	 */
 	public Player() {
-
 		super(Util.PLAYER_POSITION_X, Util.PLAYER_POSITION_Y, Util.PLAYER_WIDTH, Util.PLAYER_HEIGHT, Util.SPEED_MEDIUM,
 				Util.SPEED_MEDIUM, true);
 
-		setExplode(false);
-		countExplosion = 0;
-	}
-
-	public void countExplosionUp() {
-		countExplosion++;
-	}
-
-	public int getCountExplosion() {
-		return countExplosion;
 	}
 
 	@Override
@@ -40,6 +27,13 @@ public class Player extends GameObject {
 			ship = new ImageIcon(Util.PLAYER_IMAGES[position++]);
 		else if (position == 1)
 			ship = new ImageIcon(Util.PLAYER_IMAGES[position--]);
+
+		// Verifica se pode disparar
+		if (shoot) {
+			alLaser.add(new Laser(getX() + 25, getY() + 5, Util.SPEED_HIGH, Util.SPEED_HIGH, true, 0));
+
+			setShoot(false);
+		}
 
 		Image imageShip = ship.getImage();
 		g.drawImage(imageShip, getX(), getY(), getWidth(), getHeight(), null);
