@@ -11,18 +11,13 @@ import game.component.Player;
 import game.component.Util;
 import game.phase.Phase;
 import game.phase.Stage01;
-import game.sound.Sound;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
 import java.util.Random;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
 
 public class QuodGame extends JFrame implements KeyListener, ActionListener {
@@ -38,7 +33,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	public Phase phaseAgain;
 
 	public boolean[] keyControl;
-	private int enemyCountLimit = new Random().nextInt(15) + 20; 
+	private int enemyCountLimit = new Random().nextInt(15) + 20;
 	private int enemyCount = 0;
 
 	/*
@@ -57,7 +52,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
-		
+
 		// adiciona a tela de carregando
 		add(loading);
 
@@ -94,6 +89,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	/*
 	 * GameLopp
 	 */
+	@SuppressWarnings("deprecation")
 	private void gameStart() {
 
 		while (Util.PLAYING) {
@@ -130,6 +126,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		}
 
 		// abrindo tela de fim de jogo
+		Util.SOUND_PHASE.stop();
 		phase.setVisible(false);
 		this.add(this.over);
 		over.requestFocus();
@@ -187,9 +184,9 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		// bot�o menu jogar
 		if (e.getSource() == menu.jbPlay) {
-			
+
 			Util.SOUND_PHASE.start();
-			
+
 			menu.setVisible(false);
 			add(phase);
 			phase.requestFocus();

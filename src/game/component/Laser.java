@@ -1,15 +1,11 @@
 package game.component;
 
-import game.component.*;
 import game.sound.Sound;
 
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 
 public class Laser extends GameObject implements Runnable {
@@ -33,13 +29,13 @@ public class Laser extends GameObject implements Runnable {
 	public void draw(Graphics g) {
 
 		Image imageLaser = laser.getImage();
-		g.drawImage(imageLaser, getX(), getY() + 5, 47, 30, null);
+		g.drawImage(imageLaser, getX(), getY() - 30, 47, 30, null);
 	}
 
 	@Override
 	public void run() {
 
-		//new Sound(new File("res\\sound\\shoot.mp3"), false).start();
+		new Sound(new File("res\\sound\\shoot.mp3")).start();
 
 		if (direction == 0) {
 			while (getY() >= -47) {
