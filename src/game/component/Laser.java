@@ -1,5 +1,8 @@
 package game.component;
 
+import game.component.*;
+import game.sound.Sound;
+
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -36,14 +39,7 @@ public class Laser extends GameObject implements Runnable {
 	@Override
 	public void run() {
 
-		try {
-			AudioInputStream as = AudioSystem.getAudioInputStream(new File("res\\sound\\shoot.wav"));
-			Clip clip = AudioSystem.getClip();
-			clip.open(as);
-			clip.start();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		new Sound(new File("res\\sound\\shoot.mp3"), false).start();
 
 		if (direction == 0) {
 			while (getY() >= -47) {

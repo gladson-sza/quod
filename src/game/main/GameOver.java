@@ -24,7 +24,9 @@ public class GameOver extends JPanel {
 	protected Phase phase;
 	
 	public GameOver() {
-
+		
+		Util.SOUND_PHASE.close();
+		
 		imgBack = new ImageIcon(" ");
 		imgOver = new ImageIcon("res\\gameOver\\gameOver.png");
 		jbText = new ImageIcon("res\\gameOver\\playAgain.png");

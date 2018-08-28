@@ -235,6 +235,8 @@ public class Phase extends JPanel {
 			} else {
 				alEnemy.remove(i);
 			}
+			
+			
 		}
 
 	}

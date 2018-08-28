@@ -64,22 +64,26 @@ public class Enemy extends Ship implements Runnable {
 				if (!Util.STOP) {
 					moveDown();
 
-					/*
-					 * if (goDirection == 1) { moveRight();
-					 * 
-					 * if (getX() + getWidth() > Util.DEFAULT_SCREEN_WIDTH) goDirection = 0;
-					 * 
-					 * }
-					 * 
-					 * if (goDirection == 0) { moveLeft();
-					 * 
-					 * if (getX() < 0) goDirection = 1; }
-					 */
+					if (goDirection == 1) {
+						moveRight();
 
-					/*
-					 * if (shootTime > 15) { alLaser.add(new Laser(getX() + 25, getY() + 5,
-					 * Util.SPEED_HIGH, Util.SPEED_HIGH, true, 1)); shootTime = 0; }
-					 */
+						if (getX() + getWidth() > Util.DEFAULT_SCREEN_WIDTH)
+							goDirection = 0;
+						
+
+					}
+
+					if (goDirection == 0) {
+						moveLeft();
+
+						if (getX() < 0)
+							goDirection = 1;
+					}
+
+					if (shootTime > 15) {
+						alLaser.add(new Laser(getX() + 25, getY() + 5, Util.SPEED_HIGH, Util.SPEED_HIGH, true, 1));
+						shootTime = 0;
+					}
 
 					shootTime++;
 

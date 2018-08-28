@@ -7,15 +7,24 @@
 
 package game.component;
 
+import java.io.File;
+
 import javax.swing.ImageIcon;
+
+import game.sound.Sound;
 
 public final class Util {
 
-	/* Variável de Controle de Jogo */
+	/* Variavel de Controle de Jogo */
 	public static boolean PLAYING = true;
 	public static boolean STOP = false;
 	public static int SHOOT_COUNT = 0;
 
+	/* Constantes dos �udios */
+	public static final Sound SOUND_PHASE = new Sound(new File("res\\sound\\phaseTheme.mp3"), true);
+	//public static Sound SOUND_EXPLOSION_ENEMY;
+	//public static Sound SOUND_EXPLOSION_PLAYER;
+	
 	/* Constante Geral Nula */
 	public static final int NONE = 0;
 
@@ -53,10 +62,10 @@ public final class Util {
 	public static final int ENEMY_WIDTH = 70;
 	public static final int ENEMY_HEIGHT = 70;
 
-	/* Tempo de Explosão */
+	/* Tempo de Explosao */
 	public static final int EXPLOSION_TIME = 57;
 	
-	// fundo gamestart
+	// Fundo gamestart
 	
 	public static final ImageIcon background = new ImageIcon ("res\\background\\galaxy_background01.jpg");
 
