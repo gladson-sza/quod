@@ -21,7 +21,7 @@ public class Loading extends JPanel {
 
 		backGround = new ImageIcon("res\\menu\\backGroundLoading.gif");
 		loading = new ImageIcon("res\\menu\\loading1.gif");
-		logo = new ImageIcon("res\\menu\\Quod.png");
+		logo = new ImageIcon("res\\menu\\quod.png");
 		loadingText = new ImageIcon("res\\menu\\loadingText.png");
 		back = new ImageIcon("res\\menu\\back.png");
 
@@ -39,7 +39,7 @@ public class Loading extends JPanel {
 
 		// logo
 		img = logo.getImage();
-		g.drawImage(img, 70, 1, 400, 300, this);
+		g.drawImage(img, 15, 5, 500, 300, this);
 		
 		// gif carregando
 		img = back.getImage();
@@ -48,8 +48,9 @@ public class Loading extends JPanel {
 		img = loading.getImage();
 		g.drawImage(img, 10, 450, 525, 40, this);
 		
+		//Texto carregando
 		img = loadingText.getImage();
-		g.drawImage(img, 60, 420, 450, 20, this);
+		g.drawImage(img, 140, 411, 300, 40, this);
 
 	}
 }

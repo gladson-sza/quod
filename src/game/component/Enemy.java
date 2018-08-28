@@ -59,6 +59,7 @@ public class Enemy extends Ship implements Runnable {
 		// Desce até ser atingido
 		while (getY() <= Util.DEFAULT_SCREEN_HEIGHT) {
 			try {
+
 				Thread.sleep(45);
 
 				if (!Util.STOP) {
@@ -69,7 +70,6 @@ public class Enemy extends Ship implements Runnable {
 
 						if (getX() + getWidth() > Util.DEFAULT_SCREEN_WIDTH)
 							goDirection = 0;
-						
 
 					}
 
