@@ -189,7 +189,6 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		if (e.getSource() == menu.jbPlay) {
 			
 			Util.SOUND_PHASE.start();
-			Util.SOUND_PHASE.close();
 			
 			menu.setVisible(false);
 			add(phase);

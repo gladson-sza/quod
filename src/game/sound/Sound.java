@@ -13,7 +13,6 @@ public class Sound extends Thread {
 	
 	private FileInputStream fis;
 	private BufferedInputStream bis;
-	private File mp3;
 	private Player player;
 	private boolean loop;
 
@@ -21,7 +20,6 @@ public class Sound extends Thread {
 	 * Contrutor
 	 */
 	public Sound(File mp3, boolean loop) {
-		this.mp3 = mp3;
 		this.loop = loop;
 		
 		try {
@@ -54,6 +52,7 @@ public class Sound extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
 
 	@Override
@@ -62,7 +61,7 @@ public class Sound extends Thread {
 		// Executa pelo menos uma vez
 		try {
 			
-			this.player.play();
+			player.play();
 			
 		} catch (Exception e) {
 			e.printStackTrace();

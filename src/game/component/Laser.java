@@ -39,7 +39,7 @@ public class Laser extends GameObject implements Runnable {
 	@Override
 	public void run() {
 
-		new Sound(new File("res\\sound\\shoot.mp3"), false).start();
+		//new Sound(new File("res\\sound\\shoot.mp3"), false).start();
 
 		if (direction == 0) {
 			while (getY() >= -47) {
