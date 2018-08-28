@@ -30,7 +30,7 @@ public class Player extends Ship {
 
 		// Verifica se pode disparar
 		if (shoot) {
-			alLaser.add(new Laser(getX() + 25, getY() + 5, Util.SPEED_HIGH, Util.SPEED_HIGH, true, 0));
+			alLaser.add(new PlayerLaser(getX() + 25, getY() + 5, 47, 30, true));
 
 			setShoot(false);
 		}

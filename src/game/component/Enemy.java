@@ -65,7 +65,7 @@ public class Enemy extends Ship implements Runnable {
 				if (!Util.STOP) {
 					moveDown();
 
-					if (goDirection == 1) {
+					/*if (goDirection == 1) {
 						moveRight();
 
 						if (getX() + getWidth() > Util.DEFAULT_SCREEN_WIDTH)
@@ -78,10 +78,10 @@ public class Enemy extends Ship implements Runnable {
 
 						if (getX() < 0)
 							goDirection = 1;
-					}
+					}*/
 
 					if (shootTime > 15) {
-						alLaser.add(new Laser(getX() + 25, getY() + 5, Util.SPEED_HIGH, Util.SPEED_HIGH, true, 1));
+						alLaser.add(new EnemyLaser(getX() + 20, getY() + 50, 32, 25, true));
 						shootTime = 0;
 					}
 

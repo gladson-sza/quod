@@ -159,7 +159,7 @@ public class Phase extends JPanel {
 			for (int j = 0; j < enemy.alLaser.size(); j++) {
 				Laser enemyLaser = enemy.alLaser.get(j);
 
-				if (!enemyLaser.isActive()) {
+				if (!enemyLaser.isActive() || !enemy.isActive()) {
 					enemy.alLaser.remove(j);
 				}
 			}
