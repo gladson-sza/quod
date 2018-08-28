@@ -28,7 +28,7 @@ public class Laser extends GameObject implements Runnable {
 	public void draw(Graphics g) {
 
 		Image imageLaser = laser.getImage();
-		g.drawImage(imageLaser, getX(), getY() + 5, 47, 30, null);
+		g.drawImage(imageLaser, getX(), getY() - 30, 47, 30, null);
 	}
 
 	@Override
@@ -46,7 +46,9 @@ public class Laser extends GameObject implements Runnable {
 		while (getY() >= -47) {
 			try {
 				Thread.sleep(45);
-				moveUp();
+				
+				if (!Util.STOP)
+					moveUp();
 			} catch (InterruptedException e) {
 
 				e.printStackTrace();

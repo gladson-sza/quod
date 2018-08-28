@@ -70,7 +70,9 @@ public class Enemy extends GameObject implements Runnable {
 		while (getY() <= Util.DEFAULT_SCREEN_HEIGHT) {
 			try {
 				Thread.sleep(30);
-				moveDown();	
+				
+				if (!Util.STOP)
+					moveDown();	
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

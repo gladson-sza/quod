@@ -13,6 +13,7 @@ public final class Util {
 
 	/* Variável de Controle de Jogo */
 	public static boolean PLAYING = true;
+	public static boolean STOP = false;
 	public static int SHOOT_COUNT = 0;
 
 	/* Constante Geral Nula */
