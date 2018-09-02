@@ -148,7 +148,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		// abrindo tela de fim de jogo
 		Util.SOUND_PHASE.stop();
 		Util.STOP = true;
-		phase.timer.stop();
+		phase.timerEnemy.stop();
 		phase.phaseClear();
 		phase.setVisible(false);
 		this.add(this.over);
@@ -237,7 +237,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 			menu.setVisible(false);
 
 			add(phase);
-			phase.timer.start();
+			phase.timerEnemy.start();
 			phase.requestFocus();
 
 		}

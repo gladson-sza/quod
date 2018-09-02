@@ -27,7 +27,7 @@ public class Phase extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	protected static int score;
-	public Timer timer;
+	public Timer timerEnemy;
 
 	protected ImageIcon background;
 	protected ImageIcon imgLife;
@@ -54,7 +54,6 @@ public class Phase extends JPanel {
 
 		this.player = player;
 		alEnemy = new ArrayList<Enemy>();
-		// alLaser = new ArrayList<Laser>();
 
 		explosion = new ImageIcon("res\\effects\\explosion.gif").getImage();
 		imgLife = new ImageIcon("res\\ship\\life.png");
@@ -80,8 +79,8 @@ public class Phase extends JPanel {
 		// borda
 		jbStop.setBorderPainted(false);
 		jbStop.setContentAreaFilled(false);
-
-		timer = new Timer(1750, new NewEnemy());
+		
+		timerEnemy = new Timer(1750, new NewEnemy());
 
 	}
 
