@@ -3,8 +3,11 @@ package game.phase;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -12,6 +15,7 @@ import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import game.component.Enemy;
 import game.component.Laser;
@@ -23,6 +27,7 @@ public class Phase extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	protected static int score;
+	public Timer timer;
 
 	protected ImageIcon background;
 	protected ImageIcon imgLife;
@@ -42,7 +47,7 @@ public class Phase extends JPanel {
 	protected ImageIcon imgBack;
 
 	public Phase(String backgroundPath, Player player, int lastScore) {
-
+		
 		background = new ImageIcon(backgroundPath);
 
 		life = 3;
@@ -75,17 +80,23 @@ public class Phase extends JPanel {
 		// borda
 		jbStop.setBorderPainted(false);
 		jbStop.setContentAreaFilled(false);
+
+		timer = new Timer(1750, new NewEnemy());
+
 	}
 
 	/*
 	 * Essa classe zera todos os atributos
 	 */
 	public void phaseClear() {
-		for (int i = 0; i < player.alLaser.size(); i++)
-			player.alLaser.remove(i);
-
+		
+		player.alLaser.clear();
+		
 		for (int i = 0; i < alEnemy.size(); i++)
-			alEnemy.remove(i);
+			alEnemy.get(i).alLaser.clear();
+		
+		alEnemy.clear();
+
 	}
 
 	/*
@@ -270,8 +281,16 @@ public class Phase extends JPanel {
 			}
 		}
 	}
+	
+	/*
+	 * Essa classe instancia os novos inimigos no Timer
+	 */
+	private class NewEnemy implements ActionListener {
 
-	public void addKeyListiner() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			alEnemy.add(new Enemy(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
+		}
 
 	}
 
