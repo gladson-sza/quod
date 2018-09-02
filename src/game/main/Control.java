@@ -11,6 +11,8 @@ import game.component.Util;
 
 public class Control extends JPanel{
 	
+	private static final long serialVersionUID = 1L;
+	
 	// variaveis para contruir o botao voltar
 	protected JButton jbComeBack;
 	protected ImageIcon comeBackText;

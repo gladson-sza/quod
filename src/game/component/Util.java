@@ -7,14 +7,21 @@
 
 package game.component;
 
+import java.io.File;
+
 import javax.swing.ImageIcon;
+
+import game.sound.Sound;
 
 public final class Util {
 
-	/* Variável de Controle de Jogo */
+	/* Variavel de Controle de Jogo */
 	public static boolean PLAYING = true;
 	public static boolean STOP = false;
 	public static int SHOOT_COUNT = 0;
+
+	/* Constantes dos Audios */
+	public static final Sound SOUND_PHASE = new Sound(new File("res\\sound\\phaseTheme.mp3"));
 
 	/* Constante Geral Nula */
 	public static final int NONE = 0;
@@ -24,9 +31,9 @@ public final class Util {
 	public static final int DEFAULT_SCREEN_HEIGHT = 650;
 
 	/* Constantes de Velocidade */
-	public static int SPEED_HIGH = 20;
-	public static int SPEED_MEDIUM = 10;
-	public static int SPEED_SLOW = 5;
+	public static final int SPEED_HIGH = 15;
+	public static final int SPEED_MEDIUM = 10;
+	public static final int SPEED_SLOW = 5;
 
 	/* Constantes do Tamanho da Nave do Player */
 	public static final int PLAYER_POSITION_X = 240;
@@ -48,32 +55,32 @@ public final class Util {
 			"res\\hud\\laser50Charge.png", "res\\hud\\laser60Charge.png", "res\\hud\\laser70Charge.png",
 			"res\\hud\\laser80Charge.png", "res\\hud\\laser90Charge.png", "res\\hud\\laserFullCharge.png" };
 
-  /* Constantes do Tamanho das Naves Inimigas */
+	/* Constantes do Tamanho das Naves Inimigas */
 	public static final int ENEMY_POSITION = -100;
 	public static final int ENEMY_WIDTH = 70;
 	public static final int ENEMY_HEIGHT = 70;
 
-	/* Tempo de Explosão */
-	public static final int EXPLOSION_TIME = 57;
-	
-	// fundo gamestart
-	
-	public static final ImageIcon background = new ImageIcon ("res\\background\\galaxy_background01.jpg");
+	/* Tempo de Explosao */
+	public static final int EXPLOSION_TIME = 55;
+
+	// Fundo gamestart
+
+	public static final ImageIcon background = new ImageIcon("res\\background\\galaxy_background01.jpg");
 
 	/*
 	 * Essa classe verifica se o objeto a colide com o objeto b
 	 */
 	public static boolean colision(GameObject a, GameObject b) {
 
-		// Plano de colisão X
+		// Plano de colisao X
 		int aColisionPanelWidth = a.getX() + a.getWidth();
 		int bColisionPanelWidth = b.getX() + b.getWidth();
 
-		// Plano de colisão Y
+		// Plano de colisao Y
 		int aColisionPanelHeight = a.getY() + a.getHeight();
 		int bColisionPanelHeight = b.getY() + b.getHeight();
 
-		// verifica se houve colisão
+		// verifica se houve colisao
 		if ((a.getX() >= b.getX() && a.getX() <= bColisionPanelWidth
 				|| b.getX() >= a.getX() && b.getX() <= aColisionPanelWidth)
 				&& (a.getY() >= b.getY() && a.getY() <= bColisionPanelHeight
