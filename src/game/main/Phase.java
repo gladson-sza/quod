@@ -92,7 +92,8 @@ public class Phase extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			alEnemy.add(new EnemyTier04(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
+			alEnemy.add(new EnemyBoss());//new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
+			timerEnemy.stop();
 		}
 
 	}

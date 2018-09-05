@@ -15,15 +15,12 @@ import game.component.Util;
 public abstract class Enemy extends Ship implements Runnable {
 
 	protected ImageIcon ship;
-	public boolean stop = false;
 
 	/*
 	 * Construtor
 	 */
 	public Enemy(int enemyPosition) {
-
 		super(enemyPosition, -Util.ENEMY_HEIGHT, Util.ENEMY_WIDTH, Util.ENEMY_HEIGHT, Util.SPEED_SLOW, Util.SPEED_SLOW, true);
-		
 		new Thread(this).start();
 	}
 
