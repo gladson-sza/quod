@@ -16,7 +16,6 @@ public class PlayerLaser extends Laser {
 		super(x, y, width, height, active);
 
 		laser = new ImageIcon("res\\effects\\laserPlayer.png").getImage();
-
 	}
 
 	@Override

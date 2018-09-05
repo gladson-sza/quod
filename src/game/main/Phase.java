@@ -1,4 +1,4 @@
-package game.phase;
+package game.main;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -17,10 +17,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import game.component.Enemy;
 import game.component.Laser;
 import game.component.Player;
 import game.component.Util;
+import game.enemy.*;
 
 public class Phase extends JPanel {
 
@@ -32,11 +32,11 @@ public class Phase extends JPanel {
 	protected ImageIcon background;
 	protected ImageIcon imgLife;
 
-	protected int posLife;
-	// public ArrayList<Laser> alLaser;
 	public ArrayList<Enemy> alEnemy;
-	public Image explosion;
 	public Player player;
+	public Image explosion;
+
+	protected int posLife;
 	public int life;
 	public int moveBackground;
 	public boolean side = true;
@@ -46,13 +46,13 @@ public class Phase extends JPanel {
 	protected ImageIcon imgText;
 	protected ImageIcon imgBack;
 
-	public Phase(String backgroundPath, Player player, int lastScore) {
-		
+	public Phase(String backgroundPath, int lastScore) {
+
 		background = new ImageIcon(backgroundPath);
 
 		life = 3;
 
-		this.player = player;
+		player = new Player();
 		alEnemy = new ArrayList<Enemy>();
 
 		explosion = new ImageIcon("res\\effects\\explosion.gif").getImage();
@@ -61,7 +61,7 @@ public class Phase extends JPanel {
 		moveBackground = -(Util.DEFAULT_SCREEN_HEIGHT * 9);
 		score = lastScore;
 
-		// botão pausar
+		// Botao de pausa
 		imgBack = new ImageIcon(" ");
 		imgText = new ImageIcon("res\\menu\\stop.jpg");
 
@@ -79,27 +79,41 @@ public class Phase extends JPanel {
 		// borda
 		jbStop.setBorderPainted(false);
 		jbStop.setContentAreaFilled(false);
-		
+
+		// temporizado para gerar novo inimigo
 		timerEnemy = new Timer(1750, new NewEnemy());
 
 	}
 
 	/*
-	 * Essa classe zera todos os atributos
+	 * Essa classe instancia os novos inimigos no Timer
+	 */
+	private class NewEnemy implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			alEnemy.add(new EnemyTier04(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
+		}
+
+	}
+
+	/*
+	 * Esse metodo zera todos os atributos
 	 */
 	public void phaseClear() {
-		
+
 		player.alLaser.clear();
-		
+		player = new Player();
+
 		for (int i = 0; i < alEnemy.size(); i++)
 			alEnemy.get(i).alLaser.clear();
-		
+
 		alEnemy.clear();
 
 	}
 
 	/*
-	 * Essa classe faz a verificacao necessaria de colisao e de remocao de objetos
+	 * Esse metodo faz a verificacao necessaria de colisao e de remocao de objetos
 	 */
 	public void phaseControl(Graphics g) {
 
@@ -236,6 +250,8 @@ public class Phase extends JPanel {
 				alEnemy.get(i).setExplode(true);
 				alEnemy.get(i).explode();
 			} else if (alEnemy.get(i).getCountExplosion() < Util.EXPLOSION_TIME) {
+				alEnemy.get(i).moveDown();
+				
 				g.drawImage(explosion, alEnemy.get(i).getX(), alEnemy.get(i).getY(), alEnemy.get(i).getWidth(),
 						alEnemy.get(i).getHeight(), this);
 
@@ -279,18 +295,6 @@ public class Phase extends JPanel {
 				posLife += 25;
 			}
 		}
-	}
-	
-	/*
-	 * Essa classe instancia os novos inimigos no Timer
-	 */
-	private class NewEnemy implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			alEnemy.add(new Enemy(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
-		}
-
 	}
 
 }

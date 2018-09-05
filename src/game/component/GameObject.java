@@ -102,11 +102,13 @@ public abstract class GameObject {
 	}
 
 	public void moveLeft() {
-		x -= speedX;
+		if (getX() > 0)
+			x -= speedX;
 	}
 
 	public void moveRight() {
-		x += speedX;
+		if (getX() + getWidth() < Util.DEFAULT_SCREEN_WIDTH)
+			x += speedX;
 	}
 
 	/* Desenha o Componente */

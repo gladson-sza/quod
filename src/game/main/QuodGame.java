@@ -6,10 +6,7 @@
 
 package game.main;
 
-import game.component.Player;
 import game.component.Util;
-import game.phase.Phase;
-import game.phase.Stage01;
 import game.sound.Sound;
 
 import java.awt.event.ActionEvent;
@@ -44,7 +41,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		settings = new Settings();
 		loading = new Loading();
 		over = new GameOver();
-		phase = new Stage01("res\\background\\galaxy_background01.jpg", new Player(), 0);
+		phase = new Phase("res\\background\\galaxy_background01.jpg", 0);
 		menu = new MainMenuScreen();
 		control = new Control();
 
@@ -82,7 +79,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 			settings = new Settings();
 			loading = new Loading();
 			over = new GameOver();
-			phase = new Stage01("res\\background\\galaxy_background01.jpg", new Player(), 0);
+			phase = new Phase("res\\background\\galaxy_background01.jpg", 0);
 			menu = new MainMenuScreen();
 			control = new Control();
 		}
@@ -131,7 +128,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 				// Leitura do botão pause
 				phase.jbStop.addActionListener(this);
 
-				// contador de inimigos e disparos
+				// contador disparos
 				if (Util.SHOOT_COUNT < 10)
 					Util.SHOOT_COUNT++;
 
@@ -205,12 +202,12 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	 */
 	private void gameControl() {
 		// Esqurda
-		if (keyControl[0] && phase.player.getX() > 0) {
+		if (keyControl[0]) {
 			phase.player.moveLeft();
 		}
 
 		// Direita
-		if (keyControl[1] && (phase.player.getX() + phase.player.getWidth() < phase.getWidth())) {
+		if (keyControl[1]) {
 			phase.player.moveRight();
 		}
 
@@ -263,14 +260,19 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		}
 
-		// Fase botao pausar
+		// botao de pause
 		if (e.getSource() == phase.jbStop) {
 			if (Util.STOP == true) {
 				Util.STOP = false;
+				
+				phase.timerEnemy.restart();
+				
 				phase.addKeyListener(this);
 				phase.requestFocus();
 			} else {
 				Util.STOP = true;
+				
+				phase.timerEnemy.stop();
 			}
 		}
 

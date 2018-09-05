@@ -8,7 +8,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import game.component.Util;
-import game.phase.Phase;
 
 public class GameOver extends JPanel {
 
