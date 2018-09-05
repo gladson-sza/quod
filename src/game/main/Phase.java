@@ -1,13 +1,14 @@
 package game.main;
 
-import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -45,6 +46,8 @@ public class Phase extends JPanel {
 
 	protected ImageIcon imgText;
 	protected ImageIcon imgBack;
+	protected ImageIcon imgDamage;
+	protected ImageIcon hitLife;
 
 	public Phase(String backgroundPath, int lastScore) {
 
@@ -57,6 +60,8 @@ public class Phase extends JPanel {
 
 		explosion = new ImageIcon("res\\effects\\explosion.gif").getImage();
 		imgLife = new ImageIcon("res\\ship\\life.png");
+		imgDamage = new ImageIcon("res\\effects\\damange.png");
+		hitLife = new ImageIcon("res\\ship\\hitLife.png");
 
 		moveBackground = -(Util.DEFAULT_SCREEN_HEIGHT * 9);
 		score = lastScore;
@@ -92,7 +97,7 @@ public class Phase extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			alEnemy.add(new EnemyBoss());//new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
+			alEnemy.add(new EnemyBoss());// new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
 			timerEnemy.stop();
 		}
 
@@ -114,7 +119,7 @@ public class Phase extends JPanel {
 	}
 
 	/*
-	 * Esse metodo faz a verificacao necessaria de colisao e de remocao de objetos
+	 * Este metodo controla as colisoes da fase
 	 */
 	public void phaseControl(Graphics g) {
 
@@ -158,6 +163,8 @@ public class Phase extends JPanel {
 				if (Util.colision(enemyLaser, player) && enemyLaser.isActive()) {
 					enemyLaser.setActive(false);
 					life--;
+					if (Util.STATUS_EFFECTS)
+						Util.hit = true;
 				}
 			}
 
@@ -168,6 +175,7 @@ public class Phase extends JPanel {
 			if (!player.alLaser.get(i).isActive()) {
 				player.alLaser.remove(i);
 			}
+
 		}
 
 		// Desenha o Laser do player
@@ -208,7 +216,7 @@ public class Phase extends JPanel {
 		/* Verificação do estado do Player */
 		if (life > 0)
 			player.draw(g);
-		else if (!player.isExplode()) {
+		else if (!player.isExplode() && Util.STATUS_EFFECTS) {
 			try {
 				AudioInputStream as = AudioSystem.getAudioInputStream(new File("res\\sound\\playerExplosion.wav"));
 				Clip clip = AudioSystem.getClip();
@@ -220,7 +228,7 @@ public class Phase extends JPanel {
 
 			player.setExplode(true);
 
-		} else if (player.getCountExplosion() < Util.EXPLOSION_TIME) {
+		} else if (player.getCountExplosion() < Util.EXPLOSION_TIME && Util.STATUS_EFFECTS) {
 			if (!Util.STOP) {
 				g.drawImage(explosion, player.getX(), player.getY(), player.getWidth(), player.getHeight(), this);
 				player.countExplosionUp();
@@ -236,6 +244,8 @@ public class Phase extends JPanel {
 			if (Util.colision(player, alEnemy.get(i)) && alEnemy.get(i).isActive()) {
 				alEnemy.get(i).setActive(false);
 				life--;
+				if (Util.STATUS_EFFECTS)
+					Util.hit = true;
 			}
 
 			// Verifica se saiu da tela
@@ -250,9 +260,9 @@ public class Phase extends JPanel {
 			else if (!alEnemy.get(i).isExplode()) {
 				alEnemy.get(i).setExplode(true);
 				alEnemy.get(i).explode();
-			} else if (alEnemy.get(i).getCountExplosion() < Util.EXPLOSION_TIME) {
-				alEnemy.get(i).moveDown();
-				
+
+			} else if (alEnemy.get(i).getCountExplosion() < Util.EXPLOSION_TIME && Util.STATUS_EFFECTS) {
+
 				g.drawImage(explosion, alEnemy.get(i).getX(), alEnemy.get(i).getY(), alEnemy.get(i).getWidth(),
 						alEnemy.get(i).getHeight(), this);
 
@@ -283,18 +293,39 @@ public class Phase extends JPanel {
 			Image laserStatus = new ImageIcon(Util.LASER_CHARGE[Util.SHOOT_COUNT]).getImage();
 			g.drawImage(laserStatus, 0, 60, 50, 80, null);
 
-			// Pontuação
-			g.drawString("Pontos: " + score, 20, 20);
-
 			// Vida do Player
-			Image img = imgLife.getImage();
+			Image img;
 
-			posLife = 15;
+			posLife = 10;
 
+			img = imgLife.getImage();
+
+			// vidas
 			for (int i = 0; i < life; i++) {
-				g.drawImage(img, posLife, 34, 20, 20, this);
-				posLife += 25;
+				g.drawImage(img, posLife, 28, 40, 40, this);
+				posLife += 37;
 			}
+
+			// vida vermelha
+			if (Util.hit) {
+				img = hitLife.getImage();
+				g.drawImage(img, posLife, 28, 40, 40, this);
+			}
+
+			// efeito de dano
+			if (Util.hit) {
+				Image imageDamage = imgDamage.getImage();
+				g.drawImage(imageDamage, 0, 0, getWidth(), getHeight(), this);
+			}
+
+			Graphics2D g2d = (Graphics2D) g;
+			// g2d.setColor(Color.WHITE);
+			g2d.setFont(new Font("Showcard Gothic", Font.PLAIN, 20));
+			g2d.setBackground(Color.BLACK);
+			g2d.drawString("Pontos: ", 15, 21);
+			g2d.setColor(Color.yellow);
+			g2d.drawString(" " + score, 100, 21);
+
 		}
 	}
 

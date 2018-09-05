@@ -23,6 +23,9 @@ public final class Util {
 	/* Constantes dos Audios */
 	public static final Sound SOUND_PHASE = new Sound(new File("res\\sound\\phaseTheme.mp3"));
 
+	public static boolean STATUS_SOUND = true;
+	public static boolean STATUS_EFFECTS = true;
+
 	/* Constante Geral Nula */
 	public static final int NONE = 0;
 
@@ -40,6 +43,9 @@ public final class Util {
 	public static final int PLAYER_POSITION_Y = 500;
 	public static final int PLAYER_WIDTH = 100;
 	public static final int PLAYER_HEIGHT = 100;
+
+	/* Player dano */
+	public static boolean hit;
 
 	/* Constantes das imagens da Nave do Player */
 	public static final String PLAYER_IMAGES[] = { "res\\\\ship\\\\PlayerShip\\\\PlayerShipSprite1.png",

@@ -20,18 +20,23 @@ public abstract class Enemy extends Ship implements Runnable {
 	 * Construtor
 	 */
 	public Enemy(int enemyPosition) {
-		super(enemyPosition, -Util.ENEMY_HEIGHT, Util.ENEMY_WIDTH, Util.ENEMY_HEIGHT, Util.SPEED_SLOW, Util.SPEED_SLOW, true);
+		super(enemyPosition, -Util.ENEMY_HEIGHT, Util.ENEMY_WIDTH, Util.ENEMY_HEIGHT, Util.SPEED_SLOW, Util.SPEED_SLOW,
+				true);
+
 		new Thread(this).start();
 	}
 
 	public void explode() {
-		try {
-			AudioInputStream as = AudioSystem.getAudioInputStream(new File("res\\sound\\enemyExplosion.wav"));
-			Clip clip = AudioSystem.getClip();
-			clip.open(as);
-			clip.start();
-		} catch (Exception e) {
-			e.printStackTrace();
+
+		if (Util.STATUS_EFFECTS) {
+			try {
+				AudioInputStream as = AudioSystem.getAudioInputStream(new File("res\\sound\\enemyExplosion.wav"));
+				Clip clip = AudioSystem.getClip();
+				clip.open(as);
+				clip.start();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

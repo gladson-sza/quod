@@ -24,7 +24,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	public boolean[] keyControl;
 
 	public static QuodGame qg;
-	
+
 	public Settings settings;
 	public Control control;
 	public Phase phase;
@@ -96,6 +96,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		control.jbComeBack.addActionListener(this);
 		settings.jbComeBack.addActionListener(this);
 		settings.jbVolume.addActionListener(this);
+		settings.jbEffects.addActionListener(this);
 
 		keyControl = new boolean[4];
 
@@ -129,6 +130,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 				phase.jbStop.addActionListener(this);
 
 				// contador disparos
+
 				if (Util.SHOOT_COUNT < 10)
 					Util.SHOOT_COUNT++;
 
@@ -214,7 +216,10 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		// Disparos
 		if (keyControl[2] && Util.SHOOT_COUNT > 9) {
 			phase.player.setShoot(true);
-			new Sound(new File("res\\sound\\shoot.mp3")).start();
+
+			if (Util.STATUS_EFFECTS) {
+				new Sound(new File("res\\sound\\shoot.mp3")).start();
+			}
 
 			Util.SHOOT_COUNT = 0;
 		}
@@ -226,10 +231,12 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		// botï¿½o menu jogar
+		// Jogar botao
 		if (e.getSource() == menu.jbPlay) {
 
-			Util.SOUND_PHASE.start();
+			if (Util.STATUS_SOUND) {
+				Util.SOUND_PHASE.start();
+			}
 
 			menu.setVisible(false);
 
@@ -239,12 +246,13 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		}
 
-		// menu botaoo sair
+		// Sair botao
 		if (e.getSource() == menu.jbBack) {
 			System.exit(0);
 		}
 
-		// menu botão controle
+		// Controle botao
+
 		if (e.getSource() == menu.jbControl) {
 
 			menu.setVisible(false);
@@ -252,7 +260,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 			control.requestFocus();
 		}
 
-		// controles botao voltar
+		// Controles / botao voltar
 		if (e.getSource() == control.jbComeBack) {
 
 			control.setVisible(false);
@@ -260,18 +268,18 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		}
 
-		// botao de pause
+		// fase / botao voltar
 		if (e.getSource() == phase.jbStop) {
 			if (Util.STOP == true) {
 				Util.STOP = false;
-				
+
 				phase.timerEnemy.restart();
-				
+
 				phase.addKeyListener(this);
 				phase.requestFocus();
 			} else {
 				Util.STOP = true;
-				
+
 				phase.timerEnemy.stop();
 			}
 		}
@@ -284,7 +292,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		}
 
-		// botao ajustes voltar
+		// Ajustes / botao de voltar
 		if (e.getSource() == settings.jbComeBack) {
 			settings.setVisible(false);
 			this.add(this.menu);
@@ -292,20 +300,31 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 			mainMenu(true);
 		}
-		// botao volume em ajustes
-		if (e.getSource() == settings.jbVolume) {
-			if (settings.status == true)
 
-				settings.status = false;// para mudo
+		// Ajustes / botao de musica
+		if (e.getSource() == settings.jbVolume) {
+			if (Util.STATUS_SOUND)
+				Util.STATUS_SOUND = false; // mudo
+
 			else
-				settings.status = true;// para som
+				Util.STATUS_SOUND = true; // som
 		}
-		// Recomeçar
+
+		// Ajustes / Botao efeitos especiais
+		if (e.getSource() == settings.jbEffects) {
+			if (Util.STATUS_EFFECTS)
+				Util.STATUS_EFFECTS = false; // mudo
+
+			else
+				Util.STATUS_EFFECTS = true; // som
+		}
+
+		// Fim de Jogo / Recomeçar
 		if (e.getSource() == over.jbTrayAgain) {
 
 		}
 
-		// Finalizar
+		// Fimde Jogo / Finalizar
 		if (e.getSource() == over.jbFinish) {
 			System.exit(0);
 		}
