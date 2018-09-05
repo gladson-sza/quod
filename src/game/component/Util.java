@@ -15,6 +15,7 @@ import game.sound.Sound;
 
 public final class Util {
 
+	
 	/* Variavel de Controle de Jogo */
 	public static boolean PLAYING = true;
 	public static boolean STOP = false;
@@ -22,7 +23,9 @@ public final class Util {
 
 	/* Constantes dos Audios */
 	public static final Sound SOUND_PHASE = new Sound(new File("res\\sound\\phaseTheme.mp3"));
-
+	public static boolean STATUS_SOUND = true;
+	public static boolean STATUS_EFFECTS = true;
+	
 	/* Constante Geral Nula */
 	public static final int NONE = 0;
 
@@ -40,7 +43,10 @@ public final class Util {
 	public static final int PLAYER_POSITION_Y = 500;
 	public static final int PLAYER_WIDTH = 100;
 	public static final int PLAYER_HEIGHT = 100;
-
+	
+	/* Player dano */
+	public static boolean hit;
+	
 	/* Constantes das imagens da Nave do Player */
 	public static final String PLAYER_IMAGES[] = { "res\\\\ship\\\\PlayerShip\\\\PlayerShipSprite1.png",
 			"res\\\\ship\\\\PlayerShip\\\\PlayerShipSprite2.png" };
@@ -49,6 +55,7 @@ public final class Util {
 	public static final String ENEMY_IMAGES[] = { "res\\ship\\EnemyShip\\EnemyShipSprite1.png",
 			"res\\ship\\EnemyShip\\EnemyShipSprite2.png" };
 
+	
 	/* Imagem do status do Laser */
 	public static final String LASER_CHARGE[] = { "res\\hud\\laserEmptyCharge.png", "res\\hud\\laser10Charge.png",
 			"res\\hud\\laser20Charge.png", "res\\hud\\laser30Charge.png", "res\\hud\\laser40Charge.png",

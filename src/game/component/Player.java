@@ -10,7 +10,7 @@ import game.component.Util;
 public class Player extends Ship {
 
 	protected ImageIcon ship;
-
+	private int see = 1, cont;
 	/*
 	 * Construtor
 	 */
@@ -23,11 +23,32 @@ public class Player extends Ship {
 	@Override
 	public void draw(Graphics g) {
 		// Altera a imagem do array
-		if (position == 0)
-			ship = new ImageIcon(Util.PLAYER_IMAGES[position++]);
-		else if (position == 1)
-			ship = new ImageIcon(Util.PLAYER_IMAGES[position--]);
-
+		if(Util.hit == false) {
+			if (position == 0)
+				ship = new ImageIcon(Util.PLAYER_IMAGES[position++]);
+			
+			else
+				ship = new ImageIcon(Util.PLAYER_IMAGES[position--]);
+		}
+		
+		if(Util.hit) {
+			
+			if(see == 1){
+				ship = new ImageIcon("res\\ship\\PlayerShip\\palyerHit.png");
+				see = 0;
+				cont++;
+				
+			}else {
+				ship = new ImageIcon(Util.PLAYER_IMAGES[0]);
+				see = 1;
+				cont++;
+			}
+		}
+		
+		if(cont >= 50) {
+			Util.hit = false;
+			cont = 0;
+		}
 		// Verifica se pode disparar
 		if (shoot) {
 			alLaser.add(new PlayerLaser(getX() + 25, getY() + 5, 47, 30, true));
