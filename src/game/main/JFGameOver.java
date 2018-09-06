@@ -37,13 +37,10 @@ public class JFGameOver extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 
 		// Recomeçar
 		if (e.getSource() == over.jbTrayAgain) {
-
 			this.setVisible(false);
-
 		}
 
 		// Finalizar

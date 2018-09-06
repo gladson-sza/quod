@@ -22,6 +22,7 @@ import game.component.Laser;
 import game.component.Player;
 import game.component.Util;
 import game.enemy.*;
+import game.sound.Sound;
 
 public class Phase extends JPanel {
 
@@ -167,6 +168,9 @@ public class Phase extends JPanel {
 					life--;
 					if (Util.STATUS_EFFECTS)
 						Util.hit = true;
+					
+					if (Util.STATUS_SOUND && life > 0)
+						new Sound(new File("res\\sound\\hited.mp3")).start();;
 				}
 			}
 

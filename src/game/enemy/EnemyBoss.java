@@ -13,9 +13,10 @@ public class EnemyBoss extends Enemy {
 
 	Timer timerShoot;
 
-	private final int RIGHT = 0;
-	private final int LEFT = 1;
+	private final int LEFT = 0;
+	private final int RIGHT = 1;
 
+	private int relativePosition;
 	private int action;
 
 	/*
@@ -25,7 +26,7 @@ public class EnemyBoss extends Enemy {
 		super(Util.DEFAULT_SCREEN_WIDTH / 2 - Util.ENEMY_WIDTH / 2);
 
 		action = new Random().nextInt(2);
-		position = RIGHT;
+		relativePosition = LEFT;
 
 		timerShoot = new Timer(500, new BossShoot());
 		timerShoot.start();
@@ -70,13 +71,13 @@ public class EnemyBoss extends Enemy {
 
 		// realiza o movimento lateral
 		if (getX() == 0) {
-			position = RIGHT;
+			relativePosition = RIGHT;
 			while (getX() + getWidth() < Util.DEFAULT_SCREEN_WIDTH) {
 				moveRight();
 				update();
 			}
 		} else {
-			position = LEFT;
+			relativePosition = LEFT;
 			while (getX() > 0) {
 				moveLeft();
 				update();
@@ -92,7 +93,7 @@ public class EnemyBoss extends Enemy {
 			update();
 		}
 
-		// reserta a velocidade
+		// Reseta a velocidade
 		timerShoot.setDelay(800);
 		setSpeedY(Util.SPEED_SLOW);
 		setSpeedX(Util.SPEED_SLOW);
@@ -103,7 +104,7 @@ public class EnemyBoss extends Enemy {
 	 * Vai para a esquerda efetuando disparos
 	 */
 	public void leftShoots() {
-		position = LEFT;
+		relativePosition = LEFT;
 
 		while (getX() > 0) {
 			moveLeft();
@@ -117,7 +118,7 @@ public class EnemyBoss extends Enemy {
 	 * Vai para a direita efetuando disparos
 	 */
 	public void rightShoots() {
-		position = RIGHT;
+		relativePosition = RIGHT;
 
 		while (getX() + getWidth() < Util.DEFAULT_SCREEN_WIDTH) {
 			moveRight();
@@ -133,76 +134,113 @@ public class EnemyBoss extends Enemy {
 	 */
 	public void zigZagShoot() {
 
-		System.out.println("Entrou");
+		// Aumenta a velocidade
+		setSpeedX(Util.SPEED_HIGH);
+		setSpeedY(Util.SPEED_HIGH);
 
-		// Disparos rapidos
-		timerShoot.stop();
-		int countTime = 0;
-		int count = 4;
+		// variaveis de controle
+		int countMove = 4;
+		int countShoot = 5;
+		int holdLaser = 5;
 
-		// Verifica a posicao inicial
-		if (position == LEFT) {
+		// Verifica para onde deve ir
+		switch (relativePosition) {
+		case LEFT: // Para a esquerda
 
-			// vai para a posicao adequada
-			while (getX() < Util.DEFAULT_SCREEN_WIDTH / 4) {
+			// posicao inicial esquerda
+			while (getX() <= Util.DEFAULT_SCREEN_WIDTH / 4) {
 				moveRight();
 				update();
 			}
 
-			// efetua os disparos 4x
-			while (count-- > 0) {
-				
-				if (position == RIGHT) {
+			// repte quatro vezes
+			while (countMove-- > 0) {
 
-					countTime = 0;
-					while (countTime++ < 5) {
+				while (countShoot-- > 0) {
+					alLaser.add(new EnemyLaser(getX() + 25, getY() + getHeight() + 5, 25, 25, true));
 
-						// Espera tres updates para disparar
-						int n = 3;
-						while (n-- > 0)
-							update();
+					while (holdLaser-- > 0) // segura o tempo do disparo
+						update();
 
-						alLaser.add(new EnemyLaser(getX() + 25, getY() + getHeight() + 5, 25, 25, true));
-					}
+					holdLaser = 5; // Reseta o tempo do disparo
+				}
 
-					// vai para a proxima posicao
-					while (getX() < Util.DEFAULT_SCREEN_WIDTH - Util.DEFAULT_SCREEN_WIDTH / 3) {
+				// Reseta o disparo
+				countShoot = 5;
+
+				/* Alterna as posicoes */
+				if (relativePosition == LEFT) {
+					relativePosition = RIGHT;
+
+					while (getX() < 345) {
 						moveRight();
 						update();
 					}
-
 				} else {
+					relativePosition = LEFT;
 
-					countTime = 0;
-					while (countTime++ < 5) {
-
-						// Espera tres updates para disparar
-						int n = 3;
-						while (n-- > 0)
-							update();
-
-						alLaser.add(new EnemyLaser(getX() + 25, getY() + getHeight() + 5, 25, 25, true));
-					}
-
-					// vai para a proxima posicao
-					while (getX() > Util.DEFAULT_SCREEN_WIDTH / 4) {
+					while (getX() > 150) {
 						moveLeft();
 						update();
 					}
 				}
 
-				countTime = 0;
-				update();
 			}
 
-		} else {
+			// volta para a borda de acao
+			rightShoots();
 
-			// vai para a posicao adequada
-			while (getX() > Util.DEFAULT_SCREEN_WIDTH / 4) {
+			break;
+		case RIGHT: // Para a direita
+
+			while (getX() > 345) {
 				moveLeft();
 				update();
 			}
+
+			// repte quatro vezes
+			while (countMove-- > 0) {
+
+				while (countShoot-- > 0) {
+					alLaser.add(new EnemyLaser(getX() + 25, getY() + getHeight() + 5, 25, 25, true));
+
+					while (holdLaser-- > 0) // segura o tempo do disparo
+						update();
+
+					holdLaser = 5; // Reseta o tempo do disparo
+				}
+
+				// Reseta o disparo
+				countShoot = 5;
+
+				/* Alterna as posicoes */
+				if (relativePosition == RIGHT) {
+					relativePosition = LEFT;
+
+					while (getX() > 150) {
+						moveLeft();
+						update();
+					}
+				} else {
+					relativePosition = RIGHT;
+
+					while (getX() < 345) {
+						moveRight();
+						update();
+					}
+				}
+
+			}
+
+			leftShoots();
+
+			break;
 		}
+
+		// Reseta a velocidade
+		setSpeedX(Util.SPEED_SLOW);
+		setSpeedY(Util.SPEED_SLOW);
+
 	}
 
 	@Override
@@ -219,23 +257,18 @@ public class EnemyBoss extends Enemy {
 		timerShoot.stop();
 		timerShoot.setDelay(800);
 
-		leftShoots();
-
 		// Controle das acoes do boss, sao eventos aleatorios
 		while (isActive()) {
 
 			switch (action) {
 			case 0:
-				zigZagShoot();
-				// leftShoots();
+				leftShoots();
 				break;
 			case 1:
-				zigZagShoot();
-				// rightShoots();
+				rightShoots();
 				break;
 			case 2:
-				zigZagShoot();
-				// uTurn();
+				uTurn();
 				break;
 			case 3:
 				zigZagShoot();
