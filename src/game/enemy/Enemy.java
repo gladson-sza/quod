@@ -22,7 +22,8 @@ public abstract class Enemy extends Ship implements Runnable {
 	public Enemy(int enemyPosition) {
 		super(enemyPosition, -Util.ENEMY_HEIGHT, Util.ENEMY_WIDTH, Util.ENEMY_HEIGHT, Util.SPEED_SLOW, Util.SPEED_SLOW,
 				true);
-
+		
+		ship = new ImageIcon("res\\ship\\EnemyShip\\enemyShip.gif");
 		new Thread(this).start();
 	}
 
@@ -42,13 +43,6 @@ public abstract class Enemy extends Ship implements Runnable {
 
 	@Override
 	public void draw(Graphics g) {
-
-		// Altera a imagem no array
-		if (position == 0)
-			ship = new ImageIcon(Util.ENEMY_IMAGES[position++]);
-		else if (position == 1)
-			ship = new ImageIcon(Util.ENEMY_IMAGES[position--]);
-
 		Image imageShip = ship.getImage();
 		g.drawImage(imageShip, getX(), getY(), getWidth(), getHeight(), null);
 	}

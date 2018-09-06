@@ -25,11 +25,8 @@ public class Player extends Ship {
 	public void draw(Graphics g) {
 		// Altera a imagem do array
 		if (Util.hit == false) {
-			if (position == 0)
-				ship = new ImageIcon(Util.PLAYER_IMAGES[position++]);
 
-			else
-				ship = new ImageIcon(Util.PLAYER_IMAGES[position--]);
+			ship = new ImageIcon("res\\ship\\PlayerShip\\PlayerShipSprite1.png");
 		}
 
 		if (Util.hit) {

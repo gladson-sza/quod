@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -28,6 +29,7 @@ public class Phase extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	private int currentStage;
 	private static int score;
 	public Timer timerEnemy;
 
@@ -53,6 +55,7 @@ public class Phase extends JPanel {
 
 	public Phase(String backgroundPath, int lastScore) {
 
+		currentStage = 0;
 		background = new ImageIcon(backgroundPath);
 
 		life = 3;
@@ -94,14 +97,24 @@ public class Phase extends JPanel {
 	}
 
 	/*
-	 * Essa classe instancia os novos inimigos no Timer
+	 * Essa classe instancia os novos inimigos no Timer de acordo com a fase
 	 */
 	private class NewEnemy implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			alEnemy.add(new EnemyBoss());// new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
-			timerEnemy.stop();
+
+			switch (currentStage) {
+			case 0:
+				alEnemy.add(new EnemyTier01(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
+			case 1:
+				alEnemy.add(new EnemyTier02(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
+			case 2:
+				alEnemy.add(new EnemyTier03(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
+			case 3:
+				alEnemy.add(new EnemyTier04(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
+			}
+
 		}
 
 	}
@@ -122,19 +135,56 @@ public class Phase extends JPanel {
 	}
 
 	/*
-	 * Este metodo controla as colisoes da fase
+	 * Este metodo inicia a fase 01
 	 */
-	public void phaseControl(Graphics g) {
+	public void stage01() {
 
+	}
+
+	/*
+	 * Este metodo inicia a fase 02
+	 */
+	public void stage02() {
+
+	}
+
+	/*
+	 * Este metodo inivia a fase 03
+	 */
+	public void stage03() {
+
+	}
+
+	/*
+	 * Este metodo inicia a fase 04
+	 */
+	public void stage04() {
+
+	}
+
+	/*
+	 * Este metodo inivia a fase 05 --- LUTA CONTRA O BOSS
+	 */
+	public void stage05() {
+
+	}
+
+	/*
+	 * Movimenta o fundo
+	 */
+	public void moveBackground() {
 		if (!Util.STOP) {
-			// Movimenta o fundo
 			if (moveBackground <= -Util.DEFAULT_SCREEN_HEIGHT)
 				moveBackground += 3;
 			else
 				moveBackground = -(Util.DEFAULT_SCREEN_HEIGHT * 9);
 		}
+	}
 
-		/* Verificação colisão do Inimigo e do Laser */
+	/*
+	 * Verifica se o player acertou a nave inimiga ou se ela saiu da tela
+	 */
+	public void verifyPlayerHits() {
 		for (int i = 0; i < player.alLaser.size(); i++) {
 
 			// Verifica se o laser saiu da tela
@@ -155,8 +205,12 @@ public class Phase extends JPanel {
 				}
 			}
 		}
+	}
 
-		/* Verificação colisão do Player e do Laser */
+	/*
+	 * Verifica se o inimigo atingiu o player com o laser
+	 */
+	public void verifyEnemyHits() {
 		for (int i = 0; i < alEnemy.size(); i++) {
 			Enemy enemy = alEnemy.get(i);
 
@@ -168,14 +222,20 @@ public class Phase extends JPanel {
 					life--;
 					if (Util.STATUS_EFFECTS)
 						Util.hit = true;
-					
+
 					if (Util.STATUS_SOUND && life > 0)
-						new Sound(new File("res\\sound\\hited.mp3")).start();;
+						new Sound(new File("res\\sound\\hited.mp3")).start();
+					;
 				}
 			}
 
 		}
+	}
 
+	/*
+	 * Desenha os lasers e remove os que sairam da tela ou atingiram adversarios
+	 */
+	public void drawPlayerLaser(Graphics g) {
 		// Remove o laser do player
 		for (int i = 0; i < player.alLaser.size(); i++) {
 			if (!player.alLaser.get(i).isActive()) {
@@ -190,7 +250,9 @@ public class Phase extends JPanel {
 				player.alLaser.get(i).draw(g);
 			}
 		}
+	}
 
+	public void drawEnemyLaser(Graphics g) {
 		// Remove o laser inimigo
 		for (int i = 0; i < alEnemy.size(); i++) {
 			Enemy enemy = alEnemy.get(i);
@@ -218,8 +280,13 @@ public class Phase extends JPanel {
 				}
 			}
 		}
+	}
 
-		/* Verificação do estado do Player */
+	/*
+	 * Desenha ou remove o player da tela
+	 */
+	public void drawPlayer(Graphics g) {
+
 		if (life > 0)
 			player.draw(g);
 		else if (!player.isExplode() && Util.STATUS_EFFECTS) {
@@ -236,15 +303,19 @@ public class Phase extends JPanel {
 
 		} else if (player.getCountExplosion() < Util.EXPLOSION_TIME && Util.STATUS_EFFECTS) {
 			if (!Util.STOP) {
-				g.drawImage(explosion, player.getX(), player.getY(), player.getWidth(), player.getHeight(), this);
+				g.drawImage(explosion, player.getX(), player.getY(), 100, 100, this);
 				player.countExplosionUp();
 				player.setActive(false);
 			}
 		} else {
 			Util.PLAYING = false;
 		}
+	}
 
-		/* Verificação de Inimigos na Tela */
+	/*
+	 * Desenha e remove os inimigos da tela
+	 */
+	public void drawEnemy(Graphics g) {
 		for (int i = 0; i < alEnemy.size(); i++) {
 			// Verifica se atingiu o player
 			if (Util.colision(player, alEnemy.get(i)) && alEnemy.get(i).isActive()) {
@@ -276,8 +347,21 @@ public class Phase extends JPanel {
 			} else {
 				alEnemy.remove(i);
 			}
-
 		}
+	}
+
+	/*
+	 * Este metodo controla as colisoes da fase
+	 */
+	public void phaseControl(Graphics g) {
+
+		moveBackground();
+		verifyPlayerHits();
+		verifyEnemyHits();
+		drawPlayerLaser(g);
+		drawEnemyLaser(g);
+		drawPlayer(g);
+		drawEnemy(g);
 
 	}
 
