@@ -21,20 +21,25 @@ public class Stop extends JPanel {
 	protected ImageIcon imgRestart;
 	protected ImageIcon imgLife;
 
+	protected ImageIcon imgClose;
+
 	protected JButton jbStart;
 	protected JButton jbRestart;
+	protected JButton jbClose;
 
 	private Phase phase;
 	private int space;
+	private int posLife;
 
 	public Stop(Phase phase) {
-		
+
 		this.phase = phase;
-		
+
 		back = new ImageIcon("res\\background\\backStop.png");
 		imgStart = new ImageIcon("res\\button\\Start.png");
 		imgRestart = new ImageIcon("res\\button\\restart.png");
 		imgLife = new ImageIcon("res\\ship\\life.png");
+		imgClose = new ImageIcon("res\\button\\close.png");
 
 		setLayout(null);
 
@@ -56,8 +61,18 @@ public class Stop extends JPanel {
 		jbRestart.setBorderPainted(false);
 		jbRestart.setContentAreaFilled(false);
 
+		// X
+		jbClose = new JButton();
+		jbClose.setBounds(Util.DEFAULT_SCREEN_WIDTH - 65, 5, 50, 50);
+		jbClose.setText(null);
+		jbClose.setIcon(imgClose); // texto do botão
+		jbClose.setPressedIcon(imgClose); // Imagem ao clicar
+		jbClose.setBorderPainted(false);
+		jbClose.setContentAreaFilled(false);
+
 		add(jbStart);
 		add(jbRestart);
+		add(jbClose);
 
 		// configuracao do ponto
 		if (phase.getScore() < 100)
@@ -73,6 +88,15 @@ public class Stop extends JPanel {
 
 		img = back.getImage();
 		g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
+
+		// vida
+		posLife = 280;
+
+		img = imgLife.getImage();
+		for (int i = 0; i < phase.life; i++) {
+			g.drawImage(img, posLife, 165, 35, 35, this);
+			posLife += 35;
+		}
 
 		Graphics2D g2d = (Graphics2D) g;
 

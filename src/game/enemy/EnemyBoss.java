@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.Random;
 
 import javax.swing.ImageIcon;
@@ -27,11 +28,11 @@ public class EnemyBoss extends Enemy {
 	 */
 	public EnemyBoss() {
 		super(Util.DEFAULT_SCREEN_WIDTH / 2 - Util.ENEMY_WIDTH / 2);
-		
+
 		setWidth(85);
-		
+
 		ship = new ImageIcon("res\\ship\\EnemyShip\\bossShip.gif");
-		
+
 		action = new Random().nextInt(2);
 		relativePosition = LEFT;
 
@@ -46,14 +47,15 @@ public class EnemyBoss extends Enemy {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			alLaser.add(new EnemyLaser(getX() + 25, getY() + getHeight() + 5, 35, 30, true));
+			if (Util.STOP)
+				alLaser.add(new EnemyLaser(getX() + 25, getY() + getHeight() + 5, 35, 30, true));
 		}
 
 	}
-	
+
 	@Override
 	public void draw(Graphics g) {
-		
+
 		Image imageShip = ship.getImage();
 		g.drawImage(imageShip, getX(), getY(), getWidth(), getHeight(), null);
 	}
@@ -263,7 +265,7 @@ public class EnemyBoss extends Enemy {
 		setSpeedY(Util.SPEED_SLOW);
 
 		// Entrada do boss, ele vai ate parte da tela
-		while (getY() < Util.DEFAULT_SCREEN_HEIGHT / 4) {
+		while (getY() < Util.DEFAULT_SCREEN_HEIGHT / 4 && !Util.STOP) {
 			moveDown();
 			update();
 		}
@@ -274,19 +276,21 @@ public class EnemyBoss extends Enemy {
 		// Controle das acoes do boss, sao eventos aleatorios
 		while (isActive()) {
 
-			switch (action) {
-			case 0:
-				leftShoots();
-				break;
-			case 1:
-				rightShoots();
-				break;
-			case 2:
-				uTurn();
-				break;
-			case 3:
-				zigZagShoot();
-				break;
+			if (!Util.STOP) {
+				switch (action) {
+				case 0:
+					leftShoots();
+					break;
+				case 1:
+					rightShoots();
+					break;
+				case 2:
+					uTurn();
+					break;
+				case 3:
+					zigZagShoot();
+					break;
+				}
 			}
 
 			// Aleatoriza o proximo evento
