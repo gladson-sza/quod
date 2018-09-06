@@ -1,6 +1,5 @@
 package game.component;
 
-
 public abstract class Laser extends GameObject implements Runnable {
 
 	/*
@@ -8,7 +7,9 @@ public abstract class Laser extends GameObject implements Runnable {
 	 */
 	public Laser(int x, int y, int width, int height, boolean active) {
 		super(x, y, width, height, Util.NONE, Util.SPEED_HIGH, active);
-			new Thread(this).start();
+
+		new Thread(this).start();
+
 	}
 
 }

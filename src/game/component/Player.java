@@ -11,6 +11,7 @@ public class Player extends Ship {
 
 	protected ImageIcon ship;
 	private int see = 1, cont;
+
 	/*
 	 * Construtor
 	 */
@@ -23,32 +24,40 @@ public class Player extends Ship {
 	@Override
 	public void draw(Graphics g) {
 		// Altera a imagem do array
-		if(Util.hit == false) {
+	//	if (Util.hit == false) {
 			if (position == 0)
-				ship = new ImageIcon(Util.PLAYER_IMAGES[position++]);
-			
-			else
-				ship = new ImageIcon(Util.PLAYER_IMAGES[position--]);
-		}
-		
-		if(Util.hit) {
-			
-			if(see == 1){
+				//ship = new ImageIcon(Util.PLAYER_IMAGES[position++]);
+
+			//else
+				//ship = new ImageIcon(Util.PLAYER_IMAGES[position--]);
+		//}
+		ship = new ImageIcon("res\\ship\\ship.png");
+
+		if (Util.hit) {
+
+			if (see == 1) {
 				ship = new ImageIcon("res\\ship\\PlayerShip\\palyerHit.png");
 				see = 0;
 				cont++;
-				
-			}else {
+
+			} else {
 				ship = new ImageIcon(Util.PLAYER_IMAGES[0]);
 				see = 1;
 				cont++;
 			}
 		}
-		
-		if(cont >= 50) {
+
+		if (cont >= 50) {
 			Util.hit = false;
 			cont = 0;
 		}
+		// Verifica se pode disparar
+		if (shoot) {
+			alLaser.add(new PlayerLaser(getX() + 25, getY() + 5, 47, 30, true));
+
+			setShoot(false);
+		}
+
 		// Verifica se pode disparar
 		if (shoot) {
 			alLaser.add(new PlayerLaser(getX() + 25, getY() + 5, 47, 30, true));

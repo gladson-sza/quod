@@ -6,10 +6,7 @@
 
 package game.main;
 
-import game.component.Player;
 import game.component.Util;
-import game.phase.Phase;
-import game.phase.Stage01;
 import game.sound.Sound;
 
 import java.awt.event.ActionEvent;
@@ -27,7 +24,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	public boolean[] keyControl;
 
 	public static QuodGame qg;
-	
+
 	public Settings settings;
 	public Control control;
 	public Phase phase;
@@ -46,7 +43,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		settings = new Settings();
 		loading = new Loading();
 		over = new GameOver();
-		phase = new Stage01("res\\background\\galaxy_background01.jpg", new Player(), 0);
+		phase = new Phase("res\\background\\galaxy_background01.jpg", 0);
 		menu = new MainMenuScreen();
 		control = new Control();
 		
@@ -85,7 +82,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 			settings = new Settings();
 			loading = new Loading();
 			over = new GameOver();
-			phase = new Stage01("res\\background\\galaxy_background01.jpg", new Player(), 0);
+			phase = new Phase("res\\background\\galaxy_background01.jpg", 0);
 			menu = new MainMenuScreen();
 			control = new Control();
 		}
@@ -104,7 +101,6 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		settings.jbVolume.addActionListener(this);
 		settings.jbEffects.addActionListener(this);
 		phase.jbStop.addActionListener(this);
-		
 		
 		keyControl = new boolean[4];
 
@@ -136,7 +132,8 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 				
 
-				// contador de inimigos e disparos
+				// contador disparos
+
 				if (Util.SHOOT_COUNT < 10)
 					Util.SHOOT_COUNT++;
 
@@ -211,23 +208,23 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	 */
 	private void gameControl() {
 		// Esqurda
-		if (keyControl[0] && phase.player.getX() > 0) {
+		if (keyControl[0]) {
 			phase.player.moveLeft();
 		}
 
 		// Direita
-		if (keyControl[1] && (phase.player.getX() + phase.player.getWidth() < phase.getWidth())) {
+		if (keyControl[1]) {
 			phase.player.moveRight();
 		}
 
 		// Disparos
 		if (keyControl[2] && Util.SHOOT_COUNT > 9) {
 			phase.player.setShoot(true);
-			
-			if(Util.STATUS_EFFECTS) {
+
+			if (Util.STATUS_EFFECTS) {
 				new Sound(new File("res\\sound\\shoot.mp3")).start();
 			}
-			
+
 			Util.SHOOT_COUNT = 0;
 		}
 
@@ -242,10 +239,11 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		// Jogar botao
 		if (e.getSource() == menu.jbPlay) {
-			
-			if(Util.STATUS_SOUND) {
+
+			if (Util.STATUS_SOUND) {
 				Util.SOUND_PHASE.start();
 			}
+
 			menu.setVisible(false);
 
 			add(phase);
@@ -260,6 +258,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		}
 
 		// Controle botao
+
 		if (e.getSource() == menu.jbControl) {
 
 			menu.setVisible(false);
@@ -279,22 +278,28 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		if (e.getSource() == phase.jbStop) {
 			if (Util.STOP) {
 				Util.STOP = false;
+
+				phase.timerEnemy.restart();
+
 				phase.addKeyListener(this);
 				phase.requestFocus();
 				
 			} else {
 				
 				Util.STOP = true;
-				new StopGame();
+
+				phase.timerEnemy.stop();
+
+				new StopGame(phase);
 				phase.addKeyListener(this);
 				phase.requestFocus();
-				
+
 			}
 		}
 		
 		
 
-		// Ajustes botao
+		// botao ajustes
 		if (e.getSource() == menu.jbSettings) {
 			menu.setVisible(false);
 			this.add(this.settings);
@@ -310,24 +315,25 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 			mainMenu(true);
 		}
+
 		// Ajustes / botao de musica
 		if (e.getSource() == settings.jbVolume) {
-			if (Util.STATUS_SOUND) 			
+			if (Util.STATUS_SOUND)
 				Util.STATUS_SOUND = false; // mudo
-	
-			else	
-				Util.STATUS_SOUND = true; //som
+
+			else
+				Util.STATUS_SOUND = true; // som
 		}
-		
+
 		// Ajustes / Botao efeitos especiais
-		if(e.getSource() == settings.jbEffects) {
-			if (Util.STATUS_EFFECTS) 			
+		if (e.getSource() == settings.jbEffects) {
+			if (Util.STATUS_EFFECTS)
 				Util.STATUS_EFFECTS = false; // mudo
-	
-			else	
-				Util.STATUS_EFFECTS = true; //som
+
+			else
+				Util.STATUS_EFFECTS = true; // som
 		}
-		
+
 		// Fim de Jogo / Recomeçar
 		if (e.getSource() == over.jbTrayAgain) {
 
