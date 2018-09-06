@@ -32,6 +32,8 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	public Loading loading;
 	public GameOver over;
 	public Phase phaseAgain;
+	public Stop stop;
+	public StopGame sp;
 
 	/*
 	 * Construtor
@@ -44,7 +46,8 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		phase = new Phase("res\\background\\galaxy_background01.jpg", 0);
 		menu = new MainMenuScreen();
 		control = new Control();
-
+		
+		
 		setTitle("Quod - The Game");
 		setSize(Util.DEFAULT_SCREEN_WIDTH, Util.DEFAULT_SCREEN_HEIGHT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -97,7 +100,8 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		settings.jbComeBack.addActionListener(this);
 		settings.jbVolume.addActionListener(this);
 		settings.jbEffects.addActionListener(this);
-
+		phase.jbStop.addActionListener(this);
+		
 		keyControl = new boolean[4];
 
 		this.add(this.menu);
@@ -126,8 +130,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 				gameControl();
 				repaint();
 
-				// Leitura do botÃ£o pause
-				phase.jbStop.addActionListener(this);
+				
 
 				// contador disparos
 
@@ -135,6 +138,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 					Util.SHOOT_COUNT++;
 
 			}
+			
 
 			// Tempo de atualização da tela
 			try {
@@ -225,6 +229,8 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		}
 
 	}
+	
+	
 
 	/* Botoes */
 
@@ -268,21 +274,30 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		}
 
-		// fase / botao voltar
+		// fase / botao pausar
 		if (e.getSource() == phase.jbStop) {
-			if (Util.STOP == true) {
+			if (Util.STOP) {
 				Util.STOP = false;
 
 				phase.timerEnemy.restart();
 
 				phase.addKeyListener(this);
 				phase.requestFocus();
+				
 			} else {
+				
 				Util.STOP = true;
 
 				phase.timerEnemy.stop();
+
+				new StopGame();
+				phase.addKeyListener(this);
+				phase.requestFocus();
+
 			}
 		}
+		
+		
 
 		// botao ajustes
 		if (e.getSource() == menu.jbSettings) {

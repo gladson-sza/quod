@@ -27,7 +27,7 @@ public class Phase extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	protected static int score;
+	private static int score;
 	public Timer timerEnemy;
 
 	protected ImageIcon background;
@@ -48,6 +48,7 @@ public class Phase extends JPanel {
 	protected ImageIcon imgBack;
 	protected ImageIcon imgDamage;
 	protected ImageIcon hitLife;
+	protected ImageIcon imgStart;
 
 	public Phase(String backgroundPath, int lastScore) {
 
@@ -64,11 +65,12 @@ public class Phase extends JPanel {
 		hitLife = new ImageIcon("res\\ship\\hitLife.png");
 
 		moveBackground = -(Util.DEFAULT_SCREEN_HEIGHT * 9);
-		score = lastScore;
+		setScore(lastScore);
 
-		// Botao de pausa
+		// botão pausar
+		imgStart = new ImageIcon("res\\menu\\start.png");
 		imgBack = new ImageIcon(" ");
-		imgText = new ImageIcon("res\\menu\\stop.jpg");
+		imgText = new ImageIcon("res\\menu\\stop.png");
 
 		jbStop = new JButton();
 
@@ -78,7 +80,7 @@ public class Phase extends JPanel {
 		add(jbStop);
 
 		jbStop.setText(null);
-		jbStop.setIcon(imgText); // texto do botão
+		jbStop.setIcon(imgBack); // texto do botão
 		jbStop.setPressedIcon(imgBack); // Imagem ao clicar
 
 		// borda
@@ -144,7 +146,7 @@ public class Phase extends JPanel {
 					player.alLaser.get(i).setActive(false);
 					alEnemy.get(j).setActive(false);
 
-					score += 100;
+					setScore(getScore() + 100);
 				}
 
 				if (alEnemy.get(j).getY() >= +Util.DEFAULT_SCREEN_HEIGHT) {
@@ -278,55 +280,69 @@ public class Phase extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 
+		// Cor padrão da fonte
+		g.setColor(Color.WHITE);
+
+		// Desenha o background e define as cores da fonte
+		Image imageBackground = background.getImage();
+		g.drawImage(imageBackground, 0, moveBackground, getWidth(), Util.DEFAULT_SCREEN_HEIGHT * 10, this);
+
 		if (!Util.STOP) {
-			// Cor padrão da fonte
-			g.setColor(Color.WHITE);
-
-			// Desenha o background e define as cores da fonte
-			Image imageBackground = background.getImage();
-			g.drawImage(imageBackground, 0, moveBackground, getWidth(), Util.DEFAULT_SCREEN_HEIGHT * 10, this);
-
 			// Executa o controlador da fase at� pausar
 			phaseControl(g);
-
-			// Desenha o status do Laser
-			Image laserStatus = new ImageIcon(Util.LASER_CHARGE[Util.SHOOT_COUNT]).getImage();
-			g.drawImage(laserStatus, 0, 60, 50, 80, null);
-
-			// Vida do Player
-			Image img;
-
-			posLife = 10;
-
-			img = imgLife.getImage();
-
-			// vidas
-			for (int i = 0; i < life; i++) {
-				g.drawImage(img, posLife, 28, 40, 40, this);
-				posLife += 37;
-			}
-
-			// vida vermelha
-			if (Util.hit) {
-				img = hitLife.getImage();
-				g.drawImage(img, posLife, 28, 40, 40, this);
-			}
-
-			// efeito de dano
-			if (Util.hit) {
-				Image imageDamage = imgDamage.getImage();
-				g.drawImage(imageDamage, 0, 0, getWidth(), getHeight(), this);
-			}
-
-			Graphics2D g2d = (Graphics2D) g;
-			// g2d.setColor(Color.WHITE);
-			g2d.setFont(new Font("Showcard Gothic", Font.PLAIN, 20));
-			g2d.setBackground(Color.BLACK);
-			g2d.drawString("Pontos: ", 15, 21);
-			g2d.setColor(Color.yellow);
-			g2d.drawString(" " + score, 100, 21);
-
 		}
+
+		// Desenha o status do Laser
+		Image laserStatus = new ImageIcon(Util.LASER_CHARGE[Util.SHOOT_COUNT]).getImage();
+		g.drawImage(laserStatus, 0, 60, 50, 80, null);
+
+		// Vida do Player
+		Image img;
+
+		posLife = 10;
+
+		img = imgLife.getImage();
+
+		// vidas
+		for (int i = 0; i < life; i++) {
+			g.drawImage(img, posLife, 28, 40, 40, this);
+			posLife += 37;
+		}
+
+		// vida vermelha
+		if (Util.hit) {
+			img = hitLife.getImage();
+			g.drawImage(img, posLife, 28, 40, 40, this);
+		}
+
+		// efeito de dano
+		if (Util.hit) {
+			Image imageDamage = imgDamage.getImage();
+			g.drawImage(imageDamage, 0, 0, getWidth(), getHeight(), this);
+		}
+
+		// Botao pause e despause
+		if (Util.STOP) {
+			img = imgStart.getImage();
+			g.drawImage(img, Util.DEFAULT_SCREEN_WIDTH - 50, 5, 35, 35, null);
+		} else {
+			img = imgText.getImage();
+			g.drawImage(img, Util.DEFAULT_SCREEN_WIDTH - 50, 5, 35, 35, null);
+		}
+
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setFont(new Font("Showcard Gothic", Font.PLAIN, 20));
+		g2d.setBackground(Color.BLACK);
+		g2d.drawString("Pontos: ", 15, 21);
+		g2d.setColor(Color.yellow);
+		g2d.drawString(" " + getScore(), 100, 21);
 	}
 
+	public int getScore() {
+		return score;
+	}
+
+	public static void setScore(int score) {
+		Phase.score = score;
+	}
 }
