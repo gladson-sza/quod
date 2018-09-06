@@ -290,7 +290,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 				phase.timerEnemy.stop();
 
-				new StopGame();
+				new StopGame(phase);
 				phase.addKeyListener(this);
 				phase.requestFocus();
 

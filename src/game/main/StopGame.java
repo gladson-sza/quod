@@ -14,12 +14,11 @@ public class StopGame extends JFrame implements ActionListener, KeyListener{
 	private static final long serialVersionUID = 1L;
 	
 	protected Stop stop;
-	protected Phase pahse;
 	protected QuodGame qg;
 	
-	public StopGame() {
+	public StopGame(Phase phase) {
 		
-		stop = new Stop();
+		stop = new Stop(phase);
 		
 		setUndecorated(true);
 		setSize(Util.DEFAULT_SCREEN_WIDTH - 15, Util.DEFAULT_SCREEN_HEIGHT/2);
