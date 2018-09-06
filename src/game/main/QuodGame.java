@@ -35,6 +35,8 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	public Loading loading;
 	public GameOver over;
 	public Phase phaseAgain;
+	public Stop stop;
+	public StopGame sp;
 
 	/*
 	 * Construtor
@@ -47,7 +49,8 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		phase = new Stage01("res\\background\\galaxy_background01.jpg", new Player(), 0);
 		menu = new MainMenuScreen();
 		control = new Control();
-
+		
+		
 		setTitle("Quod - The Game");
 		setSize(Util.DEFAULT_SCREEN_WIDTH, Util.DEFAULT_SCREEN_HEIGHT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -100,6 +103,8 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		settings.jbComeBack.addActionListener(this);
 		settings.jbVolume.addActionListener(this);
 		settings.jbEffects.addActionListener(this);
+		phase.jbStop.addActionListener(this);
+		
 		
 		keyControl = new boolean[4];
 
@@ -129,14 +134,14 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 				gameControl();
 				repaint();
 
-				// Leitura do bot√£o pause
-				phase.jbStop.addActionListener(this);
+				
 
 				// contador de inimigos e disparos
 				if (Util.SHOOT_COUNT < 10)
 					Util.SHOOT_COUNT++;
 
 			}
+			
 
 			// Tempo de atualizaÁ„o da tela
 			try {
@@ -227,6 +232,8 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		}
 
 	}
+	
+	
 
 	/* Botoes */
 
@@ -268,16 +275,24 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		}
 
-		// fase / botao voltar
+		// fase / botao pausar
 		if (e.getSource() == phase.jbStop) {
-			if (Util.STOP == true) {
+			if (Util.STOP) {
 				Util.STOP = false;
 				phase.addKeyListener(this);
 				phase.requestFocus();
+				
 			} else {
+				
 				Util.STOP = true;
+				new StopGame();
+				phase.addKeyListener(this);
+				phase.requestFocus();
+				
 			}
 		}
+		
+		
 
 		// Ajustes botao
 		if (e.getSource() == menu.jbSettings) {
