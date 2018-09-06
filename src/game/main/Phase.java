@@ -31,11 +31,12 @@ public class Phase extends JPanel {
 
 	private int currentStage;
 	private static int score;
-	public Timer timerEnemy;
+	private boolean haveBoss;
 
 	protected ImageIcon background;
 	protected ImageIcon imgLife;
 
+	public Timer timerEnemy;
 	public ArrayList<Enemy> alEnemy;
 	public Player player;
 	public Image explosion;
@@ -58,6 +59,7 @@ public class Phase extends JPanel {
 		currentStage = 0;
 		background = new ImageIcon(backgroundPath);
 
+		haveBoss = false;
 		life = 3;
 
 		player = new Player();
@@ -107,12 +109,54 @@ public class Phase extends JPanel {
 			switch (currentStage) {
 			case 0:
 				alEnemy.add(new EnemyTier01(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
+				break;
 			case 1:
 				alEnemy.add(new EnemyTier02(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
+				break;
 			case 2:
 				alEnemy.add(new EnemyTier03(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
+				break;
 			case 3:
 				alEnemy.add(new EnemyTier04(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
+				break;
+			default:
+				switch (new Random().nextInt(4)) {
+				case 0:
+					alEnemy.add(
+							new EnemyTier01(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH / 2 - Util.ENEMY_WIDTH)));
+					break;
+				case 1:
+					alEnemy.add(
+							new EnemyTier02(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH / 2 - Util.ENEMY_WIDTH)));
+					break;
+				case 2:
+					alEnemy.add(
+							new EnemyTier03(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH / 2 - Util.ENEMY_WIDTH)));
+					break;
+				case 3:
+					alEnemy.add(
+							new EnemyTier04(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH / 2 - Util.ENEMY_WIDTH)));
+					break;
+				}
+
+				switch (new Random().nextInt(4)) {
+				case 0:
+					alEnemy.add(new EnemyTier01(Util.DEFAULT_SCREEN_WIDTH / 2
+							+ new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH / 2 - Util.ENEMY_WIDTH)));
+					break;
+				case 1:
+					alEnemy.add(new EnemyTier02(Util.DEFAULT_SCREEN_WIDTH / 2
+							+ new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH / 2 - Util.ENEMY_WIDTH)));
+					break;
+				case 2:
+					alEnemy.add(new EnemyTier03(Util.DEFAULT_SCREEN_WIDTH / 2
+							+ new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH / 2 - Util.ENEMY_WIDTH)));
+					break;
+				case 3:
+					alEnemy.add(new EnemyTier04(Util.DEFAULT_SCREEN_WIDTH / 2
+							+ new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH / 2 - Util.ENEMY_WIDTH)));
+					break;
+				}
 			}
 
 		}
@@ -131,41 +175,6 @@ public class Phase extends JPanel {
 			alEnemy.get(i).alLaser.clear();
 
 		alEnemy.clear();
-
-	}
-
-	/*
-	 * Este metodo inicia a fase 01
-	 */
-	public void stage01() {
-
-	}
-
-	/*
-	 * Este metodo inicia a fase 02
-	 */
-	public void stage02() {
-
-	}
-
-	/*
-	 * Este metodo inivia a fase 03
-	 */
-	public void stage03() {
-
-	}
-
-	/*
-	 * Este metodo inicia a fase 04
-	 */
-	public void stage04() {
-
-	}
-
-	/*
-	 * Este metodo inivia a fase 05 --- LUTA CONTRA O BOSS
-	 */
-	public void stage05() {
 
 	}
 
@@ -225,7 +234,7 @@ public class Phase extends JPanel {
 
 					if (Util.STATUS_SOUND && life > 0)
 						new Sound(new File("res\\sound\\hited.mp3")).start();
-					;
+
 				}
 			}
 
@@ -362,6 +371,25 @@ public class Phase extends JPanel {
 		drawEnemyLaser(g);
 		drawPlayer(g);
 		drawEnemy(g);
+
+		if (getScore() < 1000)
+			currentStage = 0;
+		else if (getScore() < 2000)
+			currentStage = 1;
+		else if (getScore() < 3000)
+			currentStage = 2;
+		else if (getScore() < 4000)
+			currentStage = 3;
+		else {
+			currentStage = 4;
+
+			if (!haveBoss) {
+				timerEnemy.setDelay(60000);
+				alEnemy.add(new EnemyBoss());
+				haveBoss = true;
+			}
+
+		}
 
 	}
 
