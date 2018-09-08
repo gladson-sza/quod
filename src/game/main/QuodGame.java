@@ -9,7 +9,6 @@ package game.main;
 import game.component.Util;
 import game.sound.Sound;
 
-import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -115,6 +114,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	/*
 	Verifica se o player ainda esta vivo
 	 */
+	@SuppressWarnings("deprecation")
 	public void isAlive() {	
 		
 		if(phase.life == 0) {
@@ -125,7 +125,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 			phase.timerEnemy.stop();
 			phase.phaseClear();
 			System.out.println("life == 0");
-			new jfOver(phase);
+			new JFOver(phase);
 		}
 		
 	}
@@ -133,7 +133,6 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	/*
 	 * GameLopp
 	 */
-	@SuppressWarnings("deprecation")
 	private void gameStart() {
 
 		while (Util.PLAYING) {

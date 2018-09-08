@@ -26,12 +26,12 @@ public class JFGameOver extends JFrame implements ActionListener {
 		setResizable(false);
 		setVisible(true);
 
-		over = new GameOver();
+		over = new GameOver(phase);
 		add(over);
 
 		// leitura
 		over.jbFinish.addActionListener(this);
-		over.jbTrayAgain.addActionListener(this);
+		over.jbTryAgain.addActionListener(this);
 
 	}
 
@@ -39,7 +39,7 @@ public class JFGameOver extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		// Recomeçar
-		if (e.getSource() == over.jbTrayAgain) {
+		if (e.getSource() == over.jbTryAgain) {
 			this.setVisible(false);
 		}
 

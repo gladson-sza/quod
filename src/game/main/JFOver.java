@@ -1,7 +1,5 @@
 package game.main;
 
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,12 +8,14 @@ import javax.swing.JFrame;
 
 import game.component.Util;
 
-public class jfOver extends JFrame implements ActionListener{
+public class JFOver extends JFrame implements ActionListener{
+	
+	private static final long serialVersionUID = 1L;
 	
 	protected Phase phase;
 	protected GameOver over;
 	
-	public jfOver(Phase phase) {
+	public JFOver(Phase phase) {
 		
 		this.phase = phase;
 		over = new GameOver(phase);

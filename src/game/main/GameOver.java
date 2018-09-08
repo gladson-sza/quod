@@ -14,12 +14,16 @@ import game.component.Util;
 
 public class GameOver extends JPanel{
 	
+	private static final long serialVersionUID = 1L;
+	
 	protected Phase phase;
 	protected ImageIcon background;
 	protected ImageIcon gameOver;
 	protected ImageIcon imgRestart;
 	
 	protected JButton jbRestart;
+	protected JButton jbFinish;
+	protected JButton jbTryAgain;
 	
 	private int space;
 	
