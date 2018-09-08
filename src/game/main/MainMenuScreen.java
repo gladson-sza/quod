@@ -20,14 +20,15 @@ public class MainMenuScreen extends JPanel {
 	protected ImageIcon imgControl;
 	protected ImageIcon logo;
 	protected ImageIcon backText;
+	protected ImageIcon backMenu;
 	
 	protected JButton jbPlay;
 	protected JButton jbBack; 
 	protected JButton jbControl;
 	protected JButton jbSettings;
 
-	protected int x = Util.DEFAULT_SCREEN_WIDTH/2 - 100;
-	protected int y = Util.DEFAULT_SCREEN_HEIGHT/2 - 85;
+	protected int x = Util.DEFAULT_SCREEN_WIDTH/2 - 80;
+	protected int y = Util.DEFAULT_SCREEN_HEIGHT/2 - 30;
 	protected int space = 60;
 	/*
 	 * Construtor
@@ -37,12 +38,12 @@ public class MainMenuScreen extends JPanel {
 		// imagem de fundo
 		imageIcon = new ImageIcon("res\\menu\\backGroundLoading.gif");
 		imgBack = new ImageIcon(" ");
-		imgText = new ImageIcon("res\\menu\\Play.png");
-		logo = new ImageIcon("res\\menu\\QuodMenu.png");
-		backText = new ImageIcon("res\\menu\\sair.png");
-		imgControl = new ImageIcon("res\\menu\\controles.png");
-		imgSettings = new ImageIcon("res\\menu\\conf.png");
-		
+		imgText = new ImageIcon("res\\button\\jogar.png");
+		logo = new ImageIcon("res\\menu\\QuodMenu.pn");
+		backText = new ImageIcon("res\\button\\sair.png");
+		imgControl = new ImageIcon("res\\button\\controles.png");
+		imgSettings = new ImageIcon("res\\button\\ajustes.png");
+		backMenu = new ImageIcon("res\\background\\menuback.jpg");
 		
 		// Tipo de conf. da tela 
 		setLayout(null);
@@ -53,10 +54,10 @@ public class MainMenuScreen extends JPanel {
 		jbControl = new JButton();
 		jbSettings = new JButton();
 		
-		jbPlay.setBounds(x, y, 200, 60);
-		jbControl.setBounds(x, y += space, 200, 60);
-		jbSettings.setBounds(x, y += space, 200, 60);
-		jbBack.setBounds(x,y += space, 200, 60);
+		jbPlay.setBounds(x, y, 300, 40);
+		jbControl.setBounds(x - 45, y += space, 300, 40);
+		jbSettings.setBounds(x - 12, y += space, 300, 40);
+		jbBack.setBounds(x + 22,y += space, 300, 40);
 		
 		add(jbPlay);
 		add(jbBack);
@@ -99,12 +100,12 @@ public class MainMenuScreen extends JPanel {
 		Image img = imageIcon.getImage();
 		//g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
 		
-		Image imageBackground = Util.background.getImage();
-		g.drawImage(imageBackground, 0, 0, getWidth(), Util.DEFAULT_SCREEN_HEIGHT * 10, this);
+		Image imageBackground = Util.backgroundMenu.getImage();
+		g.drawImage(imageBackground, 0, 0, getWidth(), getHeight(), this);
 		
 		// logo
-		img = logo.getImage();
-		g.drawImage(img, 20, 0, 500, 300, this);
+		img = Util.quodGame.getImage();
+		g.drawImage(img, 25, 40, 500, 300, this);
 
 	}
 }

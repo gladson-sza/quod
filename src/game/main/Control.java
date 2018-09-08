@@ -22,13 +22,13 @@ public class Control extends JPanel{
 	
 	public Control() {
 		
-		comeBackText = new ImageIcon("res\\menu\\voltar.png");
+		comeBackText = new ImageIcon("res\\button\\voltar.png");
 		imgControl = new ImageIcon("res\\menu\\tecla.png");
 		imgback = new ImageIcon(" ");
-		imgLogoControles = new ImageIcon("res\\menu\\logoControles.png");
+		imgLogoControles = new ImageIcon("res\\button\\controles.png");
 		
 		jbComeBack = new JButton();
-		jbComeBack.setBounds(10, 10, 35, 35);
+		jbComeBack.setBounds(12, 12, 45, 45);
 		
 		setLayout(null);
 		
@@ -43,11 +43,11 @@ public class Control extends JPanel{
 	
 	protected void paintComponent(Graphics g) {
 		
-		Image img = Util.background.getImage();
-		g.drawImage(img, 0, 0, getWidth(), Util.DEFAULT_SCREEN_HEIGHT * 10, this);
+		Image img = Util.backgroundMenu2.getImage();
+		g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
 		
 		img = imgLogoControles.getImage();
-		g.drawImage(img, 180, 10, 200, 45, this);
+		g.drawImage(img, Util.DEFAULT_SCREEN_HEIGHT/2 -170, 15, 300, 40, this);
 		
 		img = imgControl.getImage();
 		g.drawImage(img, 0, 15, getWidth(), getHeight(), this);

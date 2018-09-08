@@ -92,22 +92,25 @@ public abstract class GameObject {
 	public void setExplode(boolean explode) {
 		this.explode = explode;
 	}
-
+	
 	public void moveUp() {
+		if(!Util.STOP)
 		y -= speedY;
 	}
 
 	public void moveDown() {
+		if(!Util.STOP)
 		y += speedY;
 	}
 
 	public void moveLeft() {
+		if(!Util.STOP)
 		if (getX() > 0)
 			x -= speedX;
 	}
 
 	public void moveRight() {
-		if (getX() + getWidth() < Util.DEFAULT_SCREEN_WIDTH)
+		if (getX() + getWidth() < Util.DEFAULT_SCREEN_WIDTH && !Util.STOP)
 			x += speedX;
 	}
 

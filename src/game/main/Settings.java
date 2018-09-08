@@ -35,32 +35,28 @@ public class Settings extends JPanel {
 	protected ImageIcon imgEffectsFalse;
 
 	// auxiliares
-	private static int widthHeight = 24; // nao pode mudar esses valores (tamanho do volume)
-	private static int spaceX = 310, spaceY = 9; // nao pode mudar esses valores (posicao da volume)
+	private static int widthHeight = 45; // nao pode mudar esses valores (tamanho do volume)
+	private static int spaceX = 310, spaceY = 3; // nao pode mudar esses valores (posicao da volume)
 	private int x = 100, y = 225; // posicao do botao volume, pode alterar
 	private int space = 80;
 
-	// logo
-	protected ImageIcon imgSettings;
-
 	public Settings() {
 
-		logo = new ImageIcon("res\\menu\\setLogo.png");
-		// conf
-		imgSettings = new ImageIcon("res\\menu\\ajustesLogo.png");
+		logo = new ImageIcon("res\\button\\ajustes.png");
+		
 
 		// Som e mudo
 		imgVolumeTrue = new ImageIcon("res\\menu\\som.png");
 		imgVolumeFalse = new ImageIcon("res\\menu\\mudo.png");
 
-		comeBackText = new ImageIcon("res\\menu\\voltar.png");
+		comeBackText = new ImageIcon("res\\button\\voltar.png");
 		imgback = new ImageIcon(" ");
 
 		/*
 		 * Configuracao do botao voltar
 		 */
 		jbComeBack = new JButton();
-		jbComeBack.setBounds(10, 10, 35, 35);
+		jbComeBack.setBounds(12, 12, 45, 45);
 
 		setLayout(null);
 
@@ -76,10 +72,10 @@ public class Settings extends JPanel {
 		 * Configuracao do botao de volume
 		 */
 
-		mold = new ImageIcon("res\\menu\\moldeVolume.png");
+		mold = new ImageIcon("res\\menu\\m�sica.png");
 
 		jbVolume = new JButton();
-		jbVolume.setBounds(x, y, 350, 45);
+		jbVolume.setBounds(x, y, 400, 40);
 
 		jbVolume.setText(null);
 		jbVolume.setIcon(mold); // texto do botão
@@ -91,10 +87,10 @@ public class Settings extends JPanel {
 
 		// Botao efeitos especiais
 
-		moldEffects = new ImageIcon("res\\menu\\moldeEfeitos.png");
+		moldEffects = new ImageIcon("res\\menu\\efeitos.png");
 
 		jbEffects = new JButton();
-		jbEffects.setBounds(x, y + space, 350, 45);
+		jbEffects.setBounds(x, y + space, 400, 40);
 
 		jbEffects.setText(null);
 		jbEffects.setIcon(moldEffects); // texto do botão
@@ -107,12 +103,12 @@ public class Settings extends JPanel {
 
 	protected void paintComponent(Graphics g) {
 
-		Image img = Util.background.getImage();
-		g.drawImage(img, 0, 0, getWidth(), Util.DEFAULT_SCREEN_HEIGHT * 10, this);
+		Image img = Util.backgroundMenu2.getImage();
+		g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
 
 		// ajustes
-		img = imgSettings.getImage();
-		g.drawImage(img, 180, 10, 200, 70, this);
+		img = logo.getImage();
+		g.drawImage(img, 180, 15, 300, 40, this);
 
 		// musica
 		if (Util.STATUS_SOUND) {
@@ -120,7 +116,7 @@ public class Settings extends JPanel {
 			g.drawImage(img1, x + spaceX, y + spaceY, widthHeight, widthHeight, this);
 		} else {
 			img = imgVolumeFalse.getImage();
-			g.drawImage(img, x + spaceX - 2, y + spaceY, widthHeight, widthHeight, this);
+			g.drawImage(img, x + spaceX , y + spaceY, widthHeight, widthHeight, this);
 		}
 
 		// efeitos especiais
@@ -130,12 +126,9 @@ public class Settings extends JPanel {
 			g.drawImage(img1, x + spaceX, y + spaceY + space, widthHeight, widthHeight, this);
 		} else {
 			img = imgVolumeFalse.getImage();
-			g.drawImage(img, x + spaceX - 2, y + spaceY + space, widthHeight, widthHeight, this);
+			g.drawImage(img, x + spaceX , y + spaceY + space, widthHeight, widthHeight, this);
 		}
 
-		// QuodGame
-		img = logo.getImage();
-		g.drawImage(img, 370, Util.DEFAULT_SCREEN_HEIGHT - 125, 200, 80, null);
 
 	}
 }

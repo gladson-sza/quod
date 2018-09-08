@@ -40,6 +40,7 @@ public class Phase extends JPanel {
 	public ArrayList<Enemy> alEnemy;
 	public Player player;
 	public Image explosion;
+	protected QuodGame qg;
 
 	protected int posLife;
 	public int life;
@@ -70,10 +71,10 @@ public class Phase extends JPanel {
 		imgDamage = new ImageIcon("res\\effects\\damange.png");
 		hitLife = new ImageIcon("res\\ship\\hitLife.png");
 
-		moveBackground = -(Util.DEFAULT_SCREEN_HEIGHT * 9);
+		moveBackground = -(3000 - Util.DEFAULT_SCREEN_HEIGHT);
 		setScore(lastScore);
 
-		// botão pausar
+		// botÃ£o pausar
 		imgStart = new ImageIcon("res\\menu\\start.png");
 		imgBack = new ImageIcon(" ");
 		imgText = new ImageIcon("res\\menu\\stop.png");
@@ -86,7 +87,7 @@ public class Phase extends JPanel {
 		add(jbStop);
 
 		jbStop.setText(null);
-		jbStop.setIcon(imgBack); // texto do botão
+		jbStop.setIcon(imgBack); // texto do botÃ£o
 		jbStop.setPressedIcon(imgBack); // Imagem ao clicar
 
 		// borda
@@ -97,6 +98,22 @@ public class Phase extends JPanel {
 		timerEnemy = new Timer(1750, new NewEnemy());
 
 	}
+	
+	/*
+	 * reinicia todos os atributos
+	 * */
+	
+	public void restartGame() {
+		
+		phaseClear();
+		Util.STOP = false;
+		life = 3;
+		setScore(0);
+		timerEnemy.start();
+		this.requestFocus();
+		moveBackground = -(3000 - Util.DEFAULT_SCREEN_HEIGHT);
+	}
+	
 
 	/*
 	 * Essa classe instancia os novos inimigos no Timer de acordo com a fase
@@ -162,7 +179,7 @@ public class Phase extends JPanel {
 		}
 
 	}
-
+	
 	/*
 	 * Esse metodo zera todos os atributos
 	 */
@@ -186,7 +203,7 @@ public class Phase extends JPanel {
 			if (moveBackground <= -Util.DEFAULT_SCREEN_HEIGHT)
 				moveBackground += 3;
 			else
-				moveBackground = -(Util.DEFAULT_SCREEN_HEIGHT * 9);
+				moveBackground = -(3000 - Util.DEFAULT_SCREEN_HEIGHT);
 		}
 	}
 
@@ -317,7 +334,7 @@ public class Phase extends JPanel {
 				player.setActive(false);
 			}
 		} else {
-			Util.PLAYING = false;
+			Util.PLAYING = true;
 		}
 	}
 
@@ -396,15 +413,15 @@ public class Phase extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 
-		// Cor padrão da fonte
+		// Cor padrÃ£o da fonte
 		g.setColor(Color.WHITE);
 
 		// Desenha o background e define as cores da fonte
-		Image imageBackground = background.getImage();
-		g.drawImage(imageBackground, 0, moveBackground, getWidth(), Util.DEFAULT_SCREEN_HEIGHT * 10, this);
+		Image imageBackground = Util.backgroundGame.getImage();
+		g.drawImage(imageBackground, 0, moveBackground, getWidth(), 3000, this);
 
 		if (!Util.STOP) {
-			// Executa o controlador da fase at� pausar
+			// Executa o controlador da fase até pausar
 			phaseControl(g);
 		}
 
