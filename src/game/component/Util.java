@@ -71,8 +71,11 @@ public final class Util {
 
 	// Fundo gamestart
 
-	public static final ImageIcon background = new ImageIcon("res\\background\\galaxy_background01.jpg");
-
+	
+	public static final ImageIcon backgroundMenu = new ImageIcon("res\\background\\menuBack.png");
+	public static final ImageIcon backgroundMenu2 = new ImageIcon("res\\background\\menuBack2.png");
+	public static final ImageIcon quodGame = new ImageIcon("res\\logo\\QuodGame.png");
+	public static final ImageIcon backgroundGame = new ImageIcon("res\\background\\ground.png");
 	/*
 	 * Essa classe verifica se o objeto a colide com o objeto b
 	 */

@@ -21,20 +21,29 @@ public class Stop extends JPanel {
 	protected ImageIcon imgRestart;
 	protected ImageIcon imgLife;
 	protected ImageIcon imgClose;
-
+	protected ImageIcon logo;
+	protected ImageIcon not;
+	protected ImageIcon soundTrue;
+	protected ImageIcon soundFalse;
+	
 	protected JButton jbStart;
 	protected JButton jbRestart;
 	protected JButton jbClose;
+	protected JButton jbSound;
 
 	private Phase phase;
 	private int space;
 	private int posLife;
 
 	public Stop(Phase phase) {
-		
+
 		this.phase = phase;
 		
-		back = new ImageIcon("res\\background\\backStop.png");
+		soundFalse = new ImageIcon("res\\button\\somFalseStop.png");
+		soundTrue = new ImageIcon("res\\button\\somTrueStop.png");
+		not= new ImageIcon(" ");
+		logo = new ImageIcon("res\\logo\\QuodGameStop.png");
+		back = new ImageIcon("res\\background\\backgroundStop.png");
 		imgStart = new ImageIcon("res\\button\\Start.png");
 		imgRestart = new ImageIcon("res\\button\\restart.png");
 		imgLife = new ImageIcon("res\\ship\\life.png");
@@ -51,6 +60,15 @@ public class Stop extends JPanel {
 		jbStart.setBorderPainted(false);
 		jbStart.setContentAreaFilled(false);
 
+		// som
+		jbSound = new JButton();
+		jbSound.setBounds(Util.DEFAULT_SCREEN_WIDTH / 2 + 48, 266, 50, 50);
+		jbSound.setText(null);
+		jbSound.setIcon(not); // texto do botão
+		jbSound.setPressedIcon(not); // Imagem ao clicar
+		jbSound.setBorderPainted(false);
+		jbSound.setContentAreaFilled(false);
+
 		// recomecar
 		jbRestart = new JButton();
 		jbRestart.setBounds(Util.DEFAULT_SCREEN_WIDTH / 2 - 90, 265, 50, 50);
@@ -58,9 +76,9 @@ public class Stop extends JPanel {
 		jbRestart.setIcon(imgRestart); // texto do botão
 		jbRestart.setPressedIcon(imgRestart); // Imagem ao clicar
 		jbRestart.setBorderPainted(false);
-		jbRestart.setContentAreaFilled(false);
-		
-		//X
+		jbRestart.setContentAreaFilled(false);		
+
+		// X
 		jbClose = new JButton();
 		jbClose.setBounds(Util.DEFAULT_SCREEN_WIDTH - 65, 5, 50, 50);
 		jbClose.setText(null);
@@ -72,6 +90,7 @@ public class Stop extends JPanel {
 		add(jbStart);
 		add(jbRestart);
 		add(jbClose);
+		add(jbSound);
 		
 		// configuracao do ponto
 		if (phase.getScore() < 100)
@@ -88,15 +107,26 @@ public class Stop extends JPanel {
 		img = back.getImage();
 		g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
 		
-		//vida
-		posLife = 280;
+		img = logo.getImage();
+		g.drawImage(img, 5, 1, 500, 100, null);
 		
+		//sound
+		if(Util.STATUS_SOUND) {
+			img =  soundTrue.getImage();
+			g.drawImage(img,Util.DEFAULT_SCREEN_WIDTH / 2 + 48, 266, 50, 50, null);
+		}else {
+			img =  soundFalse.getImage();
+			g.drawImage(img,Util.DEFAULT_SCREEN_WIDTH / 2 + 48, 266, 50, 50, null);
+		}
+		// vida
+		posLife = 280;
+
 		img = imgLife.getImage();
 		for (int i = 0; i < phase.life; i++) {
 			g.drawImage(img, posLife, 165, 35, 35, this);
 			posLife += 35;
 		}
-		
+
 		Graphics2D g2d = (Graphics2D) g;
 
 		g2d.setFont(new Font("Showcard Gothic", Font.PLAIN, 60));

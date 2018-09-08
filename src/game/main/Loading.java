@@ -1,56 +1,48 @@
 package game.main;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import game.component.Util;
 
 public class Loading extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	protected ImageIcon logo;
-	protected ImageIcon loading;
-	protected ImageIcon backGround;
-	protected ImageIcon loadingText;
-	protected ImageIcon back;
-
-
+	
+	protected ImageIcon	imgText;
+	protected JButton jbPress;
+	
 	public Loading() {
 
-		backGround = new ImageIcon("res\\menu\\backGroundLoading.gif");
-		loading = new ImageIcon("res\\menu\\loading1.gif");
-		logo = new ImageIcon("res\\menu\\quod.png");
-		loadingText = new ImageIcon("res\\menu\\loadingText.png");
-		back = new ImageIcon("res\\menu\\back.png");
-
+		setLayout(null);
+		
+		imgText = new ImageIcon("res\\button\\enter.png");
+		
+		jbPress = new JButton();
+		jbPress.setBounds(Util.DEFAULT_SCREEN_WIDTH /2 - 80, Util.DEFAULT_SCREEN_HEIGHT / 2, 300, 40);
+		jbPress.setText(null);
+		jbPress.setIcon(imgText); // texto do botão
+		jbPress.setPressedIcon(imgText); // Imagem ao clicar
+		jbPress.setBorderPainted(false);
+		jbPress.setContentAreaFilled(false);
+		
+		add(jbPress);
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 
 		// Tela de Fundo
-		Image img = backGround.getImage();
-    
-		//g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
-		Image imageBackground = Util.background.getImage();
-		g.drawImage(imageBackground, 0, 0, getWidth(), Util.DEFAULT_SCREEN_HEIGHT * 10, this);
-
-		// logo
-		img = logo.getImage();
-		g.drawImage(img, 15, 5, 500, 300, this);
+		Image imageBackground = Util.backgroundMenu2.getImage();
+		g.drawImage(imageBackground, 0, 0, getWidth(), getHeight(), this);
 		
-		// gif carregando
-		img = back.getImage();
-		g.drawImage(img, 10, 450, 525, 40, this);
-		
-		img = loading.getImage();
-		g.drawImage(img, 10, 450, 525, 40, this);
-		
-		//Texto carregando
-		img = loadingText.getImage();
-		g.drawImage(img, 140, 411, 300, 40, this);
-
+		Image img = Util.quodGame.getImage();
+		g.drawImage(img, 25, 40, 500, 300, this);
 	}
 }

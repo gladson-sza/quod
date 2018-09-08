@@ -9,6 +9,8 @@ package game.main;
 import game.component.Util;
 import game.sound.Sound;
 
+import java.awt.Color;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -42,12 +44,11 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		settings = new Settings();
 		loading = new Loading();
-		over = new GameOver();
 		phase = new Phase("res\\background\\galaxy_background01.jpg", 0);
 		menu = new MainMenuScreen();
 		control = new Control();
 		
-		
+		setIconImage(Toolkit.getDefaultToolkit().getImage("res\\logo\\DG.png"));
 		setTitle("Quod - The Game");
 		setSize(Util.DEFAULT_SCREEN_WIDTH, Util.DEFAULT_SCREEN_HEIGHT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -57,17 +58,11 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		// adiciona a tela de carregando
 		add(loading);
-
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		// fecha o JPanel da Tela de carregando e abre o menu
-		loading.setVisible(false);
-
+		
+		loading.jbPress.addActionListener(this);
+		
 		mainMenu(false);
+		
 	}
 
 	/*
@@ -81,7 +76,6 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		if (aNew == true) {
 			settings = new Settings();
 			loading = new Loading();
-			over = new GameOver();
 			phase = new Phase("res\\background\\galaxy_background01.jpg", 0);
 			menu = new MainMenuScreen();
 			control = new Control();
@@ -103,10 +97,11 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		phase.jbStop.addActionListener(this);
 		
 		keyControl = new boolean[4];
-
-		this.add(this.menu);
-		menu.requestFocus();
-
+		
+		if(aNew == true) {
+			this.add(this.menu);
+			menu.requestFocus();
+		}
 	}
 
 	/*
@@ -116,7 +111,25 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		qg = new QuodGame();
 		qg.gameStart();
 	}
-
+	
+	/*
+	Verifica se o player ainda esta vivo
+	 */
+	public void isAlive() {	
+		
+		if(phase.life == 0) {
+			
+			Util.SOUND_PHASE.stop();
+			Util.STOP = true;
+			
+			phase.timerEnemy.stop();
+			phase.phaseClear();
+			System.out.println("life == 0");
+			new jfOver(phase);
+		}
+		
+	}
+	
 	/*
 	 * GameLopp
 	 */
@@ -129,9 +142,9 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 				gameControl();
 				repaint();
-
+				// verifica se o player ainda esta vivo
+				isAlive();
 				
-
 				// contador disparos
 
 				if (Util.SHOOT_COUNT < 10)
@@ -149,17 +162,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		}
 
 		// abrindo tela de fim de jogo
-		Util.SOUND_PHASE.stop();
-		Util.STOP = true;
-		phase.timerEnemy.stop();
-		phase.phaseClear();
-		phase.setVisible(false);
-		this.add(this.over);
-		over.requestFocus();
-
-		// botao de finalizar
-		over.jbFinish.addActionListener(this);
-		over.jbTrayAgain.addActionListener(this);
+		
 	}
 
 	/* Teclado */
@@ -236,7 +239,14 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		
+		// iniciar
+		if(e.getSource() == loading.jbPress) {
+			loading.setVisible(false);
+			this.add(this.menu);
+			menu.requestFocus();
+		}
+		
 		// Jogar botao
 		if (e.getSource() == menu.jbPlay) {
 
@@ -245,9 +255,8 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 			}
 
 			menu.setVisible(false);
-
+			phase.restartGame();
 			add(phase);
-			phase.timerEnemy.start();
 			phase.requestFocus();
 
 		}
@@ -278,7 +287,6 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		if (e.getSource() == phase.jbStop) {
 			if (Util.STOP) {
 				Util.STOP = false;
-
 				phase.timerEnemy.restart();
 
 				phase.addKeyListener(this);
@@ -333,17 +341,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 			else
 				Util.STATUS_EFFECTS = true; // som
 		}
-
-		// Fim de Jogo / Recomeçar
-		if (e.getSource() == over.jbTrayAgain) {
-
-		}
-
-		// Fimde Jogo / Finalizar
-		if (e.getSource() == over.jbFinish) {
-			System.exit(0);
-		}
-
+		
 	}
 
 }

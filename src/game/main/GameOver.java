@@ -1,6 +1,9 @@
 package game.main;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -9,71 +12,58 @@ import javax.swing.JPanel;
 
 import game.component.Util;
 
-public class GameOver extends JPanel {
-
-	private static final long serialVersionUID = 1L;
-	protected ImageIcon imgBack;
-	protected ImageIcon jbText;
-	protected ImageIcon imgOver;
-	protected ImageIcon imgFinish;
-
-	protected JButton jbTrayAgain;
-	protected JButton jbFinish;
-
+public class GameOver extends JPanel{
+	
 	protected Phase phase;
-
-	public GameOver() {
-
-		imgBack = new ImageIcon(" ");
-		imgOver = new ImageIcon("res\\gameOver\\gameOver.png");
-		jbText = new ImageIcon("res\\gameOver\\playAgain.png");
-		imgFinish = new ImageIcon("res\\gameOver\\finalizar.png");
-
-		jbTrayAgain = new JButton();
-		jbFinish = new JButton();
-
+	protected ImageIcon background;
+	protected ImageIcon gameOver;
+	protected ImageIcon imgRestart;
+	
+	protected JButton jbRestart;
+	
+	private int space;
+	
+	public GameOver(Phase phase) {
+		
+		this.phase = phase;
+		imgRestart = new ImageIcon("res\\button\\restart80.png");
+		background = new ImageIcon("res\\background\\backgroundOver.png");
+		gameOver = new ImageIcon("res\\logo\\gameOver.png");
+		
 		setLayout(null);
-
-		jbFinish.setBounds(Util.DEFAULT_SCREEN_WIDTH / 2 - 95, Util.DEFAULT_SCREEN_HEIGHT / 2, 200, 60);
-		jbTrayAgain.setBounds(Util.DEFAULT_SCREEN_WIDTH / 2 - 95, Util.DEFAULT_SCREEN_HEIGHT / 2 + 100, 200, 60);
-
-		// add(jbTrayAgain);
-		add(jbFinish);
-
-		// Bot�o tentar novamente
-
-		jbTrayAgain.setIcon(jbText); // texto do botão
-		jbTrayAgain.setPressedIcon(imgBack); // Imagem ao clicar
-
-		// borda
-		jbTrayAgain.setBorderPainted(false);
-		jbTrayAgain.setContentAreaFilled(false);
-
-		jbTrayAgain.setBorderPainted(false);
-		jbTrayAgain.setContentAreaFilled(false);
-
-		// bot�o finalizar
-
-		jbFinish.setIcon(imgFinish); // texto do botão
-		jbFinish.setPressedIcon(imgBack); // Imagem ao clicar
-
-		// borda
-		jbFinish.setBorderPainted(false);
-		jbFinish.setContentAreaFilled(false);
-
-		jbFinish.setBorderPainted(false);
-		jbFinish.setContentAreaFilled(false);
-
+		
+		jbRestart = new JButton();
+		jbRestart.setBounds(Util.DEFAULT_SCREEN_WIDTH / 2 - 36, 215, 80, 80);
+		jbRestart.setText(null);
+		jbRestart.setIcon(imgRestart); // texto do botão
+		jbRestart.setPressedIcon(imgRestart); // Imagem ao clicar
+		jbRestart.setBorderPainted(false);
+		jbRestart.setContentAreaFilled(false);
+		add(jbRestart);
+		
+		if (phase.getScore() < 100)
+			space = 20;
+		else if (phase.getScore() > 99 && phase.getScore() < 1000)
+			space = 50;
+		else
+			space = 70;
+		
+	
 	}
-
+	
 	protected void paintComponent(Graphics g) {
 		Image img;
-
-		Image imageBackground = Util.background.getImage();
-		g.drawImage(imageBackground, 0, 0, getWidth(), Util.DEFAULT_SCREEN_HEIGHT * 10, this);
-
-		img = imgOver.getImage();
-		g.drawImage(img, 25, 5, 500, 300, this);
-
+		
+		img = background.getImage();	
+		g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
+		
+		img = gameOver.getImage();
+		g.drawImage(img, 20, 0, 500, 100, null);
+		
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setFont(new Font("Showcard Gothic", Font.PLAIN, 60));
+		g2d.setColor(Color.WHITE);
+		g2d.drawString(" " + phase.getScore(), getWidth() / 2 - space, getHeight() / 2 + 20);
 	}
+	
 }
