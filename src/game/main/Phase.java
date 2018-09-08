@@ -74,7 +74,7 @@ public class Phase extends JPanel {
 		moveBackground = -(3000 - Util.DEFAULT_SCREEN_HEIGHT);
 		setScore(lastScore);
 
-		// botão pausar
+		// botÃ£o pausar
 		imgStart = new ImageIcon("res\\menu\\start.png");
 		imgBack = new ImageIcon(" ");
 		imgText = new ImageIcon("res\\menu\\stop.png");
@@ -87,7 +87,7 @@ public class Phase extends JPanel {
 		add(jbStop);
 
 		jbStop.setText(null);
-		jbStop.setIcon(imgBack); // texto do botão
+		jbStop.setIcon(imgBack); // texto do botÃ£o
 		jbStop.setPressedIcon(imgBack); // Imagem ao clicar
 
 		// borda
@@ -122,7 +122,7 @@ public class Phase extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+
 			switch (currentStage) {
 			case 0:
 				alEnemy.add(new EnemyTier01(new Random().nextInt(Util.DEFAULT_SCREEN_WIDTH - Util.ENEMY_WIDTH)));
@@ -413,7 +413,7 @@ public class Phase extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 
-		// Cor padrão da fonte
+		// Cor padrÃ£o da fonte
 		g.setColor(Color.WHITE);
 
 		// Desenha o background e define as cores da fonte
@@ -421,7 +421,7 @@ public class Phase extends JPanel {
 		g.drawImage(imageBackground, 0, moveBackground, getWidth(), 3000, this);
 
 		if (!Util.STOP) {
-			// Executa o controlador da fase at� pausar
+			// Executa o controlador da fase até pausar
 			phaseControl(g);
 		}
 

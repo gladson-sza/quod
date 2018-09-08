@@ -20,16 +20,18 @@ public class StopGame extends JFrame implements ActionListener, KeyListener {
 	public StopGame(Phase phase) {
 		
 		this.phase = phase;
+
 		stop = new Stop(phase);
-		
+
 		setUndecorated(true);
 		setSize(Util.DEFAULT_SCREEN_WIDTH - 15, Util.DEFAULT_SCREEN_HEIGHT / 2);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
-		
+	
 		add(stop);
+
 		stop.jbStart.addActionListener(this);
 		stop.jbClose.addActionListener(this);
 		stop.jbRestart.addActionListener(this);
@@ -50,6 +52,10 @@ public class StopGame extends JFrame implements ActionListener, KeyListener {
 		}
 
 		if (e.getSource() == stop.jbRestart) {
+      
+			Util.STOP = false;
+			Phase.setScore(-1);
+
 			this.setVisible(false);
 			Util.STOP = false;
 			phase.restartGame();
