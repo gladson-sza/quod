@@ -43,10 +43,10 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		settings = new Settings();
 		loading = new Loading();
-		phase = new Phase("res\\background\\galaxy_background01.jpg", 0);
+		phase = new Phase("res\\background\\galaxy_background01.jpg");
 		menu = new MainMenuScreen();
 		control = new Control();
-		
+
 		setIconImage(Toolkit.getDefaultToolkit().getImage("res\\logo\\DG.png"));
 		setTitle("Quod - The Game");
 		setSize(Util.DEFAULT_SCREEN_WIDTH, Util.DEFAULT_SCREEN_HEIGHT);
@@ -57,11 +57,11 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		// adiciona a tela de carregando
 		add(loading);
-		
+
 		loading.jbPress.addActionListener(this);
-		
+
 		mainMenu(false);
-		
+
 	}
 
 	/*
@@ -75,7 +75,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		if (aNew == true) {
 			settings = new Settings();
 			loading = new Loading();
-			phase = new Phase("res\\background\\galaxy_background01.jpg", 0);
+			phase = new Phase("res\\background\\galaxy_background01.jpg");
 			menu = new MainMenuScreen();
 			control = new Control();
 		}
@@ -94,10 +94,10 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		settings.jbVolume.addActionListener(this);
 		settings.jbEffects.addActionListener(this);
 		phase.jbStop.addActionListener(this);
-		
+
 		keyControl = new boolean[4];
-		
-		if(aNew == true) {
+
+		if (aNew == true) {
 			this.add(this.menu);
 			menu.requestFocus();
 		}
@@ -110,26 +110,26 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		qg = new QuodGame();
 		qg.gameStart();
 	}
-	
+
 	/*
-	Verifica se o player ainda esta vivo
+	 * Verifica se o player ainda esta vivo
 	 */
 	@SuppressWarnings("deprecation")
-	public void isAlive() {	
-		
-		if(phase.life == 0) {
-			
+	public void isAlive() {
+
+		if (phase.life == 0) {
+
 			Util.SOUND_PHASE.stop();
 			Util.STOP = true;
-			
+
 			phase.timerEnemy.stop();
 			phase.phaseClear();
 			System.out.println("life == 0");
 			new JFOver(phase);
 		}
-		
+
 	}
-	
+
 	/*
 	 * GameLopp
 	 */
@@ -143,14 +143,13 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 				repaint();
 				// verifica se o player ainda esta vivo
 				isAlive();
-				
+
 				// contador disparos
 
 				if (Util.SHOOT_COUNT < 10)
 					Util.SHOOT_COUNT++;
 
 			}
-			
 
 			// Tempo de atualização da tela
 			try {
@@ -161,7 +160,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		}
 
 		// abrindo tela de fim de jogo
-		
+
 	}
 
 	/* Teclado */
@@ -231,27 +230,21 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		}
 
 	}
-	
-	
 
 	/* Botoes */
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+
 		// iniciar
-		if(e.getSource() == loading.jbPress) {
+		if (e.getSource() == loading.jbPress) {
 			loading.setVisible(false);
 			this.add(this.menu);
 			menu.requestFocus();
 		}
-		
+
 		// Jogar botao
 		if (e.getSource() == menu.jbPlay) {
-
-			if (Util.STATUS_SOUND) {
-				Util.SOUND_PHASE.start();
-			}
 
 			menu.setVisible(false);
 			phase.restartGame();
@@ -286,13 +279,14 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		if (e.getSource() == phase.jbStop) {
 			if (Util.STOP) {
 				Util.STOP = false;
+
 				phase.timerEnemy.restart();
 
 				phase.addKeyListener(this);
 				phase.requestFocus();
-				
+
 			} else {
-				
+
 				Util.STOP = true;
 
 				phase.timerEnemy.stop();
@@ -303,8 +297,6 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 			}
 		}
-		
-		
 
 		// botao ajustes
 		if (e.getSource() == menu.jbSettings) {
@@ -327,7 +319,6 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		if (e.getSource() == settings.jbVolume) {
 			if (Util.STATUS_SOUND)
 				Util.STATUS_SOUND = false; // mudo
-
 			else
 				Util.STATUS_SOUND = true; // som
 		}
@@ -340,7 +331,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 			else
 				Util.STATUS_EFFECTS = true; // som
 		}
-		
+
 	}
 
 }

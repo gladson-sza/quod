@@ -15,14 +15,14 @@ import game.component.Util;
 public abstract class Enemy extends Ship implements Runnable {
 
 	protected ImageIcon ship;
-
+	
 	/*
 	 * Construtor
 	 */
 	public Enemy(int enemyPosition) {
 		super(enemyPosition, -Util.ENEMY_HEIGHT, Util.ENEMY_WIDTH, Util.ENEMY_HEIGHT, Util.SPEED_SLOW, Util.SPEED_SLOW,
 				true);
-
+		
 		ship = new ImageIcon("res\\ship\\EnemyShip\\enemyShip.gif");
 
 		new Thread(this).start();

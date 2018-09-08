@@ -22,6 +22,8 @@ public class EnemyBoss extends Enemy {
 
 	private int relativePosition;
 	private int action;
+	private int life;
+	private boolean imunity;
 
 	/*
 	 * Construtor
@@ -32,12 +34,29 @@ public class EnemyBoss extends Enemy {
 		setWidth(85);
 
 		ship = new ImageIcon("res\\ship\\EnemyShip\\bossShip.gif");
+		setLife(5);
 
 		action = new Random().nextInt(2);
 		relativePosition = LEFT;
 
 		timerShoot = new Timer(500, new BossShoot());
 		timerShoot.start();
+	}
+
+	public int getLife() {
+		return life;
+	}
+
+	public void setLife(int life) {
+		this.life = life;
+	}
+
+	public boolean isImunity() {
+		return imunity;
+	}
+
+	public void setImunity(boolean imunity) {
+		this.imunity = imunity;
 	}
 
 	/*
@@ -47,7 +66,7 @@ public class EnemyBoss extends Enemy {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (Util.STOP)
+			if (!Util.STOP)
 				alLaser.add(new EnemyLaser(getX() + 25, getY() + getHeight() + 5, 35, 30, true));
 		}
 
@@ -58,6 +77,7 @@ public class EnemyBoss extends Enemy {
 
 		Image imageShip = ship.getImage();
 		g.drawImage(imageShip, getX(), getY(), getWidth(), getHeight(), null);
+
 	}
 
 	/*
@@ -72,9 +92,12 @@ public class EnemyBoss extends Enemy {
 	}
 
 	/*
-	 * O boss realiza um movimento de uTurn com a sua nave de maneira veloz
+	 * O boss realiza um movimento de uTurn com a sua nave de maneira veloz nesse
+	 * tempo o boss nao ataca, mas nao recebe dano
 	 */
 	public void uTurn() {
+
+		setImunity(true);
 
 		setSpeedY(Util.SPEED_HIGH);
 		setSpeedX(Util.SPEED_HIGH);
@@ -100,7 +123,7 @@ public class EnemyBoss extends Enemy {
 			}
 		}
 
-		// retorna a posicao inicial
+		// retorna a posicao inicial disparando
 		timerShoot.setDelay(250);
 		timerShoot.start();
 
@@ -113,6 +136,8 @@ public class EnemyBoss extends Enemy {
 		timerShoot.setDelay(800);
 		setSpeedY(Util.SPEED_SLOW);
 		setSpeedX(Util.SPEED_SLOW);
+
+		setImunity(false);
 
 	}
 
@@ -262,6 +287,7 @@ public class EnemyBoss extends Enemy {
 	@Override
 	public void run() {
 
+		setImunity(true);
 		setSpeedY(Util.SPEED_SLOW);
 
 		// Entrada do boss, ele vai ate parte da tela
@@ -272,6 +298,8 @@ public class EnemyBoss extends Enemy {
 
 		timerShoot.stop();
 		timerShoot.setDelay(800);
+
+		setImunity(false);
 
 		// Controle das acoes do boss, sao eventos aleatorios
 		while (isActive()) {
@@ -299,6 +327,25 @@ public class EnemyBoss extends Enemy {
 			update();
 		}
 
+		/* Posiciona o boss para a explosao */
+		switch (relativePosition) {
+		case LEFT:
+			while (getX() < Util.DEFAULT_SCREEN_WIDTH / 2 - Util.ENEMY_WIDTH / 2) {
+				moveRight();
+				update();
+			}
+			break;
+		case RIGHT:
+			while (getX() > Util.DEFAULT_SCREEN_WIDTH / 2 - Util.ENEMY_WIDTH / 2) {
+				moveLeft();
+				update();
+			}
+		}
+
+		while (getY() > Util.DEFAULT_SCREEN_HEIGHT / 4)
+			moveUp();
+
+		
 	}
 
 }

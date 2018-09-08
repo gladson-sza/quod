@@ -21,7 +21,7 @@ public final class Util {
 	public static int SHOOT_COUNT = 0;
 
 	/* Constantes dos Audios */
-	public static final Sound SOUND_PHASE = new Sound(new File("res\\sound\\phaseTheme.mp3"));
+	public static Sound SOUND_PHASE = new Sound(new File("res\\sound\\phaseTheme.mp3"));
 
 	public static boolean STATUS_SOUND = true;
 	public static boolean STATUS_EFFECTS = true;

@@ -4,10 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 
 import javax.swing.JFrame;
 
 import game.component.Util;
+import game.sound.Sound;
 
 public class StopGame extends JFrame implements ActionListener, KeyListener {
 
@@ -39,6 +41,7 @@ public class StopGame extends JFrame implements ActionListener, KeyListener {
 	}
 	
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == stop.jbStart) {
@@ -72,10 +75,15 @@ public class StopGame extends JFrame implements ActionListener, KeyListener {
 		}
 		
 		if(e.getSource() == stop.jbSound) {
-			if(Util.STATUS_SOUND) 
+			if(Util.STATUS_SOUND) {
 				Util.STATUS_SOUND = false;
-			else
+				Util.SOUND_PHASE.stop();
+			} else {
+				Util.SOUND_PHASE = new Sound(new File("res\\sound\\phaseTheme.mp3"));
+				Util.SOUND_PHASE.start();
 				Util.STATUS_SOUND = true;
+			}
+				
 		}
 
 	}

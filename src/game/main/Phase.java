@@ -29,6 +29,7 @@ public class Phase extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	private int enemyDown;
 	private int currentStage;
 	private static int score;
 	private boolean haveBoss;
@@ -38,6 +39,7 @@ public class Phase extends JPanel {
 
 	public Timer timerEnemy;
 	public ArrayList<Enemy> alEnemy;
+	public EnemyBoss boss;
 	public Player player;
 	public Image explosion;
 	protected QuodGame qg;
@@ -45,6 +47,7 @@ public class Phase extends JPanel {
 	protected int posLife;
 	public int life;
 	public int moveBackground;
+	public int moveBackgroundAux;
 	public boolean side = true;
 
 	public JButton jbStop;
@@ -55,13 +58,14 @@ public class Phase extends JPanel {
 	protected ImageIcon hitLife;
 	protected ImageIcon imgStart;
 
-	public Phase(String backgroundPath, int lastScore) {
+	public Phase(String backgroundPath) {
 
 		currentStage = 0;
 		background = new ImageIcon(backgroundPath);
 
 		haveBoss = false;
 		life = 3;
+		enemyDown = 20;
 
 		player = new Player();
 		alEnemy = new ArrayList<Enemy>();
@@ -71,8 +75,8 @@ public class Phase extends JPanel {
 		imgDamage = new ImageIcon("res\\effects\\damange.png");
 		hitLife = new ImageIcon("res\\ship\\hitLife.png");
 
-		moveBackground = -(3000 - Util.DEFAULT_SCREEN_HEIGHT);
-		setScore(lastScore);
+		moveBackground = -2100;
+		moveBackgroundAux = -5100;
 
 		// botÃ£o pausar
 		imgStart = new ImageIcon("res\\menu\\start.png");
@@ -98,22 +102,30 @@ public class Phase extends JPanel {
 		timerEnemy = new Timer(1750, new NewEnemy());
 
 	}
-	
+
 	/*
 	 * reinicia todos os atributos
-	 * */
-	
+	 */
+	@SuppressWarnings("deprecation")
 	public void restartGame() {
-		
 		phaseClear();
 		Util.STOP = false;
+
+		Util.SOUND_PHASE.stop();
+
+		if (Util.STATUS_SOUND) {
+			Util.SOUND_PHASE = new Sound(new File("res\\sound\\phaseTheme.mp3"));
+			Util.SOUND_PHASE.start();
+		}
+
 		life = 3;
+		haveBoss = false;
 		setScore(0);
 		timerEnemy.start();
 		this.requestFocus();
-		moveBackground = -(3000 - Util.DEFAULT_SCREEN_HEIGHT);
+		moveBackground = -2100;
+		moveBackgroundAux = -5100;
 	}
-	
 
 	/*
 	 * Essa classe instancia os novos inimigos no Timer de acordo com a fase
@@ -179,7 +191,7 @@ public class Phase extends JPanel {
 		}
 
 	}
-	
+
 	/*
 	 * Esse metodo zera todos os atributos
 	 */
@@ -199,11 +211,17 @@ public class Phase extends JPanel {
 	 * Movimenta o fundo
 	 */
 	public void moveBackground() {
-		if (!Util.STOP) {
-			if (moveBackground <= -Util.DEFAULT_SCREEN_HEIGHT)
-				moveBackground += 3;
-			else
-				moveBackground = -(3000 - Util.DEFAULT_SCREEN_HEIGHT);
+		if (!Util.STOP && !haveBoss) {
+
+			// Movimenta o eixo y da imagem
+			moveBackground += 3;
+			moveBackgroundAux += 3;
+
+			// Alterna infinitamente
+			if (moveBackgroundAux == 0)
+				moveBackground = -3000;
+			if (moveBackground == 0)
+				moveBackgroundAux = -3000;
 		}
 	}
 
@@ -224,6 +242,7 @@ public class Phase extends JPanel {
 					alEnemy.get(j).setActive(false);
 
 					setScore(getScore() + 100);
+					enemyDown++;
 				}
 
 				if (alEnemy.get(j).getY() >= +Util.DEFAULT_SCREEN_HEIGHT) {
@@ -352,9 +371,11 @@ public class Phase extends JPanel {
 			}
 
 			// Verifica se saiu da tela
-			if (alEnemy.get(i).getY() >= Util.DEFAULT_SCREEN_HEIGHT) {
+			if (alEnemy.get(i).getY() >= Util.DEFAULT_SCREEN_HEIGHT && alEnemy.get(i).isActive()) {
 				alEnemy.get(i).setActive(false);
 				alEnemy.get(i).setExplode(true);
+
+				setScore(getScore() - 200);
 			}
 
 			// Desenha se estiver ativo
@@ -363,7 +384,6 @@ public class Phase extends JPanel {
 			else if (!alEnemy.get(i).isExplode()) {
 				alEnemy.get(i).setExplode(true);
 				alEnemy.get(i).explode();
-
 			} else if (alEnemy.get(i).getCountExplosion() < Util.EXPLOSION_TIME && Util.STATUS_EFFECTS) {
 
 				g.drawImage(explosion, alEnemy.get(i).getX(), alEnemy.get(i).getY(), alEnemy.get(i).getWidth(),
@@ -377,35 +397,113 @@ public class Phase extends JPanel {
 	}
 
 	/*
+	 * Verifica os lasers que atingiram o boss
+	 */
+	public void verifyPlayerHitsInBoss() {
+		for (int i = 0; i < player.alLaser.size(); i++) {
+			if (Util.colision(player.alLaser.get(i), boss)) {
+				player.alLaser.get(i).setActive(false);
+				boss.setLife(boss.getLife() - 1);
+			}
+
+			if (boss.getLife() == 0)
+				boss.setActive(false);
+		}
+	}
+
+	/*
+	 * Verifica os lases do boss
+	 */
+	public void verifyBossHits() {
+		for (int i = 0; i < boss.alLaser.size(); i++) {
+
+			// verifica se saiu da tela
+			if (boss.alLaser.get(i).getY() > Util.DEFAULT_SCREEN_HEIGHT)
+				boss.alLaser.get(i).setActive(false);
+
+			// verifica se colidiu com o player
+			if (Util.colision(boss.alLaser.get(i), player) && boss.alLaser.get(i).isActive()) {
+				boss.alLaser.get(i).setActive(false);
+				life--;
+
+				if (Util.STATUS_EFFECTS)
+					Util.hit = true;
+
+				if (Util.STATUS_SOUND && life > 0)
+					new Sound(new File("res\\sound\\hited.mp3")).start();
+			}
+		}
+
+	}
+
+	/*
+	 * Desenha o boss se setiver ativo
+	 */
+	public void drawBoss(Graphics g) {
+		if (boss.isActive()) {
+			boss.draw(g);
+		} else {
+			g.drawImage(explosion, boss.getX(), boss.getY(), 100, 100, this);
+		}
+	}
+
+	/*
+	 * Desenha os lasers do boss
+	 */
+	public void drawBossLaser(Graphics g) {
+		// Remove o laser
+		for (int i = 0; i < boss.alLaser.size(); i++) {
+			if (!boss.alLaser.get(i).isActive())
+				boss.alLaser.remove(i);
+		}
+
+		// Desenha o laser
+		for (int i = 0; i < boss.alLaser.size(); i++)
+			boss.alLaser.get(i).draw(g);
+	}
+
+	/*
 	 * Este metodo controla as colisoes da fase
 	 */
 	public void phaseControl(Graphics g) {
 
+		// Controlador padrao
 		moveBackground();
 		verifyPlayerHits();
 		verifyEnemyHits();
+
+		// Desenha ou remove os lasers
 		drawPlayerLaser(g);
 		drawEnemyLaser(g);
+
+		// Controlador para o boss
+		if (haveBoss) {
+			verifyPlayerHitsInBoss();
+			verifyBossHits();
+			drawBossLaser(g);
+			drawBoss(g);
+		}
+
+		// Remove ou desenha os inimigos e o player
 		drawPlayer(g);
 		drawEnemy(g);
 
-		if (getScore() < 1000)
+		if (enemyDown < 5)
 			currentStage = 0;
-		else if (getScore() < 2000)
+		else if (enemyDown < 10)
 			currentStage = 1;
-		else if (getScore() < 3000)
+		else if (enemyDown < 15)
 			currentStage = 2;
-		else if (getScore() < 4000)
+		else if (enemyDown < 20)
 			currentStage = 3;
 		else {
 			currentStage = 4;
 
 			if (!haveBoss) {
 				timerEnemy.setDelay(60000);
-				alEnemy.add(new EnemyBoss());
+				boss = new EnemyBoss();
 				haveBoss = true;
 			}
-
 		}
 
 	}
@@ -419,6 +517,7 @@ public class Phase extends JPanel {
 		// Desenha o background e define as cores da fonte
 		Image imageBackground = Util.backgroundGame.getImage();
 		g.drawImage(imageBackground, 0, moveBackground, getWidth(), 3000, this);
+		g.drawImage(imageBackground, 0, moveBackgroundAux, getWidth(), 3000, this);
 
 		if (!Util.STOP) {
 			// Executa o controlador da fase até pausar

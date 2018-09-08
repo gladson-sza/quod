@@ -29,7 +29,6 @@ public class Sound extends Thread {
 
 	@Override
 	public void run() {
-
 		// Executa pelo menos uma vez
 		try {
 			player.play();
