@@ -73,7 +73,6 @@ public class StopGame extends JFrame implements ActionListener, KeyListener {
 		}
 
 		if (e.getSource() == stop.jbClose) {
-
 			phase.addKeyListener(this);
 			phase.requestFocus();
 
@@ -97,6 +96,7 @@ public class StopGame extends JFrame implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			phase.timerEnemy.restart();
 			phase.addKeyListener(this);
