@@ -1,5 +1,5 @@
 /**
- * @author Gladson Souza de Ara√∫jo
+ * @author Gladson Souza de Araujo
  * @author Paulo Victor Ribeiro da Silva
  * 
  */
@@ -34,7 +34,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	public GameOver over;
 	public Phase phaseAgain;
 	public Stop stop;
-	public StopGame sp;
+	public StopGame sg;
 
 	/*
 	 * Construtor
@@ -124,10 +124,27 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 			phase.timerEnemy.stop();
 			phase.phaseClear();
-			System.out.println("life == 0");
-			new JFOver(phase);
+
+			new JFOver(phase, true);
 		}
 
+	}
+
+	/*
+	 * Verifica se o boss esta vivo
+	 */
+
+	@SuppressWarnings("deprecation")
+	public void bossIsAlive() {
+		if (phase.bossDie) {
+			Util.SOUND_PHASE.stop();
+			Util.STOP = true;
+
+			phase.timerEnemy.stop();
+			phase.phaseClear();
+
+			new JFOver(phase, false); // false para VOCE VENCEU
+		}
 	}
 
 	/*
@@ -144,6 +161,9 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 				// verifica se o player ainda esta vivo
 				isAlive();
 
+				// verifica se o boss ainda esta vivo
+				bossIsAlive();
+
 				// contador disparos
 
 				if (Util.SHOOT_COUNT < 10)
@@ -151,7 +171,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 			}
 
-			// Tempo de atualizaÁ„o da tela
+			// Tempo de atualizacao da tela
 			try {
 				Thread.sleep(45);
 			} catch (InterruptedException e) {
@@ -229,6 +249,35 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 			Util.SHOOT_COUNT = 0;
 		}
 
+		if (keyControl[3]) {
+			stop();
+		}
+
+	}
+
+	/*
+	 * pausar
+	 */
+	public void stop() {
+
+		if (Util.STOP) {
+			Util.STOP = false;
+
+			phase.timerEnemy.restart();
+			phase.addKeyListener(this);
+			phase.requestFocus();
+
+		} else {
+
+			Util.STOP = true;
+
+			phase.timerEnemy.stop();
+
+			this.sg = new StopGame(phase);
+
+			keyControl[3] = false;
+
+		}
 	}
 
 	/* Botoes */
@@ -277,25 +326,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 		// fase / botao pausar
 		if (e.getSource() == phase.jbStop) {
-			if (Util.STOP) {
-				Util.STOP = false;
-
-				phase.timerEnemy.restart();
-
-				phase.addKeyListener(this);
-				phase.requestFocus();
-
-			} else {
-
-				Util.STOP = true;
-
-				phase.timerEnemy.stop();
-
-				new StopGame(phase);
-				phase.addKeyListener(this);
-				phase.requestFocus();
-
-			}
+			stop();
 		}
 
 		// botao ajustes
@@ -322,7 +353,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 			else
 				Util.STATUS_SOUND = true; // som
 		}
-		
+
 		// Ajustes / Botao efeitos especiais
 		if (e.getSource() == settings.jbEffects) {
 			if (Util.STATUS_EFFECTS)

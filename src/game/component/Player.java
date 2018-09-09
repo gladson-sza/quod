@@ -10,7 +10,7 @@ import game.component.Util;
 public class Player extends Ship {
 
 	protected ImageIcon ship;
-	private int see = 1, cont;
+	private int see = 1, cont = 0;
 
 	/*
 	 * Construtor
@@ -24,14 +24,26 @@ public class Player extends Ship {
 	@Override
 	public void draw(Graphics g) {
 		// Altera a imagem do array
-		 if (Util.hit == false) {
-		if (position == 0)
-			 ship = new ImageIcon(Util.PLAYER_IMAGES[position++]);
+		if (Util.hit == false) {
+			if (position == 0) {
+				ship = new ImageIcon(Util.PLAYER_IMAGES[0]);
+				cont++;
 
-			 else
-			 ship = new ImageIcon(Util.PLAYER_IMAGES[position--]);
-		 }
-			//ship = new ImageIcon("res\\ship\\ship.png");
+				if (cont == 10) {
+					position++;
+					cont = 0;
+				}
+
+			} else {
+				ship = new ImageIcon(Util.PLAYER_IMAGES[1]);
+				cont++;
+
+				if (cont == 10) {
+					cont = 0;
+					position--;
+				}
+			}
+		}
 
 		if (Util.hit) {
 
@@ -41,7 +53,7 @@ public class Player extends Ship {
 				cont++;
 
 			} else {
-				ship = new ImageIcon(Util.PLAYER_IMAGES[0]);
+				ship = new ImageIcon(Util.PLAYER_IMAGES[1]);
 				see = 1;
 				cont++;
 			}
@@ -68,5 +80,4 @@ public class Player extends Ship {
 		Image imageShip = ship.getImage();
 		g.drawImage(imageShip, getX(), getY(), getWidth(), getHeight(), null);
 	}
-
 }
