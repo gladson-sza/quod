@@ -125,6 +125,7 @@ public class Phase extends JPanel {
 		bossDie = false;
 		haveBoss = false;
 		setScore(0);
+		timerEnemy.setDelay(1750);
 		timerEnemy.start();
 		this.requestFocus();
 		moveBackground = -2100;
