@@ -61,6 +61,10 @@ public final class Util {
 			"res\\hud\\laser50Charge.png", "res\\hud\\laser60Charge.png", "res\\hud\\laser70Charge.png",
 			"res\\hud\\laser80Charge.png", "res\\hud\\laser90Charge.png", "res\\hud\\laserFullCharge.png" };
 
+	/* Imagem da vida do Boss */
+	public static final String BOSS_LIFE[] = { "res\\hud\\bossLifeEmpty.png", "res\\hud\\bossLife_1.png",
+			"res\\hud\\bossLifeHalf.png", "res\\hud\\bossLife_3.png", "res\\hud\\bossLifeFull.png" };
+
 	/* Constantes do Tamanho das Naves Inimigas */
 	public static final int ENEMY_POSITION = -100;
 	public static final int ENEMY_WIDTH = 70;
@@ -71,11 +75,11 @@ public final class Util {
 
 	// Fundo gamestart
 
-	
 	public static final ImageIcon backgroundMenu = new ImageIcon("res\\background\\menuBack.png");
 	public static final ImageIcon backgroundMenu2 = new ImageIcon("res\\background\\menuBack2.png");
 	public static final ImageIcon quodGame = new ImageIcon("res\\logo\\QuodGame.png");
 	public static final ImageIcon backgroundGame = new ImageIcon("res\\background\\ground.png");
+
 	/*
 	 * Essa classe verifica se o objeto a colide com o objeto b
 	 */

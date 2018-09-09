@@ -401,9 +401,11 @@ public class Phase extends JPanel {
 	 */
 	public void verifyPlayerHitsInBoss() {
 		for (int i = 0; i < player.alLaser.size(); i++) {
-			if (Util.colision(player.alLaser.get(i), boss)) {
+			if (Util.colision(player.alLaser.get(i), boss) && boss.isActive()) {
 				player.alLaser.get(i).setActive(false);
-				boss.setLife(boss.getLife() - 1);
+
+				if (!boss.isImunity())
+					boss.setLife(boss.getLife() - 1);
 			}
 
 			if (boss.getLife() == 0)
@@ -478,6 +480,11 @@ public class Phase extends JPanel {
 
 		// Controlador para o boss
 		if (haveBoss) {
+			if (boss.getY() > 100 && boss.getLife() > 0) {
+				Image bossLife = new ImageIcon(Util.BOSS_LIFE[boss.getLife() - 1]).getImage();
+				g.drawImage(bossLife, 170, 10, 200, 50, this);
+			}
+			
 			verifyPlayerHitsInBoss();
 			verifyBossHits();
 			drawBossLaser(g);
@@ -505,7 +512,6 @@ public class Phase extends JPanel {
 				haveBoss = true;
 			}
 		}
-
 	}
 
 	@Override

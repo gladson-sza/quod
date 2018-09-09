@@ -2,12 +2,16 @@ package game.main;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import game.component.Util;
+import game.sound.Sound;
 
 public class Settings extends JPanel {
 
@@ -57,6 +61,22 @@ public class Settings extends JPanel {
 		 */
 		jbComeBack = new JButton();
 		jbComeBack.setBounds(12, 12, 45, 45);
+		
+		jbComeBack.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (Util.STATUS_EFFECTS)
+					new Sound(new File("res\\sound\\buttonBelow.mp3")).start();
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+			
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
 
 		setLayout(null);
 

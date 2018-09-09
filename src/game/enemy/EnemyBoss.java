@@ -147,7 +147,7 @@ public class EnemyBoss extends Enemy {
 	public void leftShoots() {
 		relativePosition = LEFT;
 
-		while (getX() > 0) {
+		while (getX() > 0 && isActive()) {
 			moveLeft();
 			timerShoot.start();
 			update();
@@ -161,7 +161,7 @@ public class EnemyBoss extends Enemy {
 	public void rightShoots() {
 		relativePosition = RIGHT;
 
-		while (getX() + getWidth() < Util.DEFAULT_SCREEN_WIDTH) {
+		while (getX() + getWidth() < Util.DEFAULT_SCREEN_WIDTH && isActive()) {
 			moveRight();
 
 			timerShoot.start();
@@ -189,15 +189,15 @@ public class EnemyBoss extends Enemy {
 		case LEFT: // Para a esquerda
 
 			// posicao inicial esquerda
-			while (getX() <= Util.DEFAULT_SCREEN_WIDTH / 4) {
+			while (getX() <= Util.DEFAULT_SCREEN_WIDTH / 4 && isActive()) {
 				moveRight();
 				update();
 			}
 
 			// repte quatro vezes
-			while (countMove-- > 0) {
+			while (countMove-- > 0 && isActive()) {
 
-				while (countShoot-- > 0) {
+				while (countShoot-- > 0 && isActive()) {
 					alLaser.add(new EnemyLaser(getX() + 25, getY() + getHeight() + 5, 35, 30, true));
 
 					while (holdLaser-- > 0) // segura o tempo do disparo
@@ -213,14 +213,14 @@ public class EnemyBoss extends Enemy {
 				if (relativePosition == LEFT) {
 					relativePosition = RIGHT;
 
-					while (getX() < 345) {
+					while (getX() < 345 && isActive()) {
 						moveRight();
 						update();
 					}
 				} else {
 					relativePosition = LEFT;
 
-					while (getX() > 150) {
+					while (getX() > 150 && isActive()) {
 						moveLeft();
 						update();
 					}
@@ -229,20 +229,21 @@ public class EnemyBoss extends Enemy {
 			}
 
 			// volta para a borda de acao
-			rightShoots();
+			if (isActive())
+				rightShoots();
 
 			break;
 		case RIGHT: // Para a direita
 
-			while (getX() > 345) {
+			while (getX() > 345 && isActive()) {
 				moveLeft();
 				update();
 			}
 
 			// repte quatro vezes
-			while (countMove-- > 0) {
+			while (countMove-- > 0 && isActive()) {
 
-				while (countShoot-- > 0) {
+				while (countShoot-- > 0 && isActive()) {
 					alLaser.add(new EnemyLaser(getX() + 25, getY() + getHeight() + 5, 35, 30, true));
 
 					while (holdLaser-- > 0) // segura o tempo do disparo
@@ -255,17 +256,17 @@ public class EnemyBoss extends Enemy {
 				countShoot = 5;
 
 				/* Alterna as posicoes */
-				if (relativePosition == RIGHT) {
+				if (relativePosition == RIGHT && isActive()) {
 					relativePosition = LEFT;
 
-					while (getX() > 150) {
+					while (getX() > 150 && isActive()) {
 						moveLeft();
 						update();
 					}
 				} else {
 					relativePosition = RIGHT;
 
-					while (getX() < 345) {
+					while (getX() < 345 && isActive()) {
 						moveRight();
 						update();
 					}
@@ -273,7 +274,8 @@ public class EnemyBoss extends Enemy {
 
 			}
 
-			leftShoots();
+			if (isActive())
+				leftShoots();
 
 			break;
 		}
@@ -327,25 +329,6 @@ public class EnemyBoss extends Enemy {
 			update();
 		}
 
-		/* Posiciona o boss para a explosao */
-		switch (relativePosition) {
-		case LEFT:
-			while (getX() < Util.DEFAULT_SCREEN_WIDTH / 2 - Util.ENEMY_WIDTH / 2) {
-				moveRight();
-				update();
-			}
-			break;
-		case RIGHT:
-			while (getX() > Util.DEFAULT_SCREEN_WIDTH / 2 - Util.ENEMY_WIDTH / 2) {
-				moveLeft();
-				update();
-			}
-		}
-
-		while (getY() > Util.DEFAULT_SCREEN_HEIGHT / 4)
-			moveUp();
-
-		
 	}
 
 }

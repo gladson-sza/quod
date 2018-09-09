@@ -322,7 +322,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 			else
 				Util.STATUS_SOUND = true; // som
 		}
-
+		
 		// Ajustes / Botao efeitos especiais
 		if (e.getSource() == settings.jbEffects) {
 			if (Util.STATUS_EFFECTS)

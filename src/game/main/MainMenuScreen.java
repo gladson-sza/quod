@@ -2,12 +2,16 @@ package game.main;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import game.component.Util;
+import game.sound.Sound;
 
 public class MainMenuScreen extends JPanel {
 
@@ -53,6 +57,71 @@ public class MainMenuScreen extends JPanel {
 		jbBack = new JButton();
 		jbControl = new JButton();
 		jbSettings = new JButton();
+		
+		/* Som quando clica no botao */
+		jbPlay.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (Util.STATUS_EFFECTS)
+					new Sound(new File("res\\sound\\buttonBelow.mp3")).start();
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+			
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
+		
+		jbBack.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (Util.STATUS_EFFECTS)
+					new Sound(new File("res\\sound\\buttonBelow.mp3")).start();
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+			
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
+		
+		jbControl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (Util.STATUS_EFFECTS)
+					new Sound(new File("res\\sound\\buttonBelow.mp3")).start();
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+			
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
+		
+		jbSettings.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (Util.STATUS_EFFECTS)
+					new Sound(new File("res\\sound\\buttonBelow.mp3")).start();
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+			
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
 		
 		jbPlay.setBounds(x, y, 300, 40);
 		jbControl.setBounds(x - 45, y += space, 300, 40);

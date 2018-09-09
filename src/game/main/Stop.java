@@ -5,12 +5,16 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import game.component.Util;
+import game.sound.Sound;
 
 public class Stop extends JPanel {
 
@@ -61,6 +65,22 @@ public class Stop extends JPanel {
 		jbStart.setPressedIcon(imgStart); // Imagem ao clicar
 		jbStart.setBorderPainted(false);
 		jbStart.setContentAreaFilled(false);
+		
+		jbStart.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (Util.STATUS_EFFECTS)
+					new Sound(new File("res\\sound\\buttonBelow.mp3")).start();
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+			
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
 
 		// som
 		jbSound = new JButton();
@@ -70,7 +90,23 @@ public class Stop extends JPanel {
 		jbSound.setPressedIcon(not); // Imagem ao clicar
 		jbSound.setBorderPainted(false);
 		jbSound.setContentAreaFilled(false);
-
+		
+		jbSound.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (Util.STATUS_EFFECTS)
+					new Sound(new File("res\\sound\\buttonBelow.mp3")).start();
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+			
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
+		
 		// recomecar
 		jbRestart = new JButton();
 		jbRestart.setBounds(Util.DEFAULT_SCREEN_WIDTH / 2 - 90, 265, 50, 50);
@@ -79,7 +115,22 @@ public class Stop extends JPanel {
 		jbRestart.setPressedIcon(imgRestart); // Imagem ao clicar
 		jbRestart.setBorderPainted(false);
 		jbRestart.setContentAreaFilled(false);		
-
+		
+		jbRestart.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (Util.STATUS_EFFECTS)
+					new Sound(new File("res\\sound\\buttonBelow.mp3")).start();
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+			
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
 
 		// X
 		jbClose = new JButton();
@@ -89,7 +140,23 @@ public class Stop extends JPanel {
 		jbClose.setPressedIcon(imgClose); // Imagem ao clicar
 		jbClose.setBorderPainted(false);
 		jbClose.setContentAreaFilled(false);
-
+		
+		jbClose.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (Util.STATUS_EFFECTS)
+					new Sound(new File("res\\sound\\buttonBelow.mp3")).start();
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+			
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
+		
 		add(jbStart);
 		add(jbRestart);
 		add(jbClose);

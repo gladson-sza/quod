@@ -36,7 +36,6 @@ public class JFOver extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
 		if(e.getSource() == over.jbRestart) {
 			this.setVisible(false);
