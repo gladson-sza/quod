@@ -40,14 +40,13 @@ public class Settings extends JPanel {
 
 	// auxiliares
 	private static int widthHeight = 45; // nao pode mudar esses valores (tamanho do volume)
-	private static int spaceX = 310, spaceY = 3; // nao pode mudar esses valores (posicao da volume)
+	private static int spaceX = 310, spaceY = 0; // nao pode mudar esses valores (posicao da volume)
 	private int x = 100, y = 225; // posicao do botao volume, pode alterar
 	private int space = 80;
 
 	public Settings() {
 
 		logo = new ImageIcon("res\\button\\ajustes.png");
-		
 
 		// Som e mudo
 		imgVolumeTrue = new ImageIcon("res\\menu\\som.png");
@@ -61,6 +60,14 @@ public class Settings extends JPanel {
 		 */
 		jbComeBack = new JButton();
 		jbComeBack.setBounds(12, 12, 45, 45);
+
+		setLayout(null);
+
+		jbComeBack.setText(null);
+		jbComeBack.setIcon(comeBackText); // texto do bot„o
+		jbComeBack.setPressedIcon(imgback); // Imagem ao clicar
+		jbComeBack.setBorderPainted(false);
+		jbComeBack.setContentAreaFilled(false);
 		
 		jbComeBack.addMouseListener(new MouseAdapter() {
 			@Override
@@ -78,27 +85,19 @@ public class Settings extends JPanel {
 			}
 		});
 
-		setLayout(null);
-
-		jbComeBack.setText(null);
-		jbComeBack.setIcon(comeBackText); // texto do bot√£o
-		jbComeBack.setPressedIcon(imgback); // Imagem ao clicar
-		jbComeBack.setBorderPainted(false);
-		jbComeBack.setContentAreaFilled(false);
-
 		add(jbComeBack);
 
 		/*
 		 * Configuracao do botao de volume
 		 */
 
-		mold = new ImageIcon("res\\menu\\m˙sica.png");
+		mold = new ImageIcon("res\\menu\\musica.png");
 
 		jbVolume = new JButton();
 		jbVolume.setBounds(x, y, 400, 40);
 
 		jbVolume.setText(null);
-		jbVolume.setIcon(mold); // texto do bot√£o
+		jbVolume.setIcon(mold); // texto do bot„o
 		jbVolume.setPressedIcon(mold); // Imagem ao clicar
 		jbVolume.setBorderPainted(false);
 		jbVolume.setContentAreaFilled(false);
@@ -113,7 +112,7 @@ public class Settings extends JPanel {
 		jbEffects.setBounds(x, y + space, 400, 40);
 
 		jbEffects.setText(null);
-		jbEffects.setIcon(moldEffects); // texto do bot√£o
+		jbEffects.setIcon(moldEffects); // texto do bot„o
 		jbEffects.setPressedIcon(moldEffects); // Imagem ao clicar
 		jbEffects.setBorderPainted(false);
 		jbEffects.setContentAreaFilled(false);
@@ -136,7 +135,7 @@ public class Settings extends JPanel {
 			g.drawImage(img1, x + spaceX, y + spaceY, widthHeight, widthHeight, this);
 		} else {
 			img = imgVolumeFalse.getImage();
-			g.drawImage(img, x + spaceX , y + spaceY, widthHeight, widthHeight, this);
+			g.drawImage(img, x + spaceX, y + spaceY, widthHeight, widthHeight, this);
 		}
 
 		// efeitos especiais
@@ -146,9 +145,8 @@ public class Settings extends JPanel {
 			g.drawImage(img1, x + spaceX, y + spaceY + space, widthHeight, widthHeight, this);
 		} else {
 			img = imgVolumeFalse.getImage();
-			g.drawImage(img, x + spaceX , y + spaceY + space, widthHeight, widthHeight, this);
+			g.drawImage(img, x + spaceX, y + spaceY + space, widthHeight, widthHeight, this);
 		}
-
 
 	}
 }

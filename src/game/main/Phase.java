@@ -33,6 +33,7 @@ public class Phase extends JPanel {
 	private int currentStage;
 	private static int score;
 	private boolean haveBoss;
+	public boolean bossDie;
 
 	protected ImageIcon background;
 	protected ImageIcon imgLife;
@@ -62,10 +63,11 @@ public class Phase extends JPanel {
 
 		currentStage = 0;
 		background = new ImageIcon(backgroundPath);
-
+		
+		bossDie = false;
 		haveBoss = false;
 		life = 3;
-		enemyDown = 20;
+		enemyDown = 0;
 
 		player = new Player();
 		alEnemy = new ArrayList<Enemy>();
@@ -119,6 +121,8 @@ public class Phase extends JPanel {
 		}
 
 		life = 3;
+		enemyDown = 0;
+		bossDie = false;
 		haveBoss = false;
 		setScore(0);
 		timerEnemy.start();
@@ -445,6 +449,7 @@ public class Phase extends JPanel {
 		if (boss.isActive()) {
 			boss.draw(g);
 		} else {
+			bossDie = true;
 			g.drawImage(explosion, boss.getX(), boss.getY(), 100, 100, this);
 		}
 	}
@@ -495,13 +500,13 @@ public class Phase extends JPanel {
 		drawPlayer(g);
 		drawEnemy(g);
 
-		if (enemyDown < 5)
+		if (enemyDown < 10)
 			currentStage = 0;
-		else if (enemyDown < 10)
-			currentStage = 1;
-		else if (enemyDown < 15)
-			currentStage = 2;
 		else if (enemyDown < 20)
+			currentStage = 1;
+		else if (enemyDown < 30)
+			currentStage = 2;
+		else if (enemyDown < 40)
 			currentStage = 3;
 		else {
 			currentStage = 4;
