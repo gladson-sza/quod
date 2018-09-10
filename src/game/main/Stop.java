@@ -33,7 +33,6 @@ public class Stop extends JPanel {
 
 	protected JButton jbStart;
 	protected JButton jbRestart;
-	protected JButton jbClose;
 	protected JButton jbSound;
 
 	private Phase phase;
@@ -65,20 +64,22 @@ public class Stop extends JPanel {
 		jbStart.setPressedIcon(imgStart); // Imagem ao clicar
 		jbStart.setBorderPainted(false);
 		jbStart.setContentAreaFilled(false);
-		
+
 		jbStart.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				if (Util.STATUS_EFFECTS)
 					new Sound(new File("res\\sound\\buttonBelow.mp3")).start();
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
-			
+
 			}
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+
 			}
 		});
 
@@ -90,20 +91,22 @@ public class Stop extends JPanel {
 		jbSound.setPressedIcon(not); // Imagem ao clicar
 		jbSound.setBorderPainted(false);
 		jbSound.setContentAreaFilled(false);
-		
+
 		jbSound.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				if (Util.STATUS_EFFECTS)
 					new Sound(new File("res\\sound\\buttonBelow.mp3")).start();
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
-			
+
 			}
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+
 			}
 		});
 
@@ -115,51 +118,27 @@ public class Stop extends JPanel {
 		jbRestart.setPressedIcon(imgRestart); // Imagem ao clicar
 		jbRestart.setBorderPainted(false); // tira a borda
 		jbRestart.setContentAreaFilled(false); // tira o preenchimento
-		
+
 		jbRestart.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				if (Util.STATUS_EFFECTS)
 					new Sound(new File("res\\sound\\buttonBelow.mp3")).start();
 			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-			
-			}
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-			}
-		});
 
-		// X
-		jbClose = new JButton();
-		jbClose.setBounds(Util.DEFAULT_SCREEN_WIDTH - 65, 5, 50, 50);
-		jbClose.setText(null);
-		jbClose.setIcon(imgClose); // texto do botão
-		jbClose.setPressedIcon(imgClose); // Imagem ao clicar
-		jbClose.setBorderPainted(false);
-		jbClose.setContentAreaFilled(false);
-		
-		jbClose.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				if (Util.STATUS_EFFECTS)
-					new Sound(new File("res\\sound\\buttonBelow.mp3")).start();
-			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-			
+
 			}
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+
 			}
 		});
 
 		add(jbStart);
 		add(jbRestart);
-		//add(jbClose);
 		add(jbSound);
 
 		// configuracao do ponto

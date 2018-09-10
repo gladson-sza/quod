@@ -39,7 +39,6 @@ public class StopGame extends JFrame implements ActionListener, KeyListener {
 		add(stop);
 
 		stop.jbStart.addActionListener(this);
-		stop.jbClose.addActionListener(this);
 		stop.jbRestart.addActionListener(this);
 		stop.jbSound.addActionListener(this);
 		this.addKeyListener(this);
@@ -70,14 +69,6 @@ public class StopGame extends JFrame implements ActionListener, KeyListener {
 			this.setVisible(false);
 			Util.STOP = false;
 			phase.restartGame();
-		}
-
-		if (e.getSource() == stop.jbClose) {
-			phase.addKeyListener(this);
-			phase.requestFocus();
-
-			Util.STOP = false;
-			this.setVisible(false);
 		}
 
 		if (e.getSource() == stop.jbSound) {

@@ -325,15 +325,15 @@ public class Phase extends JPanel {
 		for (int i = 0; i < alEnemy.size(); i++) {
 			Enemy enemy = alEnemy.get(i);
 
-			if (enemy.isActive()) {
+			
 				for (int j = 0; j < enemy.alLaser.size(); j++) {
 					Laser enemyLaser = enemy.alLaser.get(j);
 
-					if (enemyLaser.isActive()) {
+					if (enemyLaser.isActive() && enemy.isActive()) {
 						enemyLaser.draw(g);
 					}
 				}
-			}
+			
 		}
 	}
 
