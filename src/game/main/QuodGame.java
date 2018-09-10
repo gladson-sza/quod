@@ -22,7 +22,6 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	public boolean status = false;
-	public boolean[] keyControl;
 
 	public static QuodGame qg;
 
@@ -95,7 +94,6 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		settings.jbEffects.addActionListener(this);
 		phase.jbStop.addActionListener(this);
 
-		keyControl = new boolean[4];
 
 		if (aNew == true) {
 			this.add(this.menu);
@@ -209,17 +207,17 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 		switch (key) {
 		case KeyEvent.VK_LEFT:
 		case KeyEvent.VK_A:
-			keyControl[0] = status;
+			Util.keyControl[0] = status;
 			break;
 		case KeyEvent.VK_RIGHT:
 		case KeyEvent.VK_D:
-			keyControl[1] = status;
+			Util.keyControl[1] = status;
 			break;
 		case KeyEvent.VK_SPACE:
-			keyControl[2] = status;
+			Util.keyControl[2] = status;
 			break;
 		case KeyEvent.VK_ESCAPE:
-			keyControl[3] = status;
+			Util.keyControl[3] = status;
 			break;
 		}
 	}
@@ -229,17 +227,17 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	 */
 	private void gameControl() {
 		// Esqurda
-		if (keyControl[0]) {
+		if (Util.keyControl[0]) {
 			phase.player.moveLeft();
 		}
 
 		// Direita
-		if (keyControl[1]) {
+		if (Util.keyControl[1]) {
 			phase.player.moveRight();
 		}
 
 		// Disparos
-		if (keyControl[2] && Util.SHOOT_COUNT > 9) {
+		if (Util.keyControl[2] && Util.SHOOT_COUNT > 9) {
 			phase.player.setShoot(true);
 
 			if (Util.STATUS_EFFECTS) {
@@ -249,7 +247,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 			Util.SHOOT_COUNT = 0;
 		}
 
-		if (keyControl[3]) {
+		if (Util.keyControl[3]) {
 			stop();
 		}
 
@@ -275,7 +273,7 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 
 			this.sg = new StopGame(phase);
 
-			keyControl[3] = false;
+			Util.keyControl[3] = false;
 
 		}
 	}

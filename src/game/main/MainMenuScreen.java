@@ -124,8 +124,8 @@ public class MainMenuScreen extends JPanel {
 		});
 		
 		jbPlay.setBounds(x, y, 300, 40);
-		jbControl.setBounds(x - 45, y += space, 300, 40);
-		jbSettings.setBounds(x - 12, y += space, 300, 40);
+		jbSettings.setBounds(x - 13, y += space, 300, 40);
+		jbControl.setBounds(x - 47, y += space, 300, 40);
 		jbBack.setBounds(x + 22,y += space, 300, 40);
 		
 		add(jbPlay);

@@ -159,7 +159,7 @@ public class Stop extends JPanel {
 
 		add(jbStart);
 		add(jbRestart);
-		add(jbClose);
+		//add(jbClose);
 		add(jbSound);
 
 		// configuracao do ponto

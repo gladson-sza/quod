@@ -119,7 +119,8 @@ public class Phase extends JPanel {
 			Util.SOUND_PHASE = new Sound(new File("res\\sound\\phaseTheme.mp3"));
 			Util.SOUND_PHASE.start();
 		}
-
+		
+		
 		life = 3;
 		enemyDown = 0;
 		bossDie = false;
@@ -130,6 +131,10 @@ public class Phase extends JPanel {
 		this.requestFocus();
 		moveBackground = -2100;
 		moveBackgroundAux = -5100;
+		
+		for(int i= 0; i < 4; i++) {
+			Util.keyControl[i] = false;
+		}
 	}
 
 	/*
@@ -379,8 +384,11 @@ public class Phase extends JPanel {
 			if (alEnemy.get(i).getY() >= Util.DEFAULT_SCREEN_HEIGHT && alEnemy.get(i).isActive()) {
 				alEnemy.get(i).setActive(false);
 				alEnemy.get(i).setExplode(true);
-
-				setScore(getScore() - 200);
+				
+				if(getScore() >= 200)
+					setScore(getScore() - 200);
+					else 
+						setScore(0);
 			}
 
 			// Desenha se estiver ativo

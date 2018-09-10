@@ -15,11 +15,14 @@ import game.sound.Sound;
 
 public final class Util {
 
+	/* Variavel de controle do teclado*/
+	public static boolean[] keyControl= new boolean[4];
+	
 	/* Variavel de Controle de Jogo */
 	public static boolean PLAYING = true;
 	public static boolean STOP = false;
 	public static int SHOOT_COUNT = 0;
-
+	
 	/* Constantes dos Audios */
 	public static Sound SOUND_PHASE = new Sound(new File("res\\sound\\phaseTheme.mp3"));
 
