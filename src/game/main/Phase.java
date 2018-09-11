@@ -585,9 +585,13 @@ public class Phase extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setFont(new Font("Showcard Gothic", Font.PLAIN, 20));
 		g2d.setBackground(Color.BLACK);
-		g2d.drawString("Pontos: ", 15, 21);
+		g2d.drawString("Pontos:              fase:", 15, 21);
+		currentStage++;
 		g2d.setColor(Color.yellow);
 		g2d.drawString(" " + getScore(), 100, 21);
+		g2d.drawString(" " + currentStage, Util.DEFAULT_SCREEN_WIDTH/3 + 21, 21);
+		currentStage--;
+		
 	}
 
 	public int getScore() {
