@@ -33,7 +33,7 @@ public class EnemyBoss extends Enemy {
 
 		setWidth(85);
 
-		ship = new ImageIcon("res\\ship\\EnemyShip\\bossShip.gif");
+		ship = new ImageIcon("res\\ship\\EnemyShip\\bossShip.png");
 		setLife(5);
 
 		action = new Random().nextInt(2);

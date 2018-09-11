@@ -50,10 +50,6 @@ public final class Util {
 	/* Player dano */
 	public static boolean hit;
 
-	/* Constantes das imagens da Nave do Player */
-	public static final String PLAYER_IMAGES[] = { "res\\\\ship\\\\PlayerShip\\\\PlayerShipSprite1.png",
-			"res\\\\ship\\\\PlayerShip\\\\PlayerShipSprite2.png" };
-
 	/* Constantes das imagens das Naves Inimigas */
 	public static final String ENEMY_IMAGES[] = { "res\\ship\\EnemyShip\\EnemyShipSprite1.png",
 			"res\\ship\\EnemyShip\\EnemyShipSprite2.png" };

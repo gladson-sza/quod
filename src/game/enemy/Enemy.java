@@ -23,7 +23,7 @@ public abstract class Enemy extends Ship implements Runnable {
 		super(enemyPosition, -Util.ENEMY_HEIGHT, Util.ENEMY_WIDTH, Util.ENEMY_HEIGHT, Util.SPEED_SLOW, Util.SPEED_SLOW,
 				true);
 		
-		ship = new ImageIcon("res\\ship\\EnemyShip\\enemyShip.gif");
+		ship = new ImageIcon("res\\ship\\EnemyShip\\enemyShip.png");
 
 		new Thread(this).start();
 	}

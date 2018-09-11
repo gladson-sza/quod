@@ -24,26 +24,9 @@ public class Player extends Ship {
 	@Override
 	public void draw(Graphics g) {
 		// Altera a imagem do array
-		if (Util.hit == false) {
-			if (position == 0) {
-				ship = new ImageIcon(Util.PLAYER_IMAGES[0]);
-				cont++;
-
-				if (cont == 10) {
-					position++;
-					cont = 0;
-				}
-
-			} else {
-				ship = new ImageIcon(Util.PLAYER_IMAGES[1]);
-				cont++;
-
-				if (cont == 10) {
-					cont = 0;
-					position--;
-				}
-			}
-		}
+		if (Util.hit == false)
+				ship = new ImageIcon("res\\ship\\PlayerShip\\PlayerShipSprite.png");
+			
 
 		if (Util.hit) {
 
@@ -53,7 +36,7 @@ public class Player extends Ship {
 				cont++;
 
 			} else {
-				ship = new ImageIcon(Util.PLAYER_IMAGES[1]);
+				ship = new ImageIcon("res\\ship\\PlayerShip\\PlayerShipSprite.png");
 				see = 1;
 				cont++;
 			}

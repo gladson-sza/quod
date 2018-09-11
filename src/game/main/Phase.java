@@ -398,7 +398,9 @@ public class Phase extends JPanel {
 				alEnemy.get(i).setExplode(true);
 				alEnemy.get(i).explode();
 			} else if (alEnemy.get(i).getCountExplosion() < Util.EXPLOSION_TIME && Util.STATUS_EFFECTS) {
-
+				
+				alEnemy.get(i).moveDown();
+				
 				g.drawImage(explosion, alEnemy.get(i).getX(), alEnemy.get(i).getY(), alEnemy.get(i).getWidth(),
 						alEnemy.get(i).getHeight(), this);
 
@@ -458,8 +460,11 @@ public class Phase extends JPanel {
 		if (boss.isActive()) {
 			boss.draw(g);
 		} else {
+			
+			boss.setY(getY() + 1);
+			
 			bossDie = true;
-			g.drawImage(explosion, boss.getX(), boss.getY(), 100, 100, this);
+			g.drawImage(explosion, boss.getX() , boss.getY(), 100, 100, this);
 		}
 	}
 
