@@ -10,7 +10,8 @@ import game.component.Util;
 public class Player extends Ship {
 
 	protected ImageIcon ship;
-	private int see = 1, cont = 0;
+	private boolean see;
+	int cont = 0;
 
 	/*
 	 * Construtor
@@ -30,14 +31,14 @@ public class Player extends Ship {
 
 		if (Util.hit) {
 
-			if (see == 1) {
+			if (see) {
 				ship = new ImageIcon("res\\ship\\PlayerShip\\palyerHit.png");
-				see = 0;
+				see = false;
 				cont++;
 
 			} else {
 				ship = new ImageIcon("res\\ship\\PlayerShip\\PlayerShipSprite.png");
-				see = 1;
+				see = true;
 				cont++;
 			}
 		}

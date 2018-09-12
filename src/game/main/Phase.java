@@ -63,7 +63,7 @@ public class Phase extends JPanel {
 
 		currentStage = 0;
 		background = new ImageIcon(backgroundPath);
-		
+
 		bossDie = false;
 		haveBoss = false;
 		life = 3;
@@ -119,8 +119,7 @@ public class Phase extends JPanel {
 			Util.SOUND_PHASE = new Sound(new File("res\\sound\\phaseTheme.mp3"));
 			Util.SOUND_PHASE.start();
 		}
-		
-		
+
 		life = 3;
 		enemyDown = 0;
 		bossDie = false;
@@ -131,8 +130,8 @@ public class Phase extends JPanel {
 		this.requestFocus();
 		moveBackground = -2100;
 		moveBackgroundAux = -5100;
-		
-		for(int i= 0; i < 4; i++) {
+
+		for (int i = 0; i < 4; i++) {
 			Util.keyControl[i] = false;
 		}
 	}
@@ -325,15 +324,14 @@ public class Phase extends JPanel {
 		for (int i = 0; i < alEnemy.size(); i++) {
 			Enemy enemy = alEnemy.get(i);
 
-			
-				for (int j = 0; j < enemy.alLaser.size(); j++) {
-					Laser enemyLaser = enemy.alLaser.get(j);
+			for (int j = 0; j < enemy.alLaser.size(); j++) {
+				Laser enemyLaser = enemy.alLaser.get(j);
 
-					if (enemyLaser.isActive() && enemy.isActive()) {
-						enemyLaser.draw(g);
-					}
+				if (enemyLaser.isActive() && enemy.isActive()) {
+					enemyLaser.draw(g);
 				}
-			
+			}
+
 		}
 	}
 
@@ -384,11 +382,11 @@ public class Phase extends JPanel {
 			if (alEnemy.get(i).getY() >= Util.DEFAULT_SCREEN_HEIGHT && alEnemy.get(i).isActive()) {
 				alEnemy.get(i).setActive(false);
 				alEnemy.get(i).setExplode(true);
-				
-				if(getScore() >= 200)
+
+				if (getScore() >= 200)
 					setScore(getScore() - 200);
-					else 
-						setScore(0);
+				else
+					setScore(0);
 			}
 
 			// Desenha se estiver ativo
@@ -398,9 +396,9 @@ public class Phase extends JPanel {
 				alEnemy.get(i).setExplode(true);
 				alEnemy.get(i).explode();
 			} else if (alEnemy.get(i).getCountExplosion() < Util.EXPLOSION_TIME && Util.STATUS_EFFECTS) {
-				
+
 				alEnemy.get(i).moveDown();
-				
+
 				g.drawImage(explosion, alEnemy.get(i).getX(), alEnemy.get(i).getY(), alEnemy.get(i).getWidth(),
 						alEnemy.get(i).getHeight(), this);
 
@@ -419,12 +417,16 @@ public class Phase extends JPanel {
 			if (Util.colision(player.alLaser.get(i), boss) && boss.isActive()) {
 				player.alLaser.get(i).setActive(false);
 
-				if (!boss.isImunity())
+				if (!boss.isImunity()) {
 					boss.setLife(boss.getLife() - 1);
+					boss.setHit(true);
+				}
+
 			}
 
 			if (boss.getLife() == 0)
 				boss.setActive(false);
+
 		}
 	}
 
@@ -460,11 +462,11 @@ public class Phase extends JPanel {
 		if (boss.isActive()) {
 			boss.draw(g);
 		} else {
-			
+
 			boss.setY(getY() + 1);
-			
+
 			bossDie = true;
-			g.drawImage(explosion, boss.getX() , boss.getY(), 100, 100, this);
+			g.drawImage(explosion, boss.getX(), boss.getY(), 100, 100, this);
 		}
 	}
 
@@ -503,7 +505,7 @@ public class Phase extends JPanel {
 				Image bossLife = new ImageIcon(Util.BOSS_LIFE[boss.getLife() - 1]).getImage();
 				g.drawImage(bossLife, 170, 10, 200, 50, this);
 			}
-			
+
 			verifyPlayerHitsInBoss();
 			verifyBossHits();
 			drawBossLaser(g);
@@ -594,9 +596,9 @@ public class Phase extends JPanel {
 		currentStage++;
 		g2d.setColor(Color.yellow);
 		g2d.drawString(" " + getScore(), 100, 21);
-		g2d.drawString(" " + currentStage, Util.DEFAULT_SCREEN_WIDTH/3 + 21, 21);
+		g2d.drawString(" " + currentStage, Util.DEFAULT_SCREEN_WIDTH / 3 + 21, 21);
 		currentStage--;
-		
+
 	}
 
 	public int getScore() {

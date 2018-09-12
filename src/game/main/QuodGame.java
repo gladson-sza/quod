@@ -177,8 +177,6 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 			}
 		}
 
-		// abrindo tela de fim de jogo
-
 	}
 
 	/* Teclado */

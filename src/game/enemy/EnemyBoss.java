@@ -23,7 +23,10 @@ public class EnemyBoss extends Enemy {
 	private int relativePosition;
 	private int action;
 	private int life;
+	private boolean see;
 	private boolean imunity;
+	private boolean hit;
+	private int count;
 
 	/*
 	 * Construtor
@@ -33,6 +36,9 @@ public class EnemyBoss extends Enemy {
 
 		setWidth(85);
 
+		count = 0;
+		see = false;
+		hit = false;
 		ship = new ImageIcon("res\\ship\\EnemyShip\\bossShip.png");
 		setLife(5);
 
@@ -57,6 +63,9 @@ public class EnemyBoss extends Enemy {
 
 	public void setImunity(boolean imunity) {
 		this.imunity = imunity;
+		
+		if (imunity)
+			count = 15;
 	}
 
 	/*
@@ -76,8 +85,44 @@ public class EnemyBoss extends Enemy {
 	public void draw(Graphics g) {
 
 		Image imageShip = ship.getImage();
-		g.drawImage(imageShip, getX(), getY(), getWidth(), getHeight(), null);
 
+		if (!isImunity() && !isHit()) {
+			g.drawImage(imageShip, getX(), getY(), getWidth(), getHeight(), null);
+		} else if (isHit()) {
+
+			if (see) {
+				imageShip = ship.getImage();
+				g.drawImage(imageShip, getX(), getY(), getWidth(), getHeight(), null);
+
+				see = false;
+			} else {
+				imageShip = new ImageIcon("res\\ship\\EnemyShip\\bossShipHit.png").getImage();
+				g.drawImage(imageShip, getX(), getY(), getWidth(), getHeight(), null);
+
+				see = true;
+			}
+
+			count--;
+
+			if (count == 0)
+				setHit(false);
+
+		} else if (isImunity()) {
+
+			if (see) {
+				imageShip = new ImageIcon("res\\ship\\EnemyShip\\bossShipImuni.png").getImage();
+				g.drawImage(imageShip, getX(), getY(), getWidth(), getHeight(), null);
+
+				see = false;
+			} else {
+				imageShip = ship.getImage();
+				g.drawImage(imageShip, getX(), getY(), getWidth(), getHeight(), null);
+
+				see = true;
+			}
+
+		}
+		
 	}
 
 	/*
@@ -329,6 +374,14 @@ public class EnemyBoss extends Enemy {
 			update();
 		}
 
+	}
+
+	public boolean isHit() {
+		return hit;
+	}
+
+	public void setHit(boolean hit) {
+		this.hit = hit;
 	}
 
 }
