@@ -34,9 +34,16 @@ public class Phase extends JPanel {
 	private static int score;
 	private boolean haveBoss;
 	public boolean bossDie;
+	
+	public JButton jbStop;
 
 	protected ImageIcon background;
 	protected ImageIcon imgLife;
+	protected ImageIcon imgText;
+	protected ImageIcon imgBack;
+	protected ImageIcon imgDamage;
+	protected ImageIcon hitLife;
+	protected ImageIcon imgStart;
 
 	public Timer timerEnemy;
 	public ArrayList<Enemy> alEnemy;
@@ -51,14 +58,6 @@ public class Phase extends JPanel {
 	public int moveBackgroundAux;
 	public boolean side = true;
 
-	public JButton jbStop;
-
-	protected ImageIcon imgText;
-	protected ImageIcon imgBack;
-	protected ImageIcon imgDamage;
-	protected ImageIcon hitLife;
-	protected ImageIcon imgStart;
-
 	public Phase(String backgroundPath) {
 
 		currentStage = 0;
@@ -67,7 +66,7 @@ public class Phase extends JPanel {
 		bossDie = false;
 		haveBoss = false;
 		life = 3;
-		enemyDown = 0;
+		enemyDown = 40;
 
 		player = new Player();
 		alEnemy = new ArrayList<Enemy>();
@@ -121,7 +120,7 @@ public class Phase extends JPanel {
 		}
 
 		life = 3;
-		enemyDown = 0;
+		enemyDown = 40;
 		bossDie = false;
 		haveBoss = false;
 		setScore(0);

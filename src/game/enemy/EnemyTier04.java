@@ -9,7 +9,7 @@ import game.component.EnemyLaser;
 
 public class EnemyTier04 extends EnemyTier02 {
 	
-	Timer shootTimer;
+	private Timer shootTimer;
 	
 	public EnemyTier04(int enemyPosition) {
 		super(enemyPosition);

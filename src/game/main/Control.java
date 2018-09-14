@@ -22,14 +22,14 @@ public class Control extends JPanel{
 	protected ImageIcon comeBackText;
 	protected ImageIcon imgback;
 	protected ImageIcon imgControl;
-	protected ImageIcon imgLogoControles;
+	protected ImageIcon imgLogoControls;
 	
 	public Control() {
 		
 		comeBackText = new ImageIcon("res\\button\\voltar.png");
 		imgControl = new ImageIcon("res\\menu\\tecla.png");
 		imgback = new ImageIcon(" ");
-		imgLogoControles = new ImageIcon("res\\button\\controles.png");
+		imgLogoControls = new ImageIcon("res\\button\\controles.png");
 		
 		jbComeBack = new JButton();
 		
@@ -67,7 +67,7 @@ public class Control extends JPanel{
 		Image img = Util.backgroundMenu2.getImage();
 		g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
 		
-		img = imgLogoControles.getImage();
+		img = imgLogoControls.getImage();
 		g.drawImage(img, Util.DEFAULT_SCREEN_HEIGHT/2 -170, 15, 300, 40, this);
 		
 		img = imgControl.getImage();

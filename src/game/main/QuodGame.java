@@ -28,10 +28,10 @@ public class QuodGame extends JFrame implements KeyListener, ActionListener {
 	public Settings settings;
 	public Control control;
 	public Phase phase;
+	public Phase phaseAgain;
 	public MainMenuScreen menu;
 	public Loading loading;
 	public GameOver over;
-	public Phase phaseAgain;
 	public Stop stop;
 	public StopGame sg;
 

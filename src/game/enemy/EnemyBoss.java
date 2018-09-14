@@ -15,7 +15,7 @@ import game.component.Util;
 
 public class EnemyBoss extends Enemy {
 
-	Timer timerShoot;
+	private Timer timerShoot;
 
 	private final int LEFT = 0;
 	private final int RIGHT = 1;
