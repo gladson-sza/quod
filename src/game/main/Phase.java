@@ -66,7 +66,7 @@ public class Phase extends JPanel {
 		bossDie = false;
 		haveBoss = false;
 		life = 3;
-		enemyDown = 40;
+		enemyDown = 0;
 
 		player = new Player();
 		alEnemy = new ArrayList<Enemy>();
@@ -120,7 +120,7 @@ public class Phase extends JPanel {
 		}
 
 		life = 3;
-		enemyDown = 40;
+		enemyDown = 0;
 		bossDie = false;
 		haveBoss = false;
 		setScore(0);
